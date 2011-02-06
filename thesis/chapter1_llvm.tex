@@ -1,0 +1,62 @@
+\documentclass[a4paper,10pt]{article}
+%\usepackage{fancyvrb,relsize}
+\usepackage[small,compact]{titlesec}
+\usepackage[pdftex]{graphicx}
+\usepackage{listings}
+\lstset{language=C}
+%\usepackage[margin=3.50cm]{geometry}
+\linespread{1.1}
+\setlength{\parindent}{10pt}
+\setlength{\parskip}{0.85ex plus 0.65ex minus 0.3ex}
+\sloppy
+\setlength{\oddsidemargin}{0in} \setlength{\evensidemargin}{0in}
+\setlength{\textwidth}{6.5in} \setlength{\textheight}{9.5in}
+\setlength{\topmargin}{-0.65in}
+
+\begin{document}
+
+\begin{center}
+{\bf {\LARGE Chapter 1}\linebreak\linebreak{LLVM - Low Level Virtual Machine}}
+\linebreak
+\linebreak
+\end{center}
+
+\section{What Is LLVM?}
+LLVM is a virtual machine infrastructure that doesn’t provide any of the high-level features you’d find in something like the Java or .NET virtual machines, including garbage collection and an object model.
+
+The basic design of LLVM is an unlimited register machine (URM), familiar to most computer scientists as a universal model of computation. It differs from most URMs in two ways:
+
+\begin{itemize}
+\item Registers are single-assignment. Once a value for a register has been set, it can’t be modified. This is a common representation in a lot of compilers, and has been since the idea was invented by an IBM researcher in 1985.
+\item Each register has a type associated with it.
+\end{itemize}
+
+LLVM programs are assembled from basic blocks. A basic block is a sequence of instructions with no branches.
+
+\section{The Intermediate Representation}
+
+The core of LLVM is the intermediate representation (IR). Front ends compile code from a source language to the IR, optimization passes transform the IR, and code generators turn the IR into native code.
+LLVM provides three isomorphic representations of the IR. The most common one used in examples is the assembly format, which looks roughly like an assembly language for a real machine (although with a few significant differences). A "Hello, world" program might look something like this:
+
+\begin{verbatim}
+  @.str = internal constant [12 x i8] c"hello world\00"
+
+  define i32 @main() nounwind {
+  entry:
+    %tmp1 = getelementptr ([12 x i8]* @.str, i32 0, i32 0)
+    %tmp2 = call i32 (i8*, ...)* @printf( i8* %tmp1 ) nounwind
+    ret i32 0
+  }
+\end{verbatim}
+First is a constant string, @.str. This has two qualifiers, internal and constant, which are the equivalent of static const in C. It then has a type. The square brackets signal that it’s an array; in this case, an array of 12 8-bit integers.
+The main function doesn’t contain any branches, so it’s a single basic block. The label entry: indicates the start of the basic block, and the final instruction, ret, indicates the end. Every basic block is terminated with some kind of flow-control instruction. The ret instruction means return; in this case, returning 0 as a 32-bit integer. The type specified by the ret instruction and the return type specified in the function definition must match, or the IR will fail to validate.
+Above the return instruction is a call to printf. Again, note the type signatures everywhere. The printf function’s return and argument types are given explicitly, and the types of the arguments are also listed. nounwind on the end indicates that this function is guaranteed not to throw an exception, which can be used in optimization later.
+
+The first instruction in this basic block is one that most difficult one to grasp. Most programming languages (certainly, all Algol-family languages) contain some data structures that are accessed via offsets from their starts. A lot of CPUs include complex addressing modes for dealing with them. The getelementptr instruction (often referred to as GEP) provides something that can easily map to both.
+The first argument is a complex type, in this case our global string variable. Note that, although the string is declared as an array type, when you reference it you actually get a pointer to that array. Our printf statement wants a pointer to an i8, but we have a pointer to an array of i8s. The remaining arguments to our GEP instruction are element offsets. The first dereferences the pointer, to give an array. The second then gets a pointer to the 0th element in the array. This instruction can get pointers to any element in an arbitrarily-complex data structure.
+The GEP instruction does not dereferences the pointer. The GEP instruction just calculates offsets. When given all zero arguments, as in this example, all it’s really doing is casting a pointer to another type, which will emit no code in the final code-generation phase. This instruction could be replaced by a cast instruction that would simply change the pointer types. Both are semantically valid in this instance, but the GEP instruction is safer because it will validate the types.
+
+While this representation of the IR is the one you’re likely to see most often, it’s not the most commonly used format. When generating IR, it’s common to use a set of C++ classes that represent it and provide convenience methods for constructing it. Intermediate values then are referenced simply as pointers to llvm::Value objects, rather than by name. Most of the time, the IR is used; but when being generated, transformed, or emitted, the C++ representation is used.
+
+The final representation is the bitcode, a very dense binary format used to transfer LLVM IR between components in different address spaces. When using LLVM tools connected by pipes, the bitcode is sent between them. It can also be serialized to disk and loaded later.
+\end{document}
