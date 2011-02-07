@@ -6,7 +6,7 @@
 \date{7 November 2010}
 \author{Raghesh A (cs09m032)}
 \linespread{1.3}
-\setlength{\parindent}{10pt}
+\setlength{\parindent}{0pt}
 \setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
 \begin{document}
 
@@ -1287,6 +1287,41 @@ The problem is probably that we create a new subfunction in a RegionPass. This i
 A quick fix might be to not rely on valid dominator information in the codegeneration pass, however we than need another way to derive what elements need to be added to the structure.                                                                                                                                                                                                              I am fine with this. I believe however that it will be difficult to generate correct dominator information for the subfunction as long as lib/CodeGeneration is a RegionPass. As I do not like to promote it to a module pass we need to work something out.
 
 I am interested to hear how you plan to solve the dominator issue.
+
+\section{Support for lastprivate and reduction attributes in Polly}
+
+Consider the following code segment
+
+\begin{verbatim}
+int loop1_openmp() {
+    int i = 0, k = 0;;
+    for (i = 0; i <= N; i++) {
+             A[i] = 0;
+    }
+    return i;
+}
+\end{verbatim}
+
+
+The corresponding .ll files generated for the above cases with polly and llvm-gcc are atttached. It is observed that llvm-gcc add the iteration variable to the parameter structure to the subfunction and somehow(to be examined how) they reload 'i' and return the correct value. But since we are creating the parameter structure from CharMap(where iteration variable is not there) an empty structure is created. How can we solve this problem?
+
+Also consider the following code segment
+
+\begin{verbatim}
+int loop1_openmp() {
+    int i = 0, k = 0;;
+
+    #pragma omp parallel for schedule(runtime) lastprivate(i) reduction(+: k)
+    for (i = 0; i <= N; i++) {
+             A[i] = 0;
+	     k++;
+    }
+    return i + k;
+}
+\end{verbatim}
+
+With Polly this particular loop is not detected as SCoP. Will this be detected as SCoP in future?
+
 \section{Actual Analysis to Detect Parallel Loops}
 
 I just committed some changes to polly that add detection of parallel loops. So instead of using -polly-codgen-parallel=c2, just use -polly-codgen-parallel=true to enable OpenMP code generation.The functionality I added is not a complete new pass, buta new function added to the dependency analysis. You can see the changes needed in the last commit. "git log -p"
