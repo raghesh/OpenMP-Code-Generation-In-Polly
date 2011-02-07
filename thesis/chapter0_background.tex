@@ -1,12 +1,12 @@
-\documentclass[a4paper,10pt]{article}
+\documentclass[a4paper,12pt]{article}
 %\usepackage{fancyvrb,relsize}
 \usepackage[small,compact]{titlesec}
 \usepackage[pdftex]{graphicx}
 \usepackage{listings}
 \lstset{language=C}
 %\usepackage[margin=3.50cm]{geometry}
-\linespread{1.1}
-\setlength{\parindent}{12pt}
+\linespread{1.5}
+\setlength{\parindent}{10pt}
 \setlength{\parskip}{0.85ex plus 0.65ex minus 0.3ex}
 \sloppy
 \setlength{\oddsidemargin}{0in} \setlength{\evensidemargin}{0in}
@@ -22,8 +22,27 @@
 \end{center}
 
 \section{Auto Parallelization}
+\section{The Polyhedral Model}
+
+Polyhedral optimizations are used for many kind of memory access optimization by
+looking into the memory access pattern of any piece of code. Any kind of classical
+ loop optimization techniques like tiling can be used for this purpose. 
+
+
 \section{LLVM}
 \section{Polly}
+The framework discussed in this document is implemented using Polly[polly],
+an open source[licence] compiler  optimization framework that uses a mathematical
+ representation, the polyhedral model, to represent and transform loops and other
+ control flow structures. It is an effort towards achieving autoparallelism in programs.
+ The transformations are being implemented in LLVM(Low level virtual machine). 
+Polly can detect parallel loops, issue vector instructions and generate OpenMP code(focus of 
+this document) corresponding to those loops. Polly try to expose more parallelism
+with the help of polyhedral model. A loop which does not look parallel can be transformed
+to a parallel loop and these can be vectorized or parallelize using OpenMP.
+
+(grosser video 1.09m)
+
 \section{Manual OpenMP Code Generation}
 
 \end{document}
