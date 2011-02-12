@@ -58,5 +58,5 @@ The GEP instruction does not dereferences the pointer. The GEP instruction just 
 
 While this representation of the IR is the one you’re likely to see most often, it’s not the most commonly used format. When generating IR, it’s common to use a set of C++ classes that represent it and provide convenience methods for constructing it. Intermediate values then are referenced simply as pointers to llvm::Value objects, rather than by name. Most of the time, the IR is used; but when being generated, transformed, or emitted, the C++ representation is used.
 
-The final representation is the bitcode, a very dense binary format used to transfer LLVM IR between components in different address spaces. When using LLVM tools connected by pipes, the bitcode is sent between them. It can also be serialized to disk and loaded later.
+The final representation is the bitcode, a very dense binary Format used to transfer LLVM IR between components in different address spaces. When using LLVM tools connected by pipes, the bitcode is sent between them. It can also be serialized to disk and loaded later.
 \end{document}
