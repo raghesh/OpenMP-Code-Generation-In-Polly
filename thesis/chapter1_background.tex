@@ -31,6 +31,14 @@ looking into the memory access pattern of any piece of code. Any kind of classic
 
 
 \section{LLVM}
+LLVM defines a common, low-level code representation in Static Single Assignment
+(SSA) form, with several novel features. The LLVM compiler framework and code
+representation together provide a combination of key capabilities that are
+important for practical, lifelong analysis and transformation of programs.
+One of the important features of LLVM is that the output of all the
+transformation passes have same intermediate representation(LLVM IR), which
+makes the programmer’s life simple.
+
 \section{Polly}
 The framework discussed in this document is implemented using Polly[polly],
 an open source[licence] compiler  optimization framework that uses a mathematical
@@ -42,10 +50,9 @@ this document) corresponding to those loops. Polly try to expose more parallelis
 with the help of polyhedral model. A loop which does not look parallel can be transformed
 to a parallel loop and these can be vectorized or parallelize using OpenMP.
 
-
-
-(grosser video 1.09m)
+More details on LLVM and Polly can be found at chapters 2 and 3 respectively.
 
 \section{Manual OpenMP Code Generation}
 
+\section{SPEC2006 Benchmarks}
 \end{document}
