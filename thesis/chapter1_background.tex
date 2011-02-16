@@ -29,6 +29,7 @@ looking into the memory access pattern of any piece of code. Any kind of classic
  loop optimization techniques like tiling can be used for this purpose. 
 
 
+
 \section{LLVM}
 \section{Polly}
 The framework discussed in this document is implemented using Polly[polly],
@@ -40,6 +41,8 @@ Polly can detect parallel loops, issue vector instructions and generate OpenMP c
 this document) corresponding to those loops. Polly try to expose more parallelism
 with the help of polyhedral model. A loop which does not look parallel can be transformed
 to a parallel loop and these can be vectorized or parallelize using OpenMP.
+
+
 
 (grosser video 1.09m)
 
