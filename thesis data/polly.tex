@@ -1322,6 +1322,22 @@ int loop1_openmp() {
 
 With Polly this particular loop is not detected as SCoP. Will this be detected as SCoP in future?
 
+\section{Bench Mark}
+1. OpenMP Code Generation(Testing real programs)
+
+	You might have a look at:
+
+	http://hpc.cs.tsinghua.edu.cn/research/cluster/SPEC2006Characterization/auto\_para.html
+
+	Some like cactusADM have very nice results. Do you have access to SPEC2006? In case you have I suggest to try to optimize cactusADM.
+	This will be a larger project, but very worthwhile. If you don't have,
+	     cactusADM is actually open source. You can probably download it
+		     on cactuscode.org
+
+
+
+Refer http://en.wikipedia.org/wiki/Benchmark\_\%28computing\%29
+
 \section{Actual Analysis to Detect Parallel Loops}
 
 I just committed some changes to polly that add detection of parallel loops. So instead of using -polly-codgen-parallel=c2, just use -polly-codgen-parallel=true to enable OpenMP code generation.The functionality I added is not a complete new pass, buta new function added to the dependency analysis. You can see the changes needed in the last commit. "git log -p"
