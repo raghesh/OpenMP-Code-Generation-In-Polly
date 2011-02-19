@@ -22,6 +22,14 @@
 \end{center}
 
 \section{Auto Parallelization}
+
+We can take the advantage of hardware support for parallelism only if the compiler has support for
+generating the parallel code. There are interfaces like OpenMP for developing parallel applications.
+But the user has to manually provide the annotations for it in the source code. This becomes
+a tedious task for the user and he has to ensure the correctness of the code too.
+This prompted researchers to explore mechanisms for finding out the parallel portions
+of the code without manual intervention.
+
 \section{The Polyhedral Model}
 
 Polyhedral optimizations are used for many kind of memory access optimization by
