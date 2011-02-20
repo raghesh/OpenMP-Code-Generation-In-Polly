@@ -6,7 +6,7 @@
 \lstset{language=C}
 %\usepackage[margin=3.50cm]{geometry}
 \linespread{1.5}
-\setlength{\parindent}{10pt}
+\setlength{\parindent}{0pt}
 \setlength{\parskip}{0.85ex plus 0.65ex minus 0.3ex}
 \sloppy
 \setlength{\oddsidemargin}{0in} \setlength{\evensidemargin}{0in}
@@ -20,15 +20,53 @@
 \linebreak
 \linebreak
 \end{center}
-
 \section{Auto Parallelization}
+We can take the advantage of hardware support for parallelism only if the compiler has
+support for generating the parallel code. There are interfaces like OpenMP for
+developing parallel applications. But the user has to manually provide the annotations
+for it in the source code. This becomes a tedious task for the user and he has to
+ensure the correctness of the code too. This prompted researchers to explore
+mechanisms for finding out the parallel portions of the code without manual intervention.
 
-We can take the advantage of hardware support for parallelism only if the compiler has support for
-generating the parallel code. There are interfaces like OpenMP for developing parallel applications.
-But the user has to manually provide the annotations for it in the source code. This becomes
-a tedious task for the user and he has to ensure the correctness of the code too.
-This prompted researchers to explore mechanisms for finding out the parallel portions
-of the code without manual intervention.
+It can be noticed that most of the execution time of a program is spend inside some
+for loop. Parallelizing compiler tries to split up a loop so that its iterations can
+be executed on separate processors concurrently. A dependency analysis pass is 
+performed on the code to determine whether it can be safely parallelized. The following
+example illustrates this.
+
+{\footnotesize
+\begin{lstlisting}
+  for (i = 1; i <= N; i++)
+      A[i] = B[i] + c[i]
+\end{lstlisting}
+}
+
+The analysis detects that there is no dependency between two consecutive iterations and
+can be safely parallelized.
+
+Consider another example
+
+{\footnotesize
+\begin{lstlisting}
+  for (i = 2; i <= N; i++)
+      A[i] = A[i-1] * 2;
+\end{lstlisting}
+}
+
+Here a particular iteration is dependent on previous one and so its not safe to parallelize.
+A intelligent compiler can convert this into parallel as follows.
+
+{\footnotesize
+\begin{lstlisting}
+  for (i = 1; i <= N; i++)
+      A[i] = A[1] * 2 ** (i - 1);
+\end{lstlisting}
+}
+
+Detecting this kind of opportunities to parallelize and applying automatic transformation
+is a tedious task for existing compilers. A powerful mathematical model explained in the next
+section act as a helping hand for the compilers to do such transformations with some
+restrictions applied on the input.
 
 \section{The Polyhedral Model}
 
