@@ -1,25 +1,29 @@
-\documentclass[a4paper,12pt]{article}
+\documentclass[a4paper,12pt]{book}
 %\usepackage{fancyvrb,relsize}
 \usepackage[small,compact]{titlesec}
 \usepackage[pdftex]{graphicx}
 \usepackage{listings}
 \lstset{language=C}
 %\usepackage[margin=3.50cm]{geometry}
-\linespread{1.5}
-\setlength{\parindent}{0pt}
+%\linespread{1.5}
+%\setlength{\parindent}{0pt}
 \setlength{\parskip}{0.85ex plus 0.65ex minus 0.3ex}
 \sloppy
-\setlength{\oddsidemargin}{0in} \setlength{\evensidemargin}{0in}
-\setlength{\textwidth}{6.5in} \setlength{\textheight}{9.5in}
-\setlength{\topmargin}{-0.65in}
+%\setlength{\oddsidemargin}{0in} \setlength{\evensidemargin}{0in}
+%\setlength{\textwidth}{6.5in} \setlength{\textheight}{9.5in}
+%\setlength{\topmargin}{-0.65in}
 
 \begin{document}
 
-\begin{center}
-{\bf {\LARGE Chapter 1}\linebreak\linebreak{Background}}
-\linebreak
-\linebreak
-\end{center}
+%\begin{center}
+\chapter{Background}
+%{\bf {\LARGE Chapter 1}\linebreak\linebreak{Background}}
+%\linebreak
+%\linebreak
+%\end{center}
+
+\section{Parallelism in Programs}
+
 \section{Auto Parallelization}
 We can take the advantage of hardware support for parallelism only if the compiler has
 support for generating the parallel code. There are interfaces like OpenMP for
@@ -42,9 +46,7 @@ example illustrates this.
 }
 
 The analysis detects that there is no dependency between two consecutive iterations and
-can be safely parallelized.
-
-Consider another example
+can be safely parallelized. Consider another example
 
 {\footnotesize
 \begin{lstlisting}
