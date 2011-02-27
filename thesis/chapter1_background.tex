@@ -23,6 +23,24 @@
 %\end{center}
 
 \section{Parallelism in Programs}
+These days it is hard to find somebody using a computer with single-core processor.
+With the help of multi-core and multi-processor machines it is possible to speed up 
+the program by mapping the sections of the program to available processors(Remark - 
+through out this document the term processor is used interchangably with core). This 
+is generally termed as parallelism in programs. It is very difficult to parallelize
+the entire program though. The degree of parallelism is limited by certain factors which is
+explained later in this section. In addition this section discusses various types of parallelism and
+make a comparison of various approaches towards parallelism which can be applied to programs.
+
+Parallelism and locality
+
+Posix Threads
+
+MPI
+
+OpenMP, OpenCL
+
+Intel TBB
 
 \section{Auto Parallelization}
 We can take the advantage of hardware support for parallelism only if the compiler has
