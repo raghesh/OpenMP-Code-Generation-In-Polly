@@ -26,7 +26,7 @@
 These days it is hard to find somebody using a computer with single-core processor.
 With the help of multi-core and multi-processor machines it is possible to speed up 
 the program by mapping the sections of the program to available processors(Remark - 
-through out this document the term processor is used interchangably with core). This 
+through out this document the term processor is used interchangeably with core). This 
 is generally termed as parallelism in programs. It is very difficult to parallelize
 the entire program though. The degree of parallelism is limited by certain factors which is
 explained later in this section. In addition this section discusses various types of parallelism and
@@ -34,13 +34,22 @@ make a comparison of various approaches towards parallelism which can be applied
 
 Parallelism and locality
 
-Posix Threads
+\textbf{POSIX Threads} provides a standard interface for performing mulithreaded computation. 
+Threads are subprocesses running with in a process. 
+We can find many applications such as a web browser which can take advantage of multithreading.
+The efficiency of an application improves when it designed with threads because they have their
+own stack and status. The overhead of creating a separate process can be avoided here.
+Resources like files are shared among threads. Though threads are good alternatives for
+having multiple processes in a single processor machine it is very difficult to scale
+it to multi-core processors.
 
-MPI
+\textbf{MPI}
 
-OpenMP, OpenCL
+\textbf{OpenMP}
 
-Intel TBB
+\textbf{OpenCL}
+
+\textbf{Intel TBB}
 
 \section{Auto Parallelization}
 We can take the advantage of hardware support for parallelism only if the compiler has
