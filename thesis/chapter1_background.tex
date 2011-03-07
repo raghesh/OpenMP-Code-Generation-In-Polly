@@ -90,7 +90,7 @@ can be safely parallelized. Consider another example
 }
 
 Here a particular iteration is dependent on previous one and so its not safe to parallelize.
-A intelligent compiler can convert this into parallel as follows.
+An intelligent compiler can convert this into parallel as follows.
 
 {\footnotesize
 \begin{lstlisting}
@@ -99,7 +99,7 @@ A intelligent compiler can convert this into parallel as follows.
 \end{lstlisting}
 }
 
-Detecting this kind of opportunities to parallelize and applying automatic transformation
+Detecting this kind of opportunities for parallelization and applying automatic transformation
 is a tedious task for existing compilers. A powerful mathematical model explained in the next
 section act as a helping hand for the compilers to do such transformations with some
 restrictions applied on the input.
