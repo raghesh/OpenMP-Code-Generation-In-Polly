@@ -34,18 +34,25 @@ make a comparison of various approaches towards parallelism which can be applied
 
 Parallelism and locality
 
-\textbf{POSIX Threads} provides a standard interface for performing mulithreaded computation. 
+\textbf{POSIX Threads}/Pthreads provides a standard interface for performing mulithreaded computation. 
 Threads are subprocesses running with in a process. 
 We can find many applications such as a web browser which can take advantage of multithreading.
 The efficiency of an application improves when it is designed with threads because they have their
 own stack and status. The overhead of creating a separate process can be avoided here.
-Resources like files are shared among threads. Though threads are good alternatives for
+Resources like files are shared among threads. Though Pthreads are good alternatives for
 having multiple processes in a single processor machine it is very difficult to scale
-it to multi-core processors.
+it to multi-core processors. Another limitation of Pthreads is programmers are required to
+deal with a lot of thread-specific code. The number of theads required for a computation
+need to be hard corded which makes it less scalable.
 
 \textbf{MPI}
 
 \textbf{OpenMP}
+In view of the shortcomings of POSIX threads there was an urge to formulate a new threading
+interface. The major objective was to overcome the burden of learning different ways for programming threads in different
+operating systems with in different programming languages. OpenMP is able to deal with this
+by a great extend. As the framework is evolved rather than its APIs, support for pragmas became the distinguished
+feature of OpenMP.
 
 \textbf{OpenCL}
 
