@@ -1,0 +1,138 @@
+
+
+Forwarded conversation
+Subject: [LLVMdev] LLVM vs GCC binary performance
+------------------------
+
+From: Yuli Fiterman <fiterman@gmail.com>
+Date: Fri, Mar 11, 2011 at 12:44 PM
+To: llvmdev@cs.uiuc.edu
+
+
+Dear LLVM Team,
+
+     As a developer I'm very excited and interested in the LLVM project. Though my knowledge of the details is cursory my general understanding is that the SSA code that LLVM front ends produce is supposed to allow for optimizations that are unfeasible in GCC. I also expect most important optimizations from GCC would have been incorporated into LLVM by now since GCC code is open for everyone to see. Therefore I'm surprised to see that in most benchmarks LLVM produces binaries are 10-15% slower than their GCC counterparts.  Would you mind explaining the main reasons for why this is the case? Also, what remains to be done for LLVM to surpass GCC in terms of binary performance?
+
+     Thanks,
+     Yuli
+      
+
+     _______________________________________________
+     LLVM Developers mailing list
+     LLVMdev@cs.uiuc.edu         http://llvm.cs.uiuc.edu
+     http://lists.cs.uiuc.edu/mailman/listinfo/llvmdev
+
+
+     ----------
+     From: Duncan Sands <baldrick@free.fr>
+     Date: Fri, Mar 11, 2011 at 8:23 PM
+     To: llvmdev@cs.uiuc.edu
+
+
+     Hi Yuli,
+     not so, GCC also uses SSA form.  I'm not aware of any optimization that LLVM can
+     do that GCC couldn't do if it tried.
+     This is not the case.  You make it sound like reimplementing optimizations is
+     a five minute job while that is very far from true!  Not to mention that GCC is
+     a moving target: it is being worked on too and getting nice improvements all the
+     time.  For example it has auto-vectorization support while LLVM does not.  Also,
+     don't forget that LLVM is not simply GCC written in C++: it makes a lot of
+     different design choices to GCC, and has a bunch of use cases that GCC does not,
+     for example, the ability to JIT code.  The LLVM developers may feel that the way
+     GCC solved some problem is not the best way for LLVM to solve it, and even if
+     they think GCC's approach to some problem is great it nonetheless might be hard
+     to do things the same in LLVM due to the different design.
+     While in my experience this used to be pretty systematically true on x86
+     linux, nowadays it is much more hit and miss: I see some programs running
+     faster when compiled with LLVM, and others running faster when compiled with
+     GCC.  On the whole I would say that on my machine GCC usually results in faster
+     programs.
+     On the whole GCC produces excellent code.  Many fine engineers have worked hard
+     on it for many years, and it shows.  Doing better than GCC is difficult.
+     There's no magic bullet.  The things to improve that would give you the most
+     bang for your buck are probably the code generator and auto-vectorization.
+     Increasing the number of developers would be helpful.
+
+     Ciao, Duncan.
+     _______________________________________________
+     LLVM Developers mailing list
+     LLVMdev@cs.uiuc.edu         http://llvm.cs.uiuc.edu
+     http://lists.cs.uiuc.edu/mailman/listinfo/llvmdev
+
+     ----------
+     From: Renato Golin <rengolin@systemcall.org>
+     Date: Fri, Mar 11, 2011 at 11:12 PM
+     To: Duncan Sands <baldrick@free.fr>
+     Cc: llvmdev@cs.uiuc.edu
+
+
+     I'm not a GCC expert, but their auto-vectorization is not that great.
+     It may be simple to do basic loop transformations and some stupid
+     vectorization, but having a really good vectoriser is a lot of work.
+
+     I personally think that the biggest difference is the number of people
+     that have contributed over the years on very specific optimizations.
+     There are as many corner cases as there are particles in the universe
+     (maybe more), and implementing each one of them requires time and
+     people willing. LLVM has the latter, but lacks the former, for now.
+
+     Spending a full year on a vectoriser prototype might bring less value
+     than the same year optimizing micro-benchmarks against GCC...
+
+     Not that I don't think we should have a vectoriser, Poly is going to
+     be great! But until it's not (and it's going to take some time), we
+     better focus on some magic, as GCC did over the decades.
+
+     My tuppence,
+
+     --renato
+
+     ----------
+     From: Tobias Grosser <grosser@fim.uni-passau.de>
+     Date: Sat, Mar 12, 2011 at 12:16 AM
+     To: llvmdev@cs.uiuc.edu
+
+
+     Hi,
+
+     in case you are referring to PoLLy*, thanks for this nice comment. We
+     can already do some basic vectorization and are currently working on
+     increased coverage and enhanced robustness. I have already seen some
+     nice speedups on some micro kernels, but need to get more confidence
+     before I present them. I will also talk PoLLy on IMPACT/CGO 2011** , in
+     case someone is around.
+     Yes. Also for a vectorizer to be efficient you need to have a lot of
+     magic and canonicalization done beforehand, to enable it to do a decent
+     job. LLVM is actually pretty good in this respect.
+
+     Cheers
+     Tobi
+
+     * Like Polly the parrot
+     ** impact2011.inrialpes.fr
+
+     ----------
+     From: Renato Golin <rengolin@systemcall.org>
+     Date: Sat, Mar 12, 2011 at 1:42 AM
+     To: Tobias Grosser <grosser@fim.uni-passau.de>
+     Cc: llvmdev@cs.uiuc.edu
+
+
+     Hi Tobias,
+
+     This is not the first time you correct me, sorry, but yes, I was
+     talking about PoLLy. ;)
+
+     cheers,
+     --renato
+
+
+
+
+     -- 
+     Raghesh
+     II MTECH
+     Room No: 0xFF
+     Mahanadhi Hostel
+     IIT Madras
+     
