@@ -32,9 +32,15 @@ the entire program though. The degree of parallelism is limited by certain facto
 explained later in this section. In addition this section discusses various types of parallelism and
 make a comparison of various approaches towards parallelism which can be applied to programs.
 
-Parallelism and locality
+\subsection{Parallelism and locality}
 
-\textbf{POSIX Threads}/Pthreads provides a standard interface for performing mulithreaded computation. 
+\subsection{Types of parallelism}
+
+\subsection{Realizing Parallelism}
+
+The various approaches to realize parallelism are explained in this section.
+
+\textbf{POSIX Threads/Pthreads:} Pthreads provides a standard interface for performing mulithreaded computation. 
 Threads are subprocesses running with in a process. 
 We can find many applications such as a web browser which can take advantage of multithreading.
 The efficiency of an application improves when it is designed with threads because they have their
@@ -42,13 +48,12 @@ own stack and status. The overhead of creating a separate process can be avoided
 Resources like files are shared among threads. Though Pthreads are good alternatives for
 having multiple processes in a single processor machine it is very difficult to scale
 it to multi-core processors. Another limitation of Pthreads is programmers are required to
-deal with a lot of thread-specific code. The number of theads required for a computation
+deal with a lot of thread-specific code. The number of threads required for a computation
 need to be hard corded which makes it less scalable.
 
-\textbf{MPI}
+\textbf{MPI:}
 
-\textbf{OpenMP}
-In view of the shortcomings of POSIX threads there was an urge to formulate a new threading
+\textbf{OpenMP:} In view of the shortcomings of POSIX threads there was an urge to formulate a new threading
 interface. The major objective was to overcome the burden of learning different ways for programming threads in different
 operating systems with in different programming languages. OpenMP is able to deal with this
 by a great extend. As the framework is evolved rather than its APIs, support for pragmas became the distinguished
@@ -65,9 +70,33 @@ shows usage of pragma.
 \end{lstlisting}
 }
 
-\textbf{OpenCL}
+Another characteristic of OpenMP is that by disabling support for OpenMP the same program can be treated as
+single threaded. This enables easy debugging and makes the programmer's life easier.
 
-\textbf{Intel TBB}
+If the developer needs more fine-grained control a small set of APIs are available in OpenMP. But in this case Pthreads
+could be the right choice because it provides a greater number of primitive functions. So if in applications
+in which threads require individual attention the appropriate choice would be Pthreads.
+
+Ample care should be take to ensure the correctness of the program while using OpenMP pragmas. The following
+example illustrates that.
+{\footnotesize
+\begin{lstlisting}
+  for (i = 0; i < 10; i++) {
+    #pragma omp parallel for private(k)
+    for(j = 0; j < 10; j++) {
+      k++;
+      A[i] += k;
+    }
+  }
+\end{lstlisting}
+}
+
+We get incorrect result if the data sharing attribute for the variable \emph{k} is \emph {private}. It should
+be \emph{shared} to get the intended result.
+
+%\textbf{OpenCL}
+
+\textbf{Intel TBB:}
 
 \section{Auto Parallelization}
 We can take the advantage of hardware support for parallelism only if the compiler has
@@ -134,7 +163,8 @@ transformation passes have same intermediate representation(LLVM IR), which
 makes the programmer to analyze it with ease.
 
 \section{Polly}
-The framework discussed in this document is implemented using Polly[polly],
+The framework for automatic OpenMP code generation which is the main topic 
+discussed in this document is implemented using Polly[polly],
 an open source[licence] compiler  optimization framework that uses a mathematical
  representation, the polyhedral model, to represent and transform loops and other
  control flow structures. It is an effort towards achieving autoparallelism in programs.
