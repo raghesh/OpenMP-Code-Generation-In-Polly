@@ -50,10 +50,86 @@ LLVM
 10. http://llvm.org/docs/LangRef.html
 
 11. http://llvm.org/docs/WritingAnLLVMPass.html
+
 Auto Parallelization
 --------------------
-1. Holystic
-2. Pluto
+12. Towards a holistic approach to auto-parallelization: integrating profile-driven parallelism detection and machine-learning based mapping
+
+@inproceedings{Tournavitis:2009:THA:1542476.1542496,
+    author = {Tournavitis, Georgios and Wang, Zheng and Franke, Bj\"{o}rn and O'Boyle, Michael F.P.},
+    title = {Towards a holistic approach to auto-parallelization: integrating profile-driven parallelism detection and machine-learning based mapping},
+    booktitle = {Proceedings of the 2009 ACM SIGPLAN conference on Programming language design and implementation},
+    series = {PLDI '09},
+    year = {2009},
+    isbn = {978-1-60558-392-1},
+    location = {Dublin, Ireland},
+    pages = {177--187},
+    numpages = {11},
+    url = {http://doi.acm.org/10.1145/1542476.1542496},
+    doi = {http://doi.acm.org/10.1145/1542476.1542496},
+    acmid = {1542496},
+    publisher = {ACM},
+    address = {New York, NY, USA},
+    keywords = {auto-parallelization, machine-learning based parallelism mapping, openmp, profile-driven parallelism detection},
+} 
+
+
+13.Automatic parallelization for multi-core processors
+Part of doctoral dissertation, The Ohio State University, Sep 
+2006 -- Aug 2008
+Funded in part by US National Science Foundation (NSF) under 
+grants 0121676 and 0509467
+
+The polyhedral model for compiler optimization is a framework that 
+provides a powerful abstraction to reason about program transformations 
+by viewing a dynamic instance (iteration) of each of the program's 
+statements as an integer point in a well-defined space which is the 
+statement's  polyhedron, with dimensions of the polyhedron corresponding 
+to loops surrounding the statement. With such a representation for each 
+statement and a precise characterization of inter or intra-statement 
+dependences, it is possible to reason about the correctness of a sequence 
+of complex loop transformations using machinery from linear programming 
+and linear algebra.
+
+Affine transformations in the polyhedral model capture a complex 
+sequence of execution-reordering loop transformations that can improve 
+performance by parallelization as well as locality enhancement. Although 
+a significant body of research has addressed affine scheduling and 
+partitioning, the problem of automatically finding good affine transforms 
+for communication-optimized coarse-grained parallelization together with 
+locality optimization for the general case of arbitrarily-nested loop 
+sequences had remained a challenging problem.
+
+We developed a new automatic transformation framework to
+optimize sequences of imperfectly-nested loops for parallelism and 
+locality simultaneously. The approach works by finding good ways of 
+tiling through a powerful, practical, and scalable cost function embedded 
+in an Integer Linear Programming formulation. The approach enables 
+minimization of inter-tile communication volume in the processor space, 
+             and minimization of reuse distances for local execution at each node.  
+             Programs requiring one-dimensional versus multi-dimensional time 
+             schedules (with scheduling-based approaches) are all handled with the 
+             same algorithm.  Synchronization-free parallelism, permutable loops 
+             or pipelined parallelism, and inner parallelism can be detected[8].
+
+
+14. U. Bondhugula, A. Hartono, J. Ramanujam, and P. Sadayappan, "A Practical and Automatic Polyhedral Program Optimization System," Proc. ACM SIGPLAN 2008 Conference on Programming Language Design and Implementation (PLDI 08), Tucson, June 2008
+
+15. U. Bondhugula, M. Baskaran, S. Krishnamoorthy, J. Ramanujam, A. Rountev, and P. Sadayappan, "Automatic Transformations for Communication-Minimized Parallelization and Locality Optimization in the Polyhedral Model," in Proc. CC 2008 - International Conference on Compiler Construction, Budapest, Hungary, March-April 2008
+
+16.         author = {Uday Bondhugula and Albert Hartono
+    and J. Ramanujam and P. Sadayappan},
+    title = {A Practical Automatic Polyhedral Program Optimization System},
+    booktitle = {ACM SIGPLAN Conference on Programming Language Design and 
+        Implementation (PLDI)},
+        year = 2008,
+        month = jun
+        }
+
+17. Graphite Papers
+
+18. Tobias's website docs
+
 
 Profiling
 ---------
