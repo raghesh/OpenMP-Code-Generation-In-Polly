@@ -22,8 +22,7 @@ parallelism. Starting from the early history of programming languages the intern
 of program is done with Abstract Syntax Tree(AST). Though some elementary transformation can
 be performed on AST it is tough to carry out complex transformations like dependency analysis among
 statements inside a loop. Trees are very rigid data structures to do such transformations.
-In this chapter a extremely powerful mathematical model which puts together analysis power,
-expressiveness and flexibility is explained in detail.
+In this chapter a extremely powerful mathematical model which puts together analysis power,expressiveness and flexibility is explained in detail.
 
 \section{Common Program Transformations}
 
@@ -46,7 +45,7 @@ illustrated with a simple example.
 \end{lstlisting}
 }
 
-The two loops will be represented by two polyhedrons and it can find the have common 
+The two loops will be represented by two polyhedrons and it can find the common 
 array accesses starting from index 6 to 10 and the code can be transformed as follows.
 
 {\footnotesize
@@ -59,7 +58,8 @@ for(j = 6; j <= 15; j++)
   A[j] = 15;
 \end{lstlisting}
 }
-  
+
+
 %\begin{center}
 %{\bf {\LARGE Chapter 1}\linebreak\linebreak{Background}}
 %\linebreak
