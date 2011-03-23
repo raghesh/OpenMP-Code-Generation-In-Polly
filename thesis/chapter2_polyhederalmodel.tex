@@ -24,11 +24,11 @@ be performed on AST it is tough to carry out complex transformations like depend
 statements inside a loop. Trees are very rigid data structures to do such transformations.
 In this chapter a extremely powerful mathematical model which puts together analysis power,expressiveness and flexibility is explained in detail.
 
-\section{Common Program Transformations}
+\section{Program Transformations with polyhedral model}
 
-In this section some of the common program tranformations are explained. The
-polyhedral model is not a normal representation of progarms when compared to the
-classical structure of programs that every programmer is familiar with. But
+In this section some of the common program tranformations which can be realized with the
+assistance of polyhedral model are explained. The polyhedral model is not a normal representation of progarms when compared to the
+classical structure of programs(like AST) that every programmer is familiar with. But
 it is easier to do transformations smoothly in this model.
 
 \subsection{Transformation for improving data docality}
@@ -59,7 +59,11 @@ for(j = 6; j <= 15; j++)
 \end{lstlisting}
 }
 
+\section{Constant propagation through arrays}
 
+\section{Eliminate dead loop iterations}
+\section{Automatic parallelization}
+\section{Vectorization}
 %\begin{center}
 %{\bf {\LARGE Chapter 1}\linebreak\linebreak{Background}}
 %\linebreak
