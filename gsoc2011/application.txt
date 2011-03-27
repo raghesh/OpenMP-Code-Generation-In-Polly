@@ -7,6 +7,42 @@ Proposed system
 ----------------
 Describe the proposed system. What advantage will be brought by the new method
 
+Tobias
+------
+I think an approach similar to the one taken in pocc is good. As far as
+I understand the pocc code, the pluto data structures are mainlya
+untouched and a wrapper function called 'pluto_pocc' implements a nice
+scoplib based interface. This has the advantage that for libpluto we can
+choose an interface that is more expressive as scoplib and perfectly
+matches the requirements of pluto. We can than implement a scoplib
+wrapper for this interface and as soon as e.g. openscop is available we
+can create a new wrapper to take advantage of the new features of
+openscop. This approach also allows that two interfaces coexist, as I
+expect there will be a period where we need both scoplib and openscop
+interfaces. 
+
+I also like my JSON+isl format as it is extremely convenient to import
+into python, to script with it and it already provides the
+expressiveness openscop is going to bring us when finished. Yet it is
+not a full replacement for scoplib/openscop as it does not provide a
+library interface, but it is mainly a file exchange format. I can
+imagine to use my JSON/isl format to make the pluto output easily
+scriptable. However, as a library format I still plan to have one common
+exchange format and hope that openscop is soon available to write an
+openscop interface for libpluto.
+
+Louis
+-----
+imply to standardize the tools, and have a common intermediate representation between the maximum number of tools. I strongly think scoplib (or openscop) is a good way to represent a polyhedral program (and if it's not we should improve it to make it better according to everyone's suggestions). Pluto is a polyhedral tool which needs a polyhedral description of a program as an input and outputs a schedule for it. It is a perfect candidate for the scoplib interface. Everything needed to pluto for the input is already in the scoplib description, and the most important part of the output (the schedule) is also already in the description (with no effort to output the annotations in the option part of the scoplib). So why invent something else if what we have fulfill our needs? In addition, having a single IR between tools simplifies the job of power users or developers who want to create a small pass and also use pluto, but that's another story.
+
+Louis
+------
+
+To sum up, my suggestions are as follows:
+- have a way to pass the first rows of the schedule.
+- have a way to have plutolib compute only one new row of the schedule.
+- and indeed there's no need to support the current .fst explicitely in plutolib, this behavior can be emulated. 
+
 
 Milestones
 ----------
