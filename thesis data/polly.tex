@@ -1519,6 +1519,30 @@ OS << "In function: '" <<  Name+".omp_subfunction" << "\n";
 fprintf(stdout, "%s", OS.str().c_str());
 
 \end{verbatim}
+
+\section{Polyhedral Tools}
+
+Clan, the Chunky loop analyzer, to extract a polyhedral intermediate representation
+  from the source code.
+
+Candl, the Chunky analyzer for dependences in loops, to compute polyhedral depen-
+  dences from the polyhedral IR.
+
+LetSee, the Legal transformation Space explorator, for iterative compilation using affine
+  multidimensional schedules
+
+PLuTo, an automatic parallelizer and locality optimizer for multicores, for powerful
+  optimization with tiling and parallelism in the polyhedral model
+
+CLooG, the Chunky Loop Generator, to generate syntactic code from the polyhedral
+  representation
+
+PIPLib, the Parametric Integer Programming Library
+
+PolyLib, the Polyhedral Library
+
+FM, the Fourier-Motzkin library
+
 \section{Preparing Application for GSOC 2011}
 Is it possible for you to mentor me in contributing to Polly? If so I
 can contribute to some of the following projects

@@ -1,0 +1,17 @@
+Existing System
+---------------
+
+Describe about the existing system. What is the problem with current apporoach? 
+
+Proposed system
+----------------
+Describe the proposed system. What advantage will be brought by the new method
+
+
+Milestones
+----------
+
+
+Experience
+----------
+
