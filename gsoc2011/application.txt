@@ -3,6 +3,9 @@ Existing System
 
 Describe about the existing system. What is the problem with current apporoach? 
 
+Currently pocc command is called with file as input. Creating files for large number
+of scops may not be scalable and will be an overhead.
+
 Proposed system
 ----------------
 Describe the proposed system. What advantage will be brought by the new method
