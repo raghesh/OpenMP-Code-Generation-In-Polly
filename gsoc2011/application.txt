@@ -1,14 +1,49 @@
+Title
+-----
+
+Implementing libpluto and integrating with Polly
+
+Abstract
+--------
+PluTo is an autmatic parallelizer and locality optimizer for multicore
+architectures. It lacks a library interface which can be used by other
+tools like Polly. The proposal aims at implementing libpluto and integrating
+it with Polly.
+
 Existing System
 ---------------
-
-Describe about the existing system. What is the problem with current apporoach? 
-
-Currently pocc command is called with file as input. Creating files for large number
-of scops may not be scalable and will be an overhead.
+Polly makes use of Pluto optimizations with the Pluto version integrated into 
+PoCC(Polyhedral Compiler Collection). While building Polly the user need to
+download the complete source code of PoCC and compile it. Polly provides
+options(-enable-pluto-tile, -enable-pluto-prevector) to get advantage of
+Pluto optimizations. Polly internally makes a call to 'pocc' command with the 
+corresponding options and with the exported scoplib input file which consists
+of the polyhedral discriptions of the SCoPs detected by polly.
 
 Proposed system
 ----------------
+ 
+PoCC is too large to be integrated into Polly and LLVM. In addition the current
+approach needs the polyhedral representation to be exported to a file. Creating
+files for large number of scops may not be scalable and will be huge overhead.
+
+To use the Pluto optimizations directly in Polly, Pluto needs to be integrated
+into Polly as a library(libpluto). I will contribuite to implement libpluto and
+integrate this with Polly.
+
+
 Describe the proposed system. What advantage will be brought by the new method
+
+Interface should be minimal and simple.
+
+* Finding out potential users 
+* come up with a suitable interface which satisfies them.
+
+
+*There should be a PlutoLib.cpp in the polly codebase which implemen the pass for
+calling libpluto.
+
+* How does libpluto benefit for vectorization.
 
 Tobias
 ------
