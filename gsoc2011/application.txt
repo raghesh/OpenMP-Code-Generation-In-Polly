@@ -12,6 +12,17 @@ it with Polly.
 
 Existing System
 ---------------
+
+Without having a dedicated library the current Pluto system works as follows
+
+    * The source file is given to Clan(Chunky loop analyzer) to extract polyhedral
+      intermediate representation(SCoP) from the source code.
+    * The SCoP is converted into internal program representation of Pluto(PlutoProg).
+    * The core scheduling algorithm of Pluto(pluto_auto_transform) is applied on
+      this and a new schedule is obtained.
+    * Perform optional tiling, vectorization and other optimizations.
+    * 
+
 Polly makes use of Pluto optimizations with the Pluto version integrated into 
 PoCC(Polyhedral Compiler Collection). While building Polly the user need to
 download the complete source code of PoCC and compile it. Polly provides
@@ -22,7 +33,11 @@ of the polyhedral discriptions of the SCoPs detected by polly.
 
 Proposed system
 ----------------
- 
+The key part of Pluto is its core scheduling algorithm. As described above rest
+of the part are other tools intergrated into it. So its worth to extract that
+out of the tool and implement that as a library. This makes other users who
+need to take advantage of Pluto's scheduling can easily integrate this.
+
 PoCC is too large to be integrated into Polly and LLVM. In addition the current
 approach needs the polyhedral representation to be exported to a file. Creating
 files for large number of scops may not be scalable and will be huge overhead.
@@ -31,24 +46,22 @@ To use the Pluto optimizations directly in Polly, Pluto needs to be integrated
 into Polly as a library(libpluto). I will contribuite to implement libpluto and
 integrate this with Polly.
 
-
-Describe the proposed system. What advantage will be brought by the new method
-
-Interface should be minimal and simple.
-
+The Interface of libpluto should be minimal and simple. 
 * Finding out potential users 
 * come up with a suitable interface which satisfies them.
 
 
-*There should be a PlutoLib.cpp in the polly codebase which implemen the pass for
+* There should be a PlutoLib.cpp in the polly codebase which implemen the pass for
 calling libpluto.
 
 * How does libpluto benefit for vectorization.
 
+Describe the proposed system. What advantage will be brought by the new method
+
 Tobias
 ------
 I think an approach similar to the one taken in pocc is good. As far as
-I understand the pocc code, the pluto data structures are mainlya
+I understand the pocc code, the pluto data structures are mainly
 untouched and a wrapper function called 'pluto_pocc' implements a nice
 scoplib based interface. This has the advantage that for libpluto we can
 choose an interface that is more expressive as scoplib and perfectly
