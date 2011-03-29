@@ -21,7 +21,7 @@ Without having a dedicated library the current Pluto system works as follows
     * The core scheduling algorithm of Pluto(pluto_auto_transform) is applied on
       this and a new schedule is obtained.
     * Perform optional tiling, vectorization and other optimizations.
-    * 
+    * Generate the code using cloog.
 
 Polly makes use of Pluto optimizations with the Pluto version integrated into 
 PoCC(Polyhedral Compiler Collection). While building Polly the user need to
@@ -29,34 +29,69 @@ download the complete source code of PoCC and compile it. Polly provides
 options(-enable-pluto-tile, -enable-pluto-prevector) to get advantage of
 Pluto optimizations. Polly internally makes a call to 'pocc' command with the 
 corresponding options and with the exported scoplib input file which consists
-of the polyhedral discriptions of the SCoPs detected by polly.
+of the polyhedral discriptions of the SCoPs detected by Polly.
 
 Proposed system
 ----------------
 The key part of Pluto is its core scheduling algorithm. As described above rest
-of the part are other tools intergrated into it. So its worth to extract that
-out of the tool and implement that as a library. This makes other users who
+of the part are other tools intergrated into it. So its worth to extract it
+out of the tool and implement that as a library. Other users who
 need to take advantage of Pluto's scheduling can easily integrate this.
 
 PoCC is too large to be integrated into Polly and LLVM. In addition the current
 approach needs the polyhedral representation to be exported to a file. Creating
-files for large number of scops may not be scalable and will be huge overhead.
+file for large number of scops may not be scalable and will result in huge overhead.
 
 To use the Pluto optimizations directly in Polly, Pluto needs to be integrated
 into Polly as a library(libpluto). I will contribuite to implement libpluto and
 integrate this with Polly.
 
-The Interface of libpluto should be minimal and simple. 
-* Finding out potential users 
-* come up with a suitable interface which satisfies them.
+Implementation Plan
+-------------------
+
+Phase 1: libpluto implementation
+--------------------------------
+
+* Interface design
+
+  The Interface of libpluto should be minimal and simple. This needs to be discussed
+  and we have to come up with a suitable interface. A tendative interface can
+  be defined as follows.
+
+   * Function name: similar to "pluto_auto_transform"
+   * Input        : A single SCoP(essentially only Iteration domain and Dependences).
+                    This need to be finalized.
+   * Output       : A schedule
+
+//To be checked---
+                 |
+
+   * Function name: pluto_tile
+   * Input        : Schedule(Output of pluto_auto_transform).
+   * Output       : ?
+
+   * Function name: pluto_prevector
+   * Input        : Schedule(Output of pluto_auto_transform).
+   * Output       : ?
+
+                 |
+//To be checked---
 
 
-* There should be a PlutoLib.cpp in the polly codebase which implemen the pass for
-calling libpluto.
+Phase 2: Integration with Polly
+-------------------------------
 
-* How does libpluto benefit for vectorization.
+* Include libpluto as part of Polly build system.
+* Implement a seperate pass(LibPluto.cpp) for performing pluto optimizations which has
+    * ScopInfo pass as a prerequisite.
+    * Implement the driver functions which convert the ScoP representation
+      of Polly into the input representation of libpluto.
+    * Implement the driver function which convert the output(schedule) of
+      libpluto back to ScoP representation of Polly.
+* Create testcases to see the enhanced optimization.
+* Compare the result with
+* How does libpluto benefit for vectorization ?
 
-Describe the proposed system. What advantage will be brought by the new method
 
 Tobias
 ------
@@ -102,3 +137,5 @@ Milestones
 Experience
 ----------
 
+If Time Permits
+---------------
