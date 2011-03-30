@@ -1,0 +1,136 @@
+\documentclass[a4paper,12pt]{article}
+%\usepackage{fancyvrb,relsize}
+\usepackage[small,compact]{titlesec}
+\usepackage[pdftex]{graphicx}
+\usepackage{listings}
+\lstset{language=C}
+%\usepackage[margin=3.50cm]{geometry}
+%\linespread{1.5}
+%\setlength{\parindent}{0pt}
+\title{Implementing libpluto and integrating with Polly}
+\author{Raghesh A}
+
+%\setlength{\oddsidemargin}{0in} \setlength{\evensidemargin}{0in}
+%\setlength{\textwidth}{6.5in} \setlength{\textheight}{9.5in}
+%\setlength{\topmargin}{-0.65in}
+
+\begin{document}
+
+\maketitle
+
+\section{Abstract}
+PluTo is an autmatic parallelizer and locality optimizer for multicore
+architectures. It lacks a library interface which can be used by other
+tools like Polly. The proposal aims at implementing libpluto and integrating
+it with Polly.
+
+\section{Existing System}
+
+Without having a dedicated library the current Pluto system works as follows
+\begin{itemize}
+\item The source file is given to Clan(Chunky loop analyzer) to extract polyhedral
+      intermediate representation(SCoP) from the source code.
+\item The SCoP is converted into internal program representation of Pluto(PlutoProg).
+\item The core scheduling algorithm of Pluto(pluto\_auto\_transform) is applied on
+      this and a new schedule is obtained.
+\item Perform optional tiling, vectorization and other optimizations.
+\item Generate the code using cloog.
+\end{itemize}
+Polly makes use of Pluto optimizations with the Pluto version integrated into 
+PoCC(Polyhedral Compiler Collection). While building Polly the user need to
+download the complete source code of PoCC and compile it. Polly provides
+options(-enable-pluto-tile, -enable-pluto-prevector) to get advantage of
+Pluto optimizations. Polly internally makes a call to 'pocc' command with the 
+corresponding options and with the exported scoplib input file which consists
+of the polyhedral discriptions of the SCoPs detected by Polly.
+
+\section{Proposed system}
+The key part of Pluto is its core scheduling algorithm. As described above rest
+of the part are other tools intergrated into it. So its worth to extract it
+out of the tool and implement that as a library. Other users who
+need to take advantage of Pluto's scheduling can easily integrate this.
+
+PoCC is too large to be integrated into Polly and LLVM. In addition the current
+approach needs the polyhedral representation to be exported to a file. Creating
+file for large number of scops may not be scalable and will result in huge overhead.
+
+To use the Pluto optimizations directly in Polly, Pluto needs to be integrated
+into Polly as a library(libpluto). I will contribuite to implement libpluto and
+integrate this with Polly.
+
+\section{Implementation Plan}
+
+\subsection{Phase 1: libpluto implementation}
+
+\subsubsection{Interface design}
+
+  The Interface of libpluto should be minimal and simple. This needs to be discussed
+  and we have to come up with a suitable interface. A tendative interface can
+  be defined as follows.
+\begin{verbatim}
+   * Function name: similar to "pluto_auto_transform"
+   * Input        : A single SCoP(essentially only Iteration domain and Dependences).
+                    This need to be finalized.
+   * Output       : A schedule
+
+   * Function name: pluto_tile
+   * Input        : Schedule(Output of pluto_auto_transform).
+   * Output       : ?
+
+   * Function name: pluto_prevector
+   * Input        : Schedule(Output of pluto_auto_transform).
+   * Output       : ?
+\end{verbatim}
+
+\subsection{Phase 2: Integration with Polly}
+\begin{itemize}
+\item Include libpluto as part of Polly build system.
+\item  Implement a seperate pass(LibPluto.cpp) for performing pluto optimizations which has
+\item ScopInfo pass as a prerequisite.
+\item Implement the driver functions which convert the ScoP representation
+      of Polly into the input representation of libpluto.
+\item Implement the driver function which convert the output(schedule) of
+      libpluto back to ScoP representation of Polly.
+\item Create testcases to see the enhanced optimization.
+\item Compare the result with current implementation.
+\item How does libpluto benefit for vectorization ? (Add to time line)
+\end{itemize}
+
+\section{Timeline}
+
+\begin{itemize}
+\item Interact with Pluto and Polly developers to finalize a suitable interface for
+  libpluto (End of May)
+\item Implementing libpluto interface (End of June)
+\item Adding libplutot to Polly build system(July First week)
+\item Implement LibPluto Pass(July 2nd Week)
+\item Testing with some real benchmarks and fix bugs if any(August First week)
+\end{itemize}
+
+\section{Benefits for LLVM}
+
+\begin{itemize}
+\item Polly will provide an advanced polyhedral optimizer, with already known
+  benefits in respect of data-locality and parallelism.
+\item LLVM will be the first OpenSource compiler (and after IBM XL C the second compiler at all)
+  that implements such advanced transformations.
+\item The Pluto algorithm can be the base to expose even more SIMD parallelism
+  and might be a great start for an advanced vectorizer.
+\item It may also be the base to support automatic offloading to the GPU
+\end{itemize}
+
+\section{If Time Permits}
+
+\section{About Me}
+
+Currently I am a graduate student at Department of Computer Science at
+Indian Institute of technology, Madras(http://www.cse.iitm.ac.in/).
+
+\section{Experience}
+
+I am a developer for Polly and I have gained experience working in OpenMP
+Parallel backend for Polly. This is almost stable now and is being tested
+with the polybench benchmarks. And I have gone through the pluto code base
+and understood the flow of the code.
+
+\end{document}

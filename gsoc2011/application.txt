@@ -5,7 +5,7 @@ Implementing libpluto and integrating with Polly
 
 Abstract
 --------
-PluTo is an autmatic parallelizer and locality optimizer for multicore
+PluTo is an automatic parallelizer and locality optimizer for multi-core
 architectures. It lacks a library interface which can be used by other
 tools like Polly. The proposal aims at implementing libpluto and integrating
 it with Polly.
@@ -29,12 +29,12 @@ download the complete source code of PoCC and compile it. Polly provides
 options(-enable-pluto-tile, -enable-pluto-prevector) to get advantage of
 Pluto optimizations. Polly internally makes a call to 'pocc' command with the 
 corresponding options and with the exported scoplib input file which consists
-of the polyhedral discriptions of the SCoPs detected by Polly.
+of the polyhedral descriptions of the SCoPs detected by Polly.
 
 Proposed system
 ----------------
 The key part of Pluto is its core scheduling algorithm. As described above rest
-of the part are other tools intergrated into it. So its worth to extract it
+of the part are other tools integrated into it. So its worth to extract it
 out of the tool and implement that as a library. Other users who
 need to take advantage of Pluto's scheduling can easily integrate this.
 
@@ -43,7 +43,7 @@ approach needs the polyhedral representation to be exported to a file. Creating
 file for large number of scops may not be scalable and will result in huge overhead.
 
 To use the Pluto optimizations directly in Polly, Pluto needs to be integrated
-into Polly as a library(libpluto). I will contribuite to implement libpluto and
+into Polly as a library(libpluto). I will contribute to implement libpluto and
 integrate this with Polly.
 
 Implementation Plan
@@ -55,16 +55,13 @@ Phase 1: libpluto implementation
 * Interface design
 
   The Interface of libpluto should be minimal and simple. This needs to be discussed
-  and we have to come up with a suitable interface. A tendative interface can
+  and we have to come up with a suitable interface. A tentative interface can
   be defined as follows.
 
    * Function name: similar to "pluto_auto_transform"
    * Input        : A single SCoP(essentially only Iteration domain and Dependences).
                     This need to be finalized.
    * Output       : A schedule
-
-//To be checked---
-                 |
 
    * Function name: pluto_tile
    * Input        : Schedule(Output of pluto_auto_transform).
@@ -74,68 +71,60 @@ Phase 1: libpluto implementation
    * Input        : Schedule(Output of pluto_auto_transform).
    * Output       : ?
 
-                 |
-//To be checked---
-
 
 Phase 2: Integration with Polly
 -------------------------------
 
 * Include libpluto as part of Polly build system.
-* Implement a seperate pass(LibPluto.cpp) for performing pluto optimizations which has
+* Implement a separate pass(LibPluto.cpp) for performing pluto optimizations which has
     * ScopInfo pass as a prerequisite.
     * Implement the driver functions which convert the ScoP representation
       of Polly into the input representation of libpluto.
     * Implement the driver function which convert the output(schedule) of
       libpluto back to ScoP representation of Polly.
 * Create testcases to see the enhanced optimization.
-* Compare the result with
-* How does libpluto benefit for vectorization ?
+* Compare the result with current implementation.
+* How does libpluto benefit for vectorization ? (Add to time line)
 
 
-Tobias
-------
-I think an approach similar to the one taken in pocc is good. As far as
-I understand the pocc code, the pluto data structures are mainly
-untouched and a wrapper function called 'pluto_pocc' implements a nice
-scoplib based interface. This has the advantage that for libpluto we can
-choose an interface that is more expressive as scoplib and perfectly
-matches the requirements of pluto. We can than implement a scoplib
-wrapper for this interface and as soon as e.g. openscop is available we
-can create a new wrapper to take advantage of the new features of
-openscop. This approach also allows that two interfaces coexist, as I
-expect there will be a period where we need both scoplib and openscop
-interfaces. 
+Timeline
+--------
 
-I also like my JSON+isl format as it is extremely convenient to import
-into python, to script with it and it already provides the
-expressiveness openscop is going to bring us when finished. Yet it is
-not a full replacement for scoplib/openscop as it does not provide a
-library interface, but it is mainly a file exchange format. I can
-imagine to use my JSON/isl format to make the pluto output easily
-scriptable. However, as a library format I still plan to have one common
-exchange format and hope that openscop is soon available to write an
-openscop interface for libpluto.
+* Interact with Pluto and Polly developers to finalize a suitable interface for
+  libpluto (End of May)
 
-Louis
------
-imply to standardize the tools, and have a common intermediate representation between the maximum number of tools. I strongly think scoplib (or openscop) is a good way to represent a polyhedral program (and if it's not we should improve it to make it better according to everyone's suggestions). Pluto is a polyhedral tool which needs a polyhedral description of a program as an input and outputs a schedule for it. It is a perfect candidate for the scoplib interface. Everything needed to pluto for the input is already in the scoplib description, and the most important part of the output (the schedule) is also already in the description (with no effort to output the annotations in the option part of the scoplib). So why invent something else if what we have fulfill our needs? In addition, having a single IR between tools simplifies the job of power users or developers who want to create a small pass and also use pluto, but that's another story.
+* Implementing libpluto interface (End of June)
 
-Louis
-------
+* Adding libpluto to Polly build system(July First week)
 
-To sum up, my suggestions are as follows:
-- have a way to pass the first rows of the schedule.
-- have a way to have plutolib compute only one new row of the schedule.
-- and indeed there's no need to support the current .fst explicitely in plutolib, this behavior can be emulated. 
+* Implement LibPluto Pass(July 2nd Week)
 
+* Testing with some real benchmarks and fix bugs if any(August First week)
 
-Milestones
+Benefits for LLVM
+-----------------
+
+* Polly will provide an advanced polyhedral optimizer, with already known
+  benefits in respect of data-locality and parallelism.
+* LLVM will be the first Open Source compiler (and after IBM XL C the second compiler at all)
+  that implements such advanced transformations.
+* The Pluto algorithm can be the base to expose even more SIMD parallelism
+  and might be a great start for an advanced vectorizer.
+* It may also be the base to support automatic offloading to the GPU
+
+If Time Permits
+---------------
+
+About Me
 ----------
 
+Currently I am a graduate student at Department of Computer Science at
+Indian Institute of technology, Madras(http://www.cse.iitm.ac.in/).
 
 Experience
 ----------
 
-If Time Permits
----------------
+I am a developer for Polly and I have gained experience working in OpenMP
+Parallel backend for Polly. This is almost stable now and is being tested
+with the polybench benchmarks. And I have gone through the pluto code base
+and understood the flow of the code.
