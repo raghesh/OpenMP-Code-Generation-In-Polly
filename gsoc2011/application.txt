@@ -61,15 +61,15 @@ Phase 1: libpluto implementation
    * Function name: similar to "pluto_auto_transform"
    * Input        : A single SCoP(essentially only Iteration domain and Dependences).
                     This need to be finalized.
-   * Output       : A schedule
+   * Output       : schedule
 
    * Function name: pluto_tile
    * Input        : Schedule(Output of pluto_auto_transform).
-   * Output       : ?
+   * Output       : schedule
 
    * Function name: pluto_prevector
    * Input        : Schedule(Output of pluto_auto_transform).
-   * Output       : ?
+   * Output       : schedule
 
 
 Phase 2: Integration with Polly
@@ -84,9 +84,20 @@ Phase 2: Integration with Polly
       libpluto back to ScoP representation of Polly.
 * Create testcases to see the enhanced optimization.
 * Compare the result with current implementation.
-* How does libpluto benefit for vectorization ? (Add to time line)
 
+Success Criteria
+----------------
 
+* libpluto successfully integrated to current Pluto system. All the
+  current transformations possible with current Pluto system works also
+  with libpluto.
+
+* libpluto successfully integrated to Polly. All the tranformations
+  possible with current implementation(Pluto with Pocc) works also
+  with libpluto.
+
+* Polly with libpluto tested with realtime benchmarks and observe the
+  performance
 Timeline
 --------
 
@@ -101,6 +112,11 @@ Timeline
 
 * Testing with some real benchmarks and fix bugs if any(August First week)
 
+If Time Permits
+---------------
+
+Improving vectorization based on the result of Pluto algorithm.
+
 Benefits for LLVM
 -----------------
 
@@ -112,8 +128,6 @@ Benefits for LLVM
   and might be a great start for an advanced vectorizer.
 * It may also be the base to support automatic offloading to the GPU
 
-If Time Permits
----------------
 
 About Me
 ----------
@@ -128,3 +142,13 @@ I am a developer for Polly and I have gained experience working in OpenMP
 Parallel backend for Polly. This is almost stable now and is being tested
 with the polybench benchmarks. And I have gone through the pluto code base
 and understood the flow of the code.
+
+
+References
+---------
+
+1. Automatic Transformations for Communication-Minimized Parallelization and Locality Optimization in the Polyhedral Model (Uday Bondhugula, Muthu Baskaran, Sriram Krishnamoorthy, J. Ramanujam, Atanas Rountev and P. Sadayappan)
+
+2. A Practical and Automatic Polyhedral Program Optimization System (U. Bondhugula, A. Hartono, J. Ramanujam, and P. Sadayappan)
+
+3. Polly – Polyhedral Optimization in LLVM (Tobias Grosser, Hongbin Zheng, Ragesh Aloor, Andreas Simbürger, Armin Größlinger, Louis-Noël Pouchet)
