@@ -138,4 +138,4 @@ benchmarks.
 References
 ---------
 
-1. Polly – Polyhedral Optimization in LLVM (Tobias Grosser, Hongbin Zheng, Ragesh Aloor, Andreas Simbürger, Armin Größlinger, Louis-Noël Pouchet)
+1. Polly – Polyhedral Optimization in LLVM (Tobias Grosser, Hongbin Zheng, Raghesh Aloor, Andreas Simbürger, Armin Größlinger, Louis-Noël Pouchet)
