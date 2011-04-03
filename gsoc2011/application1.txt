@@ -1,0 +1,141 @@
+Title
+-----
+
+Increase the coverage of Polly.
+
+Abstract
+--------
+
+Polly (Polyhedral optimization framework in LLVM) is showing very nice results for
+several testcases. Yet, lot of larger test cases needs to be improved. With the
+proposed project I would like to explore the reasons for this, find solutions
+for those and implement it. There are two parts for this.
+
+1. The number of SCoPs detected need to be improved. This can 
+be called as "Increasing SCoP Coverage". 
+
+2. Some of the testcases are failing when Polly is tested in machines which does not
+have 64-bit Operating system. This needs to be fixed and can be called as "Increasing the System Coverage".
+
+Project
+-------
+
+Phase 1: Increasing SCoP coverage
+---------------------------------
+
+Some of the reasons identified for less coverage of SCoPs are stated below.
+
+1. Expressions like min, max, sext, zext, trunc or unsigned comparisons in the loop bounds or memory
+   accesses are not handled in the current implementation.
+
+   For example consider the following loop.
+
+   for (int i = 0; i < N; i++)
+    A[i] = B[i] + C[i];
+
+   In this case a sext is necessary if the code is translated to LLVM-IR and keep i as an i32 and
+   use an i64 to calculate the access to A[i]. This is  not currently handled in Polly.
+
+2. Overflows NSW(No signed wrap) or NUW(No unsigned wrap) are not handled in the current implementation. So
+   it is not safe to compile a large project with Polly
+
+
+Another example is
+
+int loop() {
+	int i = 0, k = 0;
+	for (i = 0; i<= N; i++) {
+		A[i] = 0;
+		k++;
+	}
+	return i + k;
+}
+
+This is a valid SCoP and Polly is failing to recognize it.
+
+Phase 2: Increasing the System Coverage
+---------------------------------------
+This can also be treated as porting to Polly to more architectures.
+
+A solution for this issue could be to derive the data type needed by the maximal possible value a variable can have.
+
+Implementation Plan
+-------------------
+
+1. Identify the SCoPs which are failed to be recognized by polly by testing
+it with more test cases and real benchmarks like polybench, SPEC.
+2. Classify those SCoPs into various categories according to the root causes for
+the failure.
+
+Some of the steps that is needed to be done for improving coverage is
+
+3. Rework the scalar evolution to affine expression conversion to allow deeper nested scalar evolution expressions.
+4. Make sure scalar evolution provides the NSW/NUW wrap information we need.
+5. In case NSW/NUW is not available, assume it happens and add this information to the polyhedral representation.
+6. Add support for new expressions like min/max/sext/zext/trunc.
+7. Create test cases for all this.
+8. Add support for smaller size integers(Phase 2)
+9. Retest on larger benchmarks (SPEC, polybench) 
+
+
+Testing Plan
+------------
+
+Andreas Simburgur has already done a coverage analysis. This can be used as a tool to check the number of
+SCoPs detected.
+
+
+Success Criteria
+----------------
+
+* Making Polly to detect significant number of SCoPs
+* Making Polly work with realtime benchmarks and observe performance.
+
+Timeline
+--------
+
+* Testing with large benchmarks and find out SCoPs which are not detected (End of May Second Week)
+
+* Classify those SCoPs (End of May)
+
+* Rework the scalar evolution to affine expression conversion (End of June Third Week)
+
+* Add support for new expressions like min/max/sext/zext/trunc (End of July Second Week)
+
+* Add support for smaller size integers. (End of July)
+
+* Retest on larger benchmarks (August First week)
+
+Creating testcases for all the steps will be done in parallel with the implementation.
+
+Benefits for LLVM
+-----------------
+
+* Polly will provide an advanced polyhedral optimizer, with already known
+  benefits in respect of data-locality and parallelism.
+* Polly can be used to optimize more real world programs. 
+* After taking into account NSW/NUW Polly has full support for any kind of
+  LLVM-IR and we can confidently compile any program, without having to be
+  afraid that Polly applies any incorrect transformation. 
+* LLVM will be the first Open Source compiler (and after IBM XL C the second compiler at all)
+  that implements such advanced transformations.
+
+
+About Me
+----------
+
+Currently I am a graduate student at Department of Computer Science at
+Indian Institute of technology, Madras(http://www.cse.iitm.ac.in/).
+
+Experience
+----------
+
+I am a developer for Polly and I have gained experience working in OpenMP
+Parallel backend for Polly. This is almost stable now and is being tested
+with the polybench(http://www-roc.inria.fr/~pouchet/software/polybench/)
+benchmarks.
+
+References
+---------
+
+1. Polly – Polyhedral Optimization in LLVM (Tobias Grosser, Hongbin Zheng, Ragesh Aloor, Andreas Simbürger, Armin Größlinger, Louis-Noël Pouchet)
