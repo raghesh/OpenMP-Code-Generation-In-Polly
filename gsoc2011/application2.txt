@@ -1,0 +1,152 @@
+Title
+-----
+
+Add support for memory access transformations in Polly.
+
+Abstract
+--------
+
+The proposed project aims at adding support for memory access transformations in Polly. In many cases it would be great to change the pattern of memory access to obtain better data locality. This can remove dependences that would otherwise block transformations and it can allow LLVM to use registers to store such values.
+
+Project
+-------
+
+Polly performs its optimization on LLVM-IR based on the polyhedral model. In polyhedral model loop transformations can be applied on the following.
+
+  * Iteration Domain (Set of all possible values of iteration vector)
+  * Schedule (Order of computations)
+  * Memory Access (Pattern of memory access)
+
+Currently Polly performs transformations only on schedule of statements. Transformations can also be applied on the memory accesses. A proper memory access transformation can improve data locality. This will in turn improve parallelism.
+
+Some examples are listed below
+
+1. Considering matrix operations it may be beneficial to switch between row-major access and column major access.
+
+2. Consider the following loop
+
+   for (i = 0; i < N; i++)
+     sum += A[i];
+
+   With the support of memory access transformation this loop can be executed in parallel. It can be transformed to
+
+   <create and initialize an array 'tmp' with size 4>
+   for (i = 0; i < 8; i++)
+     tmp[i % 4] += A[i];
+   sum = tmp[0] + tmp[1] + tmp[2] + tmp[3];
+
+   With the help of some optimizer (like PluTo) the following code can be generated, where the outer loop is parallel.
+
+   parfor (ii = 0; ii < 4; i++)
+     tmp[ii] = 0;
+     for (i = ii * 2; i < (ii+1) * 2; i++)
+       tmp[i] += A[i];
+   sum = tmp[0] + tmp[1] + tmp[2] + tmp[3];
+
+Implementation Plan
+-------------------
+
+1. Reading and understanding various approaches taken for various data layout transformations based on polyhedral model.
+2. Polyhedral model is expressed in Polly in JSCOP file. Define how memory layout transformations are going to be expressed in Polly and in the JSCOP file.
+
+   A simple example is given below.
+
+   consider the following loop.
+
+   for (i = 0; i < 12; i++)
+     B[i] = A[i];
+
+   In the JSCOP file the memory is represented as follows.
+
+   "accesses": [{
+           "kind": "read",
+           "relation": "{ Stmt[i] -> A[i] }"
+    },
+    {
+           "kind": "write",
+           "relation": "{ Stmt[i] -> B[i] }"
+    }]
+
+    Suppose we want to perform a transformation such that the statement needs to read from another array say 'tmp' instead of 'A'. The representation should be converted as follows.
+
+    "accesses": [{
+           "kind": "read",
+           "relation": "{ Stmt[i] -> tmp[i] }"
+    },
+    {
+           "kind": "write",
+           "relation": "{ Stmt[i] -> B[i] }"
+    }]
+
+   <doubt: Is there any need to change the JSOC Export/import module Or just update the PollyScoP description>
+   The following task can be identified here.
+     * Implement interface to update memory access information in the current PollySCoP representation.
+3. Change code generation phase to incorporate memory access transformations. Here we have to make sure that correct code is generated to reflect the changed transformations.  The following subtasks can be identified here.
+     * Support to change the array subscripts.
+     * Support to access an existing array.
+     * Support to allocate new arrays if necessary.
+     * Support for array expansion.     
+
+Creating testcases for all the steps will be done in parallel with the implementation.
+
+Success Criteria
+----------------
+
+* Expressing memory access transformations in JSCOP file.
+* Correct code is generated for those transformations.
+
+Timeline
+--------
+
+A tentative timeline for the implementation described above is given below
+
+* April 26 - May 22 : Read relevant documents and try to understand more about the work.
+
+* May 23 - June 15 : Implement JSCOP representation of memory access transformation
+
+* June 15 - July 5 : Codegeneration Phase 1 
+
+* July 6 - July 10 : Reviewing the implementation and test current implementation with identified testcases. Fix the bugs if any. Ensure that proper documentation for the current implementation is done.
+
+* July 11 - July 15 : Midterm evaluation
+
+* July 16 - July 31: Codegeneration Phase 2
+
+* August 1 - August 10: Extra time for unexpected delays.
+
+* August 11 - August 15: Reviewing the implementation and test current implementation with identified testcases. Fix the bugs if any. Ensure that proper documentation for the current implementation is done.
+
+
+If time permits
+---------------
+
+1. Testing with various real benchmarks(SPEC 2006, polybench) and observe performance [5]
+
+Benefits for LLVM
+-----------------
+* Advanced optimizations can be implemented that require memory layout transformations.
+* Memory layout transformations to reduce dependences and allow Pluto to apply better transformations.
+
+In general adding features to Polly will add the following benefits.
+
+* Polly will provide an advanced polyhedral optimizer, with already known benefits in respect of data-locality and parallelism.
+* LLVM will be the first Open Source compiler (and after IBM XL C the second compiler at all) that implements advanced transformations.
+
+About Me
+--------
+
+Currently I am a graduate student at Department of Computer Science at Indian Institute of technology, Madras[3]
+
+Experience
+----------
+
+I am a developer for Polly and I have gained experience in LLVM and Polly by working for implementing OpenMP Parallel backend for Polly. This is almost stable now and is being tested with the polybench benchmarks[4].
+
+References
+----------
+
+1. Automatic Memory Layout Transformations to Optimize Spatial Locality in Parameterized Loop Nests (2000)  (Philippe Clauss ,  Benoît Meister)
+2. Polly – Polyhedral Optimization in LLVM (Tobias Grosser, Hongbin Zheng, Raghesh Aloor, Andreas Simbürger, Armin Größlinger, Louis-Noël Pouchet) IMPACT 2011 as part of CGO 2011.
+3. Violated Dependence Analysis Nicolas Vasilache, Albert Cohen, Cedric Bastoul, Sylvain Girbal
+4. http://www.cse.iitm.ac.in/
+5. http://www-roc.inria.fr/~pouchet/software/polybench/

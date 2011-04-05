@@ -53,6 +53,8 @@ int loop() {
 
 This is a valid SCoP and Polly is failing to recognize it.
 
+
+
 Phase 2: Increasing the System Coverage
 ---------------------------------------
 This can also be treated as porting to Polly to more architectures.
@@ -108,6 +110,11 @@ Timeline
 
 Creating testcases for all the steps will be done in parallel with the implementation.
 
+If time permits
+----------------
+Another possibility of improving coverage for Polly is by properly tuning the LLVM pre-optimization passes.
+
+
 Benefits for LLVM
 -----------------
 
@@ -127,12 +134,13 @@ About Me
 Currently I am a graduate student at Department of Computer Science at
 Indian Institute of technology, Madras(http://www.cse.iitm.ac.in/).
 
+
 Experience
 ----------
 
-I am a developer for Polly and I have gained experience working in OpenMP
-Parallel backend for Polly. This is almost stable now and is being tested
-with the polybench(http://www-roc.inria.fr/~pouchet/software/polybench/)
+I am a developer for Polly and I have gained experience in LLVM and Polly
+by working for implementing OpenMP Parallel backend for Polly. This is
+almost stable now and is being tested with the polybench(http://www-roc.inria.fr/~pouchet/software/polybench/)
 benchmarks.
 
 References
