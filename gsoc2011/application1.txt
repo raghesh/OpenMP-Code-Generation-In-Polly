@@ -11,17 +11,16 @@ several testcases. Yet, lot of larger test cases needs to be improved. With the
 proposed project I would like to explore the reasons for this, find solutions
 for those and implement it. There are two parts for this.
 
-1. The number of SCoPs detected need to be improved. This can 
-be called as "Increasing SCoP Coverage". 
 
-2. Some of the testcases are failing when Polly is tested in machines which does not
-have 64-bit Operating system. This needs to be fixed and can be called as "Increasing the System Coverage".
+
 
 Project
 -------
 
 Phase 1: Increasing SCoP coverage
 ---------------------------------
+
+The number of SCoPs detected need to be improved. This can be called as "Increasing SCoP Coverage". 
 
 Some of the reasons identified for less coverage of SCoPs are stated below.
 
@@ -57,6 +56,10 @@ This is a valid SCoP and Polly is failing to recognize it.
 
 Phase 2: Increasing the System Coverage
 ---------------------------------------
+
+Some of the testcases are failing when Polly is tested in machines which does not
+have 64-bit Operating system. This needs to be fixed and can be called as "Increasing the System Coverage".
+
 This can also be treated as porting to Polly to more architectures.
 
 A solution for this issue could be to derive the data type needed by the maximal possible value a variable can have.

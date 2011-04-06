@@ -1,7 +1,7 @@
 Title
 -----
 
-Add support for memory access transformations in Polly.
+Support for memory access transformations in Polly.
 
 Abstract
 --------
@@ -11,13 +11,8 @@ The proposed project aims at adding support for memory access transformations in
 Project
 -------
 
-Polly performs its optimization on LLVM-IR based on the polyhedral model. In polyhedral model loop transformations can be applied on the following.
-
-  * Iteration Domain (Set of all possible values of iteration vector)
-  * Schedule (Order of computations)
-  * Memory Access (Pattern of memory access)
-
-Currently Polly performs transformations only on schedule of statements. Transformations can also be applied on the memory accesses. A proper memory access transformation can improve data locality. This will in turn improve parallelism.
+Polly[2] performs its optimization on LLVM-IR based on the polyhedral model. Currently the transformations can be applied on Schedule (Order of computations)
+Transformations can also be applied on the Memory Access (Pattern of memory access)[1,4]. A proper memory access transformation can improve data locality. This will in turn improve parallelism.
 
 Some examples are listed below
 
@@ -25,7 +20,7 @@ Some examples are listed below
 
 2. Consider the following loop
 
-   for (i = 0; i < N; i++)
+   for (i = 0; i < 8; i++)
      sum += A[i];
 
    With the support of memory access transformation this loop can be executed in parallel. It can be transformed to
@@ -40,7 +35,7 @@ Some examples are listed below
    parfor (ii = 0; ii < 4; i++)
      tmp[ii] = 0;
      for (i = ii * 2; i < (ii+1) * 2; i++)
-       tmp[i] += A[i];
+       tmp[ii] += A[i];
    sum = tmp[0] + tmp[1] + tmp[2] + tmp[3];
 
 Implementation Plan
@@ -78,14 +73,21 @@ Implementation Plan
            "relation": "{ Stmt[i] -> B[i] }"
     }]
 
-   <doubt: Is there any need to change the JSOC Export/import module Or just update the PollyScoP description>
-   The following task can be identified here.
-     * Implement interface to update memory access information in the current PollySCoP representation.
+   The following tasks can be identified here.
+     * Examine the JSCOP file to find out the changed memory access entries
+     * Update memory access information in the current PollySCOP representation.
+
 3. Change code generation phase to incorporate memory access transformations. Here we have to make sure that correct code is generated to reflect the changed transformations.  The following subtasks can be identified here.
-     * Support to change the array subscripts.
-     * Support to access an existing array.
-     * Support to allocate new arrays if necessary.
-     * Support for array expansion.     
+
+     * Phase 1: Support to access an existing array is added here. 
+         1. The new access function is read from the updated PollySCOP representation and calculate the new index.
+         2. Get the old base address for the array.
+         3. To get the new address add the old base address with the newly calculated index in step 1.
+         4. Generate load instruction code for the array with the new address.
+     * Phase 2: Support to allocate new arrays.
+         1. Get the name and access function from the updated PollySCOP representation.
+         2. Allocate memory for the new array.
+         3. Generate load instruction for the new array.
 
 Creating testcases for all the steps will be done in parallel with the implementation.
 
@@ -104,7 +106,7 @@ A tentative timeline for the implementation described above is given below
 
 * May 23 - June 15 : Implement JSCOP representation of memory access transformation
 
-* June 15 - July 5 : Codegeneration Phase 1 
+* June 16 - July 5 : Codegeneration Phase 1: Add support for changing existing array 
 
 * July 6 - July 10 : Reviewing the implementation and test current implementation with identified testcases. Fix the bugs if any. Ensure that proper documentation for the current implementation is done.
 
@@ -120,7 +122,7 @@ A tentative timeline for the implementation described above is given below
 If time permits
 ---------------
 
-1. Testing with various real benchmarks(SPEC 2006, polybench) and observe performance [5]
+1. Testing with various real benchmarks(SPEC 2006, polybench) and observe performance [3]
 
 Benefits for LLVM
 -----------------
@@ -135,12 +137,12 @@ In general adding features to Polly will add the following benefits.
 About Me
 --------
 
-Currently I am a graduate student at Department of Computer Science at Indian Institute of technology, Madras[3]
+Currently I am a graduate student at Department of Computer Science at Indian Institute of technology, Madras[5]
 
 Experience
 ----------
 
-I am a developer for Polly and I have gained experience in LLVM and Polly by working for implementing OpenMP Parallel backend for Polly. This is almost stable now and is being tested with the polybench benchmarks[4].
+I am a developer for Polly and I have gained experience in LLVM and Polly by working for implementing OpenMP Parallel backend for Polly. This is almost stable now and is being tested with the polybench benchmarks[6].
 
 References
 ----------
@@ -148,5 +150,9 @@ References
 1. Automatic Memory Layout Transformations to Optimize Spatial Locality in Parameterized Loop Nests (2000)  (Philippe Clauss ,  Benoît Meister)
 2. Polly – Polyhedral Optimization in LLVM (Tobias Grosser, Hongbin Zheng, Raghesh Aloor, Andreas Simbürger, Armin Größlinger, Louis-Noël Pouchet) IMPACT 2011 as part of CGO 2011.
 3. Violated Dependence Analysis Nicolas Vasilache, Albert Cohen, Cedric Bastoul, Sylvain Girbal
-4. http://www.cse.iitm.ac.in/
-5. http://www-roc.inria.fr/~pouchet/software/polybench/
+4. P.Feautrier, Array Expansion. In ACM Intl.Conf. on Supercomputing, St. Malo, France, July 1988
+
+URLs
+----
+5. http://www.cse.iitm.ac.in/
+6. http://www-roc.inria.fr/~pouchet/software/polybench/

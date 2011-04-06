@@ -1,24 +1,73 @@
-\documentclass[a4paper,10pt]{article}
+\documentclass[a4paper,12pt]{book}
 %\usepackage{fancyvrb,relsize}
 \usepackage[small,compact]{titlesec}
 \usepackage[pdftex]{graphicx}
 \usepackage{listings}
 \lstset{language=C}
 %\usepackage[margin=3.50cm]{geometry}
-\linespread{1.1}
-\setlength{\parindent}{10pt}
+%\linespread{1.5}
+%\setlength{\parindent}{0pt}
 \setlength{\parskip}{0.85ex plus 0.65ex minus 0.3ex}
 \sloppy
-\setlength{\oddsidemargin}{0in} \setlength{\evensidemargin}{0in}
-\setlength{\textwidth}{6.5in} \setlength{\textheight}{9.5in}
-\setlength{\topmargin}{-0.65in}
+%\setlength{\oddsidemargin}{0in} \setlength{\evensidemargin}{0in}
+%\setlength{\textwidth}{6.5in} \setlength{\textheight}{9.5in}
+%\setlength{\topmargin}{-0.65in}
 
 \begin{document}
+\chapter{The OpenMP Codegeneration in Polly}
 
-\begin{center}
-{\bf {\LARGE Chapter 3}\linebreak\linebreak{Automatic OpenMP Code Generation}}
-\linebreak
-\linebreak
-\end{center}
+Optimizations in Polly should be able to create loops that are executed in parallel, as if the user would have
+added some OpenMP pragmas. To achieve this, code generation needs to emit code that calls an OpenMP
+library to be executed in parallel. The GNU OpenMP Library(libgomp) is used for this purpose. The
+dependency analysis module of Polly automatically detects parallel loops(SCoPs) and are given to OpenMP
+code generation module. Here we generate the required libgomp library calls. The code generated is similar
+the code generated if the user have added OpenMP pragmas[2]. The following sections explain the steps
+taken towards generating the OpenMP code. The generated code is in LLVM IR format.
+\section{Generating OpenMP Library Calls}
+Consider the for loop below to have a basic understanding about what is to be done.
+
+{\footnotesize
+\begin{lstlisting}
+  for (int i = 0; i <= N; i++)
+    A[i] = 1 ;
+\end{lstlisting}
+}
+
+The above for loop is detected as a parallel loop and given for OpenMP code generation. Here the following
+sequence of GOMP library calls with proper arguments and return types(signature) has to be generated in
+LLVM IR format.
+
+\begin{itemize}
+\item GOMP parallel loop runtime start
+\item subfunction
+\item GOMP parallel end
+\end{itemize}
+
+The code for body of the for loop is generated inside the subfunction which has the following GOMP library
+calls to achieve the necessary parallelism.
+
+\begin{itemize}
+\item GOMP loop runtime next
+\item GOMP loop end nowait
+\end{itemize}
+
+The signature and descriptions of each of the above functions can be found in in libgomp manual[3].
+
+\section{Support for inner loops}
+So far OpenMP code created apply only for outer loops, which is detected as SCoP. Next step is to do it for
+inner loops. Due to dependency issues the outer loop is not detected as SCoP, but innerloop can be safely
+parallelized as in the following example.
+
+{\footnotesize
+\begin{lstlisting}
+  for (int i = 0; i < N; i++)
+    for (int j = 0; j < N; j++)
+      A[j] += i;
+\end{lstlisting}
+}
+
+Those loops need the values of the surrounding induction variables in the OpenMP subfunction. We need
+to pass the values of the outer induction variables in a structure to the subfunction. This step is almost
+completed with some minor issues to be fixed.
 
 \end{document}
