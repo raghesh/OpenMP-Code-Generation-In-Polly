@@ -1,0 +1,27 @@
+  To check whether a top-down sequence in a tree is matching with
+           left hand side of a production rule. 
+            
+
+  The function 'lhs' take a node sequence (in top-down manner) from the tree and check
+   all the transition function to find a matching.  
+
+ for(k = 0; k < n_of_items; k++)
+    {
+        root_array[k] -> visited = 1;
+
+          Take a node and check all transitions in the file.
+            
+
+  If a match with a node, reset the root_array_gbl to start the operation and call function match
+                    
+
+  Copies the RHS of the matching transtion function with and without space
+                        
+
+  For each string in RHS call the function 'rhs' to process in the tree
+                            
+  If no match read the whole line so that we can search from next line again
+                
+
+
+

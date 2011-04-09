@@ -1,0 +1,124 @@
+
+
+\section{Blocked Tree Insertion System}
+We know that \emph{tree insertion system} can be used to generate any regular tree languages. Since it has control only at the part
+of tree where current insertion taking place, it cannot be used for generating non-regular tree languages. But we can increase the 
+generating power of the system by grouping the rules together to form a block and the resulting system is known as \emph{blocked 
+tree insertion system}.Here a block contains one or more rules of insertion. If a block starts working, all the rules in that block must 
+execute before giving control to some other block. 
+
+\begin{definition}
+
+The \emph{tree insertion system} is a tuple
+\\ $\Gamma_B = (\Sigma,\mathcal{A},\mathcal{A} ',R)$ where,
+\begin{itemize}
+    \item $\Sigma$ is a finite set of \emph{ranked alphabets}.
+    \item $\mathcal{A} = \{A_1\cup A_2\cup \cdots \cup A_m\}$, where each $A_i, 1\leq i\leq m$ is a finite set of axioms.\\
+	With each set $A_i$ is associated  a \emph{\textbf{flag}} $F_i$ which is a triple $[x_i,y_i,z_i]$, 
+	where $x_i,y_i,z_i\in\{-1,0,1,\cdots ,k\}$, for some fixed $k$, are integers,  
+	which plays some role in language generation 
+   	 unless $x_i=y_i=z_i=-1$. (For each insertion from $A_i$, the $x_i$ value gets incremented if $x_i\leq y_i$ and 
+   	 the $x_i$ value gets decremented if $x_i>y_i$. The $x_i$ will be set to $z_i$ if one insertion from $A_i$ 
+   	 happens when $x_i=y_i$. The tree insertion system is said to be \emph{\textbf{stable}}, if $x_i=y_i$ for all flags with 
+   	 $x_i\leq y_i$ initially and $x_i\neq y_i$ for all flags with $x_i>y_i$ initially.)
+    \item $\mathcal{A} '\subseteq \mathcal{A}$ is a finite set of \emph{initial axioms}.
+    \item $R=\{B_1,B_2,\cdots,B_m\}$ is a finite set of block of insertion rules\\\\
+		$B_i's$ represents block of rules in the form $\{r_1,r_2,\cdots ,r_n\}$ \\
+   		 Each $r_i$, for $1\leq i\leq n$ is of the form $(\chi, C_1,C_2,\cdots ,C_p)$ where, 
+
+   	 \begin{itemize}    
+        	 \item $\chi = (root,left,right)$ which represents a context.
+	
+       			 \begin{itemize}   
+ 
+          			  \item $root$  is any node in the tree
+            			\item $left $ is $i^{th}$ child of $root$.% (- checks for the absence of $left$).% $1\leq i< arity(rt)$
+            			\item $right$ is  $(i+1)^{th}$ child of $root$.   $0\le i \le arity(root)$ and $p\leq arity(root)$\\
+				($-$ checks for the absence of a child). %$0\leq i< arity(rt)$
+                 	 \end{itemize}
+       		 \item $C_i = (X,rt',k),1\leq i\leq p,X\in \mathcal{A}$ 
+	             	\begin{itemize}    
+%              			  \item $A_j$  : $j^{th}$ axiom. $1\leq j\leq m$
+               			 \item $rt'$ is the root of the tree to be attached.%$rt'\notin F$
+               			 \item $k$ is the position at which $rt'$ is to get attached. $1\le k \leq arity(root)$ and it is between the nodes $left$ 							and $right$.
+           		  \end{itemize}
+          \end{itemize}
+
+	\end{itemize}
+\end{definition}
+
+
+The \textbf{language generated} by a  blocked tree insertion system $\Gamma_B$, represented by $L(\Gamma_B)$, is the set of trees,  
+with each node having children exactly equal to its arity, derivable in $\Gamma_B$, when it is in \emph{stable stae},
+ from an initial axiom, using rules of $\Gamma_B$.
+%all nodes has children exactly as its arity, derivable by $\Gamma_B$ from any of its initial axiom.
+\\\\
+$L(\Gamma_B)=\begin{Bmatrix} t|S\overset{*}\Rightarrow t, S \mbox{ in some } A_i\in \mathcal{A} '. \mbox{ Each node of }t 
+\mbox{ has children exactly as its arity}\\ \mbox{ and } \Gamma_B \mbox{ is in stable state}\end{Bmatrix}$\\
+
+\begin{example}$L_{nr_1}=\{a(b^i(g),c^i(g)),i\ge 1\}$\\\\
+$\Gamma_{B _{nr_1}}= (\Sigma,\mathcal{A},\mathcal{A} ',R)$ where,\\
+$\Sigma=\{a_2,b_1,c_1,g_0\}$, $\mathcal{A}=\{A_1,A_2\}$ ,$\mathcal{A}' =\{A_1\}$\\
+{\small $A_1=
+\begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        \end{Bmatrix}
+        ,
+        \hspace{2cm}    
+        A_2=
+     \begin{Bmatrix}       
+        \pstree[nodesep=1pt,levelsep=6ex]{\Tr{b}}
+        {}
+        ,
+        \pstree[nodesep=1pt,levelsep=6ex]{\Tr{c}}
+        {}
+        ,
+        \pstree[nodesep=1pt,levelsep=6ex]{\Tr{g}}
+        {}
+\end{Bmatrix}$}
+\\\\$R=\{B_1,B_2\}$, where\\\\
+   $B_1=\{r_1,r_2\}$ and $B_2=\{r_3,r_4\}$\\
+   $r_1=(\chi _1,C_1)$,   $r_2=(\chi _2,C_2)$,  $r_3=(\chi _1,C_3)$, $r_4=(\chi _2,C_3)$, where \\
+   $\chi _1=(b,-,-)$,   $\chi _2=(c,-,-)$\\   $C_1=(A_2,b,1)$,     $C_2=(A_2,c,1)$,   $C_3=(A_2,g,1)$\\
+\noindent \rule{\textwidth}{1pt}
+\end{example}
+\begin{example} $L_{nr_2}=\{a(b^i(g),c^i(g),d^i(g))\},i\ge 1$\\\\
+$\Gamma_{B _{nr_2}}= (\Sigma,\mathcal{A},\mathcal{A} ',R)$ where,\\
+$\Sigma=\{a_2,b_1,c_1,d_1,g_0\}$,   $\mathcal{A} =\{A_1,A_2\}$ ,$\mathcal{A} ' =\{A_1\}$\\
+{\small $A_1=
+\begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{c}
+            \Tr{d}
+        }
+        \end{Bmatrix}
+        ,
+        \hspace{2cm}    
+        A_2=
+     \begin{Bmatrix}       
+        \pstree[nodesep=1pt,levelsep=6ex]{\Tr{b}}
+        {}
+        ,
+        \pstree[nodesep=1pt,levelsep=6ex]{\Tr{c}}
+        {}
+        ,
+        \pstree[nodesep=1pt,levelsep=6ex]{\Tr{d}}
+        {}
+        ,
+        \pstree[nodesep=1pt,levelsep=6ex]{\Tr{g}}
+        {}
+\end{Bmatrix}$}
+\\\\$R=\{B_1,B_2\}$, where\\\\
+   $B_1=\{r_1,r_2,r_3\}$ and $B_2=\{r_4,r_5,r_6\}$\\
+   $r_1=(\chi _1,C_1)$,   $r_2=(\chi _2,C_2)$,  $r_3=(\chi _3,C_3)$, $r_4=(\chi _1,C_4)$
+   $r_5=(\chi _1,C_4)$,  $r_6=(\chi _1,C_4)$ ,where\\ 
+   $\chi _1=(b,-,-)$,   $\chi _2=(c,-,-)$,  $\chi _3=(d,-,-)$\\   $C_1=(A_2,b,1)$,  $C_2=(A_2,c,1)$,  $C_3=(A_2,d,1)$,  $C_4=(A_2,g,1)$\\
+\noindent \rule{\textwidth}{1pt}
+\end{example}
+

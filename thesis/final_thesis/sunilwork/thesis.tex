@@ -1,0 +1,258 @@
+\documentclass[MTech]{iitmdiss}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+%\usepackage{calrsfs}
+\usepackage{pstricks,pst-node,pst-tree}
+\usepackage[small,compact]{titlesec}
+\usepackage{verbatim}
+%\color{blue}
+\psset{linecolor=black}
+
+
+
+
+
+\usepackage{fancyvrb,relsize}
+\usepackage[small,compact]{titlesec}
+\usepackage{times}
+\usepackage{epsf}
+\usepackage{threeparttable}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{txfonts,pxfonts,amsfonts}
+\usepackage{epsfig}
+\usepackage{caption}
+\usepackage{subfig}
+\usepackage[dvips]{graphicx}
+% \usepackage[square,numbers,sort]{natbib}
+\usepackage[square]{natbib}
+\usepackage[hypertex]{hyperref} % hyperlinks for references.
+%\usepackage{algorithmic}
+%\usepackage{algorithm}
+
+
+%\include{commands}
+
+% Strut macros for skipping spaces above and below text in tables. 
+\def\abovestrut#1{\rule[0in]{0in}{#1}\ignorespaces}
+\def\belowstrut#1{\rule[-#1]{0in}{#1}\ignorespaces}
+
+\def\abovespace{\abovestrut{0.20in }}
+\def\aroundspace{\abovestrut{0.20in}\belowstrut{0.10in}}
+\def\belowspace{\belowstrut{0.10in}}
+\newtheorem{example}{Example}
+\newtheorem{theorem}{Theorem}
+%\newtheorem{figure}{Figure}
+\newtheorem{definition}{Definition}
+\newcommand{\RA}{\rightarrow}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\def\thesistitle{Tree Transducers and Tree Insertion Systems}
+\def\thesisauthor{Sunil K.S}
+
+
+\begin{document}
+\bibliographystyle{iitm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% Title page
+
+\title{\thesistitle}
+
+\author{\thesisauthor}
+
+\date{April 2011}
+\department{Computer Science and Engineering}
+
+%\nocite{*}
+\begin{singlespace}
+\maketitle 
+\end{singlespace} 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Certificate
+\certificate
+
+\vspace*{0.5in}
+
+\noindent This is to certify that the thesis entitled {\bf {\thesistitle}}, 
+submitted by {\bf {\thesisauthor}}, to the Indian Institute of Technology, 
+Madras, for the award of the degree of {\bf Master of Technology}, 
+is a bona fide record of the research work carried out by him under my
+supervision. The contents of this thesis, in full or in parts, have not been
+submitted to any other Institute or University for the award of any degree or
+diploma.
+
+\vspace*{1.4in}
+\hspace*{-0.25in}
+\begin{singlespace}
+\noindent {\bf Dr.~Kamala Krithivasan } \\
+\noindent Research Guide \\ 
+\noindent Professor \\
+\noindent Dept. of Computer Science and Engineering\\
+\noindent IIT-Madras, 600 036 \\
+\end{singlespace}
+\vspace*{0.20in}
+\noindent Place: Chennai\\ 
+Date:
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Acknowledgements
+\acknowledgements
+
+\input{acknowledgement.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Abstract
+
+\abstract
+
+\input{abstract.tex}
+
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Table of contents etc.
+
+\begin{singlespace}
+\tableofcontents
+\thispagestyle{empty}
+
+\listoftables
+\addcontentsline{toc}{chapter}{LIST OF TABLES}
+\listoffigures
+\addcontentsline{toc}{chapter}{LIST OF FIGURES}
+\end{singlespace}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Abbreviations
+\abbreviations
+ 
+\noindent 
+\begin{tabbing}
+xxxxxxxxxxx \= xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \kill
+\textbf{IITM}   \> Indian Institute of Technology, Madras \\
+\textbf{RTFM} \> Read the Fine Manual \\
+\end{tabbing}
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Notation
+
+ \chapter*{\centerline{NOTATION}}
+ \addcontentsline{toc}{chapter}{NOTATION}
+ 
+ \begin{singlespace}
+ \begin{tabbing}
+ xxxxxxxxxxx \= xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \kill
+ \textbf{$r$}  \> Radius, $m$ \\
+ \textbf{$\alpha$}  \> Angle of thesis in degrees \\
+ \textbf{$\beta$}   \> Flight path in degrees \\
+ \end{tabbing}
+ \end{singlespace}
+ 
+ \pagebreak
+ \clearpage
+
+%The main text will follow from this point so set the page numbering
+%to arabic from here on.
+\pagenumbering{arabic}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Introduction.
+
+ \chapter{INTRODUCTION}
+\input{introduction.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Preliminaries.
+
+ \chapter{PRELIMINARIES}
+\input{preliminaries.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Earlier work.
+
+ \chapter{EARLIER WORK}
+\input{earlierwork/earlierwork.tex}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Project proposal.
+
+% \chapter{PROJECT PROPOSAL}
+%\input{projectproposal.tex}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Work done.
+
+ \chapter{WORK DONE}
+\input{workdone.tex}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Observation.
+
+ \chapter{OBSERVATIONS AND EXTENSIONS}
+\input{observation.tex}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Conclusion.
+
+ \chapter{CONCLUSION}
+\input{conclusion.tex}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Appendices.
+
+ \appendix
+ 
+ \chapter{A SAMPLE APPENDIX}
+ 
+ Just put in text as you would into any chapter with sections and
+ whatnot.  Thats the end of it.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% List of papers
+
+\chapter*{Publications}
+\vspace{-0.3cm}
+
+\begin{enumerate}
+\item S. M. Narayanamurthy and B. Ravindran (2007). \newblock
+  Efficiently Exploiting Symmetries in Real Time Dynamic Programming. \newblock {\em
+  IJCAI 2007, Proceedings of the 20th International Joint Conference on
+  Artificial Intelligence}, pages 2556--2561.
+\end{enumerate}
+
+%\nocite{bellman, Amarel:1968, manning, knoblock90learning,
+%crawford92theoretical, Barto:rtdp, Ravindran:proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliography.
+\pagebreak
+\begin{singlespace}
+  \begin{small}
+	\bibliography{refs}
+  \end{small}
+\end{singlespace}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

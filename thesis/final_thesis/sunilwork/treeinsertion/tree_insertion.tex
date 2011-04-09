@@ -1,0 +1,4028 @@
+
+
+\subsection{Introduction}
+   
+    Similarly a tree, say $t$ can be inserted as a sub-tree of another tree, say  $T$ based on some context.
+    The insertion may be \emph{fixed arity} or \emph{variable arity}. Here arity refers to the arity of nodes in tree $T$.
+In this paper we consider the insertion of trees into trees and call it as \emph{tree insertion system}.
+%\subsection{Variable Arity Insertion}
+%Here the arity of a node in tree $T$ will change after the insertion process. The sub-tree $t$ is attached as a new child of that node in $T$.
+
+%\subsection{Definition}
+\begin{definition}
+The \emph{blocked tree insertion system} is a tuple
+ $\Gamma = (\Sigma,\mathcal{A},\mathcal{A} ',R)$ where,\\
+\begin{itemize}
+    \item $\Sigma$ is a finite set of \emph{ranked alphabets}.
+    \item $\mathcal{A} = \{A_1\cup A_2\cup \cdots \cup A_m\}$, where each $A_i, 1\leq i\leq m$ is a finite set of axioms.\\
+%$\{A_1^{[x_1,y_1,z_1]},A_2^{[x_2,y_2,z_2]}\cdots , A_m^{[x_m,y_m,z_m]}\}$: 
+%    Finite set of \emph{axioms (trees)}.\\
+    {%\small 
+With each set $A_i$ is associated  a \emph{\textbf{flag}} $F_i$ which is a triple $[x_i,y_i,z_i]$, 
+	where $x_i,y_i,z_i\in\{-1,0,1,\cdots ,k\}$, for some fixed $k$, are integers,  
+	which plays some role in language generation 
+    unless $x_i=y_i=z_i=-1$. (For each insertion from $A_i$, the $x_i$ value gets incremented if $x_i\leq y_i$ and 
+    the $x_i$ value gets decremented if $x_i>y_i$. The $x_i$ will be set to $z_i$ if one insertion from $A_i$ 
+    happens when $x_i=y_i$. The tree insertion system is said to be \emph{\textbf{stable}}, if $x_i=y_i$ for all flags with 
+    $x_i\leq y_i$ initially and $x_i\neq y_i$ for all flags with $x_i>y_i$ initially.)}
+    \item $\mathcal{A} '\subseteq \mathcal{A}$ is a finite set of \emph{initial axioms}.
+    \item $R=\{r_1,r_2,\cdots ,r_n\}$ is a finite set of \emph{insertion rules}\\\\
+    {%\small
+    Each $r_i$, for $1\leq i\leq n$ is of the form $(\chi, C_1,C_2,\cdots ,C_p)$ where, 
+    \begin{itemize}    
+         \item $\chi = (root,left,right)$ which represents a context.
+
+        \begin{itemize}   
+ 
+            \item $root$  is any node in the tree
+            \item $left $ is $i^{th}$ child of $root$.% (- checks for the absence of $left$).% $1\leq i< arity(rt)$
+            \item $right$ is  $(i+1)^{th}$ child of $root$.   $0\le i \le arity(root)$ and $p\leq arity(root)$\\
+		($-$ checks for the absence of a child). %$0\leq i< arity(rt)$
+                  \end{itemize}
+        \item $C_i = (X,rt',k),1\leq i\leq p,X\in \mathcal{A}$ 
+
+             \begin{itemize}    
+%                \item $A_j$  : $j^{th}$ axiom. $1\leq j\leq m$
+                \item $rt'$ is the root of the tree to be attached.%$rt'\notin F$
+                \item $k$ is the position at which $rt'$ is to get attached. $1\le k \leq arity(root)$ and it is between the nodes $left$ and $right$.
+             \end{itemize}
+          \end{itemize}
+          {\small \emph{As examples,  $\chi = (a,b,c)$ denotes a node with label $a$ having a node with label $b$ as $i^{th}$ 
+         child and a node with label $c$ as $(i+1)^{th}$ child for $1\le i< arity(a)$. \\
+   %         $\chi = (a,b,-)$ or $(a,-,b)$ checks for a node $a$ with $b$ as $i^{th}$ child for $1\le i\le arity(a)$, 
+    %    without checcking $(i+1)^{th}$ or $(i-1)^{th}$ child. \\
+%             $\chi = (a,b,-)$  checks for a node $a$ with $b$ as $i^{th}$ child,$1\le i\leq arity(a)$, 
+ %       without checcking $(i+1)^{th}$ child \\
+         $\chi = (a,-,-)$ denotes a leaf node with label $a$.}} \\ 
+    }
+\end{itemize}
+\end{definition}
+The \textbf{derivation step} is described as follows.
+
+If $r=(\chi ,C_1,C_2,\dots ,C_p)$ is a rule with $\chi =(a,b,c)$ and $C_i =(X,d,k)$ where $X$ is an axiom with trees having
+root with label $d$ and $t$ is a tree with root $p$(domain) having label $a$. Then $t\Rightarrow t'$ by rule $r$ where $t'(p.k)$ 
+is the tree with root label $d$, $t'(p.i)$ is tree with root label $b$ and $t'(p.(i+p+1))$ is tree with root label $c$.
+
+$\overset{*}\Rightarrow $ is the reflexive transitive closure of $\Rightarrow$.\\
+
+The flag associated with $X$ is also updated when $r$ is applied. For each insertion from $X$, the $x_i$ value gets incremented if $x_i\leq y_i$ ,  
+    the $x_i$ value gets decremented if $x_i>y_i$ and the $x_i$ will be set to $z_i$ if $x_i=y_i$.
+We describe the derivation informally with an example.
+
+Suppose 
+{\small    
+\pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+    {
+            \Tr{a}
+	    \Tr{c}	
+    }}
+is a tree 
+{\small
+$A_1=
+\begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \Tr{a}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{c}
+        }
+\end{Bmatrix}
+$ }be the axiom and \hbox{$r_1=((a,-,-),(A_1,b,1),(A_1,a,2))$} be the insertion rule. Then by using $r_1$  
+{\small
+  \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+    {
+            \Tr{a}
+	    \Tr{c}	
+    }
+$\Rightarrow$
+   \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+   {
+   \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+    {
+    	\pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{c}
+        }
+    	\pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+	{
+		\Tr{a}
+	    	\Tr{c}	
+    	}
+}
+	\Tr{c}
+}
+}
+\begin{comment}
+$\Rightarrow$
+   \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+   {
+   \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+    {
+    	\pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{c}
+        }
+    	\pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+	{
+		\pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+		{	
+    		\pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+    		    {
+            		\Tr{c}
+            		\Tr{c}
+			}
+		\pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+    		    {
+            		\Tr{c}
+            		\Tr{c}
+			}
+
+        	}
+
+	    	\Tr{c}	
+    	}
+}
+	\Tr{c}
+}	
+\end{comment}
+
+Here, at leaf node $a$, a subtree with root $b$ is attached as the first child and another subtree with root $a$ is attached as the second child.
+
+The \textbf{language generated} by a  tree insertion system $\Gamma$, represented by $L(\Gamma)$, is the set of trees,  
+with each node having children exactly equal to its arity, derivable in $\Gamma$, when it is in \emph{stable stae},
+ from an initial axiom, using rules of $\Gamma$.
+%all nodes has children exactly as its arity, derivable by $\Gamma$ from any of its initial axiom.
+\\\\
+$L(\Gamma)=\begin{Bmatrix} t|S\overset{*}\Rightarrow t, S \mbox{ in some } A_i\in \mathcal{A} '. \mbox{ Each node of }t 
+\mbox{ has children exactly as its arity}\\ \mbox{ and } \Gamma \mbox{ is in stable state}\end{Bmatrix}$\\
+
+\begin{example}
+%\textbf{Example 1:} $L_{r_1}=\{a(b^i(g),c^j(g)),i,j\ge 1\}$\\\\
+$L_{r_1}=\{a(b^i(h),c^j(h)),i,j\ge 1\}$\\\\       
+$\Gamma _{r_1}= (\Sigma ,\mathcal{A},\mathcal{A} ',R)$ where,\\
+$\Sigma =\{a_2,b_1,c_1,h_0\}$, 
+$\mathcal{A}=\{A_1,A_2\}$\\$F_1=\{-1,-1,-1\},F_2=\{-1,-1,-1\}$
+$\mathcal{A} '=\{A_1\}$, where \\
+$A_1=
+\begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+            {
+                \Tr{h}
+            }
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+            {
+                \Tr{h}
+            }
+        }
+
+\end{Bmatrix}
+,
+\hspace{3mm}
+A_2=
+\begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=6ex]{\Tr{b}}
+        {}
+        \hspace{2mm}
+        ,
+        \hspace{2mm}
+        \pstree[nodesep=1pt,levelsep=6ex]{\Tr{c}}
+        {}
+        \hspace{2mm}
+        ,
+        \hspace{2mm}
+        \pstree[nodesep=1pt,levelsep=6ex]{\Tr{h}}
+        {}
+
+\end{Bmatrix}$
+\\\\
+$R=\{r_1,r_2,r_3,r_4\}$, where\\\\
+   $r_1=(\chi _1, C_1)$,  where $\chi _1=(b,-)$ and $C_1= (A_2,b,1)$ \\
+   $r_2=(\chi _2, C_2)$,  where $\chi _2=(c,-)$ and $C_2= (A_2,c,1)$ \\
+   $r_3=(\chi _1, C_3)$   where $C_3=(A_2,h,1)$\\
+   $r_4=(\chi _2, C_3)$\\  
+\noindent \rule{\textwidth}{1pt}
+\end{example} 
+
+\begin{example}
+%\textbf{Example 2:} $L_{r_2}=\{a(b^i(g),c^j(g)),i,j\ge 1\mbox{, } i\%2 =0\}$\\\\
+$L_{r_2}=\{a(b^i(h),c^j(h)),i,j\ge 1\mbox{, } i\%2 =0\}$\\\\
+$\Gamma _{r_2} = (\Sigma,\mathcal{A},\mathcal{A} ',R)$ where,\\
+$\Sigma =\{a_2,b_1,c_1,h_0\}$,  
+$\mathcal{A} = \{A_1,A_2\}$,$F_1=[-1,-1,-1],F_2=[-1,-1,-1]$,
+$\mathcal{A}'= \{A_1\}$, where\\
+{\small
+$A_1=
+\begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+            {
+                \Tr{b}
+            }
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+            {
+                \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+                {
+                  \Tr{h}
+                }
+            }
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+            {
+                \Tr{h}
+            }
+        }
+ \end{Bmatrix}
+ ,
+\hspace{3mm}
+A_2=
+\begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+        }
+         \hspace{2mm}
+        ,
+        \hspace{2mm}
+        \pstree[nodesep=1pt,levelsep=6ex]{\Tr{c}}
+        {}
+        \hspace{2mm}
+        ,
+        \hspace{2mm}
+        \pstree[nodesep=1pt,levelsep=6ex]{\Tr{h}}
+        {}
+\end{Bmatrix}$}
+\\
+$R=\{r_1,r_2,r_3,r_4\}$, where\\
+   $r_1=(\chi _1, C_1)$, $r_2=(\chi _2, C_2)$, $r_3=(\chi _1, C_3)$, $r_4=(\chi _2, C_3)$, where \\
+	$\chi _1=(b,-)$,  $\chi _2=(c,-)$ , $C_1= (A_2,b,1)$ , $C_2= (A_2,c,1)$ , $C_3=(A_2,h,1)$\\
+    \noindent \rule{\textwidth}{1pt}
+\end{example} 
+   
+
+  The \emph{tree insertion} system $\Gamma _{r_2}$, with some minor changes in its axioms can be used to generate 
+   the following regular tree languages.\\
+   \begin{itemize}
+        \item $L_{r_3}=\{a(b^i(h),c^j(h)),i,j\ge 1\mbox{, } j\%2 =0\}$
+        \item $L_{r_4}=\{a(b^i(h),c^j(h)),i,j\ge 1\mbox{, } i\%2 \neq 0\}$
+        \item $L_{r_5}=\{a(b^i(h),c^j(h)),i,j\ge 1\mbox{, } j\%2 \neq 0\}$
+        \item $L_{r_6}=\{a(b^i(h),c^j(h)),i,j\ge 1\mbox{, } i\%2 = 0\mbox{ and }j\%2 =0\}$
+        \item $L_{r_7}=\{a(b^i(h),c^j(h)),i,j\ge 1\mbox{, } i\%2 = 0\mbox{ and }j\%2 \neq 0\}$
+        \item $L_{r_8}=\{a(b^i(h),c^j(h)),i,j\ge 1\mbox{, } i\%2 \neq 0\mbox{ and }j\%2 = 0\}$
+        \item $L_{r_9}=\{a(b^i(h),c^j(h)),i,j\ge 1\mbox{, } i\%2 \neq 0\mbox{ and }j\%2 \neq 0\}$
+   \end{itemize}
+
+\begin{example}
+ $L_{r_5}=\{a(b^i(h),c^j(h)),i,j\ge 1\mbox{, } i\%3=0,j\%2 =0\}$\\\\
+$\Gamma _{r_5} = (F,\mathcal{A},\mathcal{A} ',R)$ where,\\
+$F=\{a_2,b_1,c_1,h_0\}$,  
+$\mathcal{A} = \{A_1^{[-1,-1,-1]},A_2^{[-1,-1,-1]}\}$,
+$\mathcal{A}'= \{A_1\}$, where\\
+$A_1=
+\begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+            {
+                \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+                {
+                    \Tr{b}
+                }
+            }
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+            {
+                \Tr{c}
+            }
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+            {
+                \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+                {
+                    \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+                    {
+                        \Tr{h}
+                    }
+                }
+            }
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+            {
+                \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+                {
+                    \Tr{h}
+                }
+            }
+        }
+ \end{Bmatrix}
+ ,
+\hspace{3mm}
+A_2=
+\begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+            {
+                \Tr{b}
+            }
+        }
+         \hspace{2mm}
+        ,
+        \hspace{2mm}
+        \pstree[nodesep=1pt,levelsep=6ex]{\Tr{c}}
+        {
+            \Tr{c}
+        }
+        \hspace{2mm}
+        ,
+        \hspace{2mm}
+        \pstree[nodesep=1pt,levelsep=6ex]{\Tr{h}}
+        {}
+\end{Bmatrix}$
+\\\\
+$R=\{r_1,r_2,r_3,r_4\}$, where\\\\
+   $r_1=(\chi _1, C_1)$,  where $\chi _1=(b,-)$ and $C_1= (A_2,b,1)$ \\
+   $r_2=(\chi _2, C_2)$,  where $\chi _2=(c,-)$ and $C_2= (A_2,c,1)$ \\
+   $r_3=(\chi _1, C_3)$   where $C_3=(A_2,h,1)$\\
+   $r_4=(\chi _2, C_3)$\\  
+
+\noindent \rule{\textwidth}{1pt}
+\end{example}    
+\begin{example}
+%\textbf{Example 3:} $L_{r_{10}}=\{t|t\mbox{ has  }a\mbox{ as root}\}$\\\\
+                     $L_{r_{3}}=\{t|t\mbox{ has  }a\mbox{ as root}\}$\\\\
+$\Gamma _{r_{3}} = (\Sigma,\mathcal{A},\mathcal{A} ',R)$ where,\\
+$\Sigma = \{a_2,b_2,c_0\}$,  
+$\mathcal{A} = \{A_1,A_2\}$, $F_1=[-1,-1,-1],F_2=[-1,-1,-1]$,
+$\mathcal{A}'= \{A_1\}$, where\\
+{\small $A_1=
+    \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{b}
+        }
+        , 
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{a}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{a}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{a}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{a}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{a}
+        }
+        \end{Bmatrix}$\\
+$A_2=
+\begin{Bmatrix}
+       \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{b}
+        }
+        , 
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{a}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{c}}
+        {}
+\end{Bmatrix}$}\\
+%\end{array} \right. \] 
+\\
+$R$ contains rules,\\
+%   $r_1=(\chi _1,(C_1|C_3),(C_2|C_4))$, $r_2=(\chi _2, (C_1|C_3),(C_2|C_4))$,  where \\
+   $r_1=(\chi _1,U_1,U_2)$, $r_2=(\chi _2, U_1,U_2)$,  where \\
+   $\chi _1=(a,-,-),\chi _2=(b,-,-)$, $U_1\in \{C_1,C_3\},U_2\in \{C_2,C_4\}$\\
+   $C_1 =(A_1,a,1),C_2=(A_1,a,2),C_3=(A_2,V_1,1),C_4=(A_2,V_1,2)$, $V_1\in \{b,c\}$\\
+%   $C_1 =(A_1,a,1),C_2=(A_1,a,2),C_3=(A_2,b|c,1),C_4=(A_2,b|c,2)$\\\\
+%   $r_1=(\chi _1, ((A_1 | A_2),(a|b|c),1),((A_1|A_2),(a|b|c),2))$,  where $\chi _1=(a,-,-)$\\
+%  $r_2=(\chi _2, ((A_1 | A_2),(a|b|c),1),((A_1|A_2),(a|b|c),2))$,  where $\chi _2=(b,-,-)$\\       
+%   $r_1=(\chi _1, (V_1,V_2,1),(V_1,V_2,2))$ \\
+%   $r_2=(\chi _2, (V_1,V_2,1),(V_1,V_2,2))$,  where\\
+%   $\chi _1=(a,-,-)$, $\chi _2=(b,-,-)$\\ $V_1\in \{A_1,A_2\}$, $V_2\in \{a,b,c\}$\\        
+   \noindent \rule{\textwidth}{1pt}
+\end{example}   
+\begin{example}
+%\textbf{Example 2:} $L_{r_{12}}=\{t|\mbox{ no }a\mbox{ in } t\mbox{ has an } a \mbox{as child}.\}$\\\\        
+                     $L_{r_{6}}=\{t|\mbox{ no }a\mbox{ in } t\mbox{ has an } a \mbox{ as child}.\}$\\\\  
+$\Gamma _{r_{6}} = (\Sigma ,\mathcal{A},\mathcal{A} ',R)$ where,\\
+
+    $\Sigma =\{a_2,b_2,c_0\}$,  
+$\mathcal{A} = \{A_1\}$\\$F_1=[-1,-1,-1]$
+$\mathcal{A}'= \{A_1\}$\\
+{\small $A_1=
+    \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{c}}
+        {}
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{b}
+        }
+        , 
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{b}
+        }
+        ,\\ 
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{a}
+        }       ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{a}
+        }
+     \end{Bmatrix}$}\\
+$R$ contains rules,\\\\
+   $r_1=(\chi _1,C_1,C_2)$,$r_2=(\chi _2, C_3,C_4)$,  where \\
+   $\chi _1=(a,-,-),\chi _2=(b,-,-)$\\        
+    $C_1 =(A_1,V_1,1),C_2=(A_1,V_1,2),C_3=(A_1,V_2,1),C_4=(A_1,V_2,2)$\\
+        $V_1\in \{c,b\},V_2\in \{a,b,c\}$  \\\\
+\noindent \rule{\textwidth}{1pt}
+\end{example}    
+\begin{example}
+%\textbf{Example 4:} $L_{r_{11}}=\{t|n_a(t)\%2\neq 0\}$\\\\        
+                    $L_{r_{4}}=\{t|n_a(t)\%2\neq 0\}$\\\\  
+$\Gamma _{r_{4}} = (\Sigma ,\mathcal{A},\mathcal{A} ',R)$ where,\\
+$\Sigma =\{a_2,b_2,c_0\}$,  
+$\mathcal{A} = \{A_1,A_2\}$,$F_1=[-1,-1,-1],F_2=[0,1,2]$,
+$\mathcal{A}'= \{A_1,A_2\}$, where\\
+{\small $A_1=
+\begin{Bmatrix}
+   %    \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+    %    {
+     %       \Tr{c}
+      %      \Tr{c}
+       % }
+        % ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{b}
+        }
+        , 
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {}
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{c}}
+        {}
+\end{Bmatrix}$}\\
+{\small $A_2=
+    \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{b}
+        }
+        , 
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{a}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{a}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{a}
+        }
+        ,
+            \begin{comment}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            {\psset{linestyle=none}\TR{}}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            {\psset{linestyle=none}\TR{}}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            {\psset{linestyle=none}\TR{}}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            {\psset{linestyle=none}\TR{}}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            {\psset{linestyle=none}\TR{}}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            {\psset{linestyle=none}\Tr{}}
+            \Tr{c}
+        }
+        ,
+            \end{comment}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {}
+\end{Bmatrix}$}\\
+\\
+$R$ contains rules,\\
+   $r_1=(\chi _1,U_1,U_2))$, $r_2=(\chi _2, U_1,U_2)$, where\\
+%  $r_1=(\chi _1,(C_1|C_3),(C_2|C_4))$\\ $r_2=(\chi _2, (C_1|C_3),(C_2|C_4))$\\
+  %$r_3=(\chi _3,(C_1|C_4))$\\ $r_4=(\chi _4,(C_1|C_3))$\\  
+  %$r_5=(\chi _5,(C_2|C_4))$\\ $r_6=(\chi _6, (C_1|C_3))$\\
+  %$r_7=(\chi _7,(C_2|C_4))$\\ $r_8=(\chi _8, (C_1|C_3))$ \\
+  %$r_9=(\chi _9,(C_2|C_4))$\\ $r_{10}=(\chi _{10}, (C_1|C_3))$,   where \\
+   $\chi _1=(a,-,-),\chi _2=(b,-,-)$, $U_1\in\{C_1,C_3\},U_2\in\{C_2,C_4\}$\\
+   %\\,\chi _3=(b,a,-),\chi _4=(b,-,a)$, $\chi _5=(a,b,-)$\\
+  % $\chi _6=(a,-,b),\chi _7=(a,c,-),\chi _8=(a,-,c),\chi _9=(b,c,-)$, $\chi _{10}=(b,-,c)$\\
+    $C_1 =(A_1,V_1,1),C_2=(A_1,V_1,2),C_3=(A_2,V_2,1),C_4=(A_2,V_2,2)$, $V_1\in\{c,b\},V_2\in\{a,b\}$\\
+\noindent \rule{\textwidth}{1pt}
+\end{example}    
+
+\begin{example}
+%\textbf{Example 4:} $L_{r_{11}}=\{t|n_a(t)\%2\neq 0\}$\\\\        
+                    $L_{r_{4}}=\{t|(n_a(t)\%3)= 0 \mbox{ and } (n_b(t)\%2)= 0\}$\\\\  
+$\Gamma _{r_{4}} = (\Sigma ,\mathcal{A},\mathcal{A} ',R)$ where,\\
+$\Sigma =\{a_2,b_2,c_0\}$,  
+$\mathcal{A} = \{A_1,A_2,A_3\}$,$F_1=[0,0,1],F_2=[0,0,2],F_3=[-1,-1,-1]$,
+$\mathcal{A}'= \{A_1,A_2\}$, where\\
+{\small $A_1=
+\begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {}
+\end{Bmatrix}$},
+{\small $A_2=
+    \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {}
+\end{Bmatrix}$},
+{\small $A_3=
+    \begin{Bmatrix}
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{a}
+            \Tr{a}
+        }
+	,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        , 
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+	,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{c}}
+        {}
+\end{Bmatrix}$}\\
+\\
+$R$ contains rules,\\
+   $r_1=(\chi _1,U_1,U_2))$, $r_2=(\chi _2, U_1,U_2)$, where\\
+%  $r_1=(\chi _1,(C_1|C_3),(C_2|C_4))$\\ $r_2=(\chi _2, (C_1|C_3),(C_2|C_4))$\\
+  %$r_3=(\chi _3,(C_1|C_4))$\\ $r_4=(\chi _4,(C_1|C_3))$\\  
+  %$r_5=(\chi _5,(C_2|C_4))$\\ $r_6=(\chi _6, (C_1|C_3))$\\
+  %$r_7=(\chi _7,(C_2|C_4))$\\ $r_8=(\chi _8, (C_1|C_3))$ \\
+  %$r_9=(\chi _9,(C_2|C_4))$\\ $r_{10}=(\chi _{10}, (C_1|C_3))$,   where \\
+   $\chi _1=(a,-,-),\chi _2=(b,-,-)$, $U_1\in\{C_1,C_3\},U_2\in\{C_2,C_4\}$\\
+   %\\,\chi _3=(b,a,-),\chi _4=(b,-,a)$, $\chi _5=(a,b,-)$\\
+  % $\chi _6=(a,-,b),\chi _7=(a,c,-),\chi _8=(a,-,c),\chi _9=(b,c,-)$, $\chi _{10}=(b,-,c)$\\
+    $C_1 =(A_1,V_1,1),C_2=(A_1,V_1,2),C_3=(A_2,V_2,1),C_4=(A_2,V_2,2)$, $V_1\in\{c,b\},V_2\in\{a,b\}$\\
+\noindent \rule{\textwidth}{1pt}
+\end{example}    
+\begin{example}
+%\textbf{Example 4:} $L_{r_{11}}=\{t|n_a(t)\%2\neq 0\}$\\\\        
+                    $L_{r_{4}}=\{t|((n_a(t)-2)\%3)= 0\}$\\\\  
+$\Gamma _{r_{4}} = (\Sigma ,\mathcal{A},\mathcal{A} ',R)$ where,\\
+$\Sigma =\{a_2,b_2,c_0\}$,  
+$\mathcal{A} = \{A_1,A_2\}$,$F_1=[-1,-1,-1],F_2=[0,2,4]$,
+$\mathcal{A}'= \{A_1,A_2\}$, where\\
+{\small $A_1=
+\begin{Bmatrix}
+   %    \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+    %    {
+     %       \Tr{c}
+      %      \Tr{c}
+       % }
+        % ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{b}
+        }
+        , 
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {}
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{c}}
+        {}
+\end{Bmatrix}$}\\
+{\small $A_2=
+    \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{b}
+        }
+        , 
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{a}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{a}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {}
+\end{Bmatrix}$}\\
+\\
+$R$ contains rules,\\
+   $r_1=(\chi _1,U_1,U_2))$, $r_2=(\chi _2, U_1,U_2)$, where\\
+%  $r_1=(\chi _1,(C_1|C_3),(C_2|C_4))$\\ $r_2=(\chi _2, (C_1|C_3),(C_2|C_4))$\\
+  %$r_3=(\chi _3,(C_1|C_4))$\\ $r_4=(\chi _4,(C_1|C_3))$\\  
+  %$r_5=(\chi _5,(C_2|C_4))$\\ $r_6=(\chi _6, (C_1|C_3))$\\
+  %$r_7=(\chi _7,(C_2|C_4))$\\ $r_8=(\chi _8, (C_1|C_3))$ \\
+  %$r_9=(\chi _9,(C_2|C_4))$\\ $r_{10}=(\chi _{10}, (C_1|C_3))$,   where \\
+   $\chi _1=(a,-,-),\chi _2=(b,-,-)$, $U_1\in\{C_1,C_3\},U_2\in\{C_2,C_4\}$\\
+   %\\,\chi _3=(b,a,-),\chi _4=(b,-,a)$, $\chi _5=(a,b,-)$\\
+  % $\chi _6=(a,-,b),\chi _7=(a,c,-),\chi _8=(a,-,c),\chi _9=(b,c,-)$, $\chi _{10}=(b,-,c)$\\
+    $C_1 =(A_1,V_1,1),C_2=(A_1,V_1,2),C_3=(A_2,V_2,1),C_4=(A_2,V_2,2)$, $V_1\in\{c,b\},V_2\in\{a,b\}$\\
+\noindent \rule{\textwidth}{1pt}
+\end{example}    
+%\emph{Note: In examples 3, $A_1=\{a\}$ and in example 4, $A_2=\{a\}$ will also works correctly. But we need to change the rules accordingly.}
+\subsection{Equivalence with Regular Tree Grammar}
+\emph{Tree grammars} are generating devices which is used for generating trees.
+The language generated by regular tree grammar is called \emph{regular tree language}.
+
+\emph{Tree automata} are accepting devices for trees.
+Finite tree automata are generalizations of word automata. While a word automaton accepts
+a word, a tree automaton accepts a tree.
+% According to the manner in which the automaton runs on the input tree, 
+Finite tree automata can be either bottom-up or top-down~\cite{hubert}. A \emph{top-down tree automaton} starts its computation at
+the root of the tree and then simultaneously works down the paths of the tree level by level.
+%The tree automaton accepts the tree if such a run can be defined. 
+A \emph{bottom-up tree automaton}
+starts its computation in the leaves of the input tree and works its way up towards the root.
+A finite tree automaton can be either deterministic or non-deterministic. 
+%This is an important issue since
+Deterministic top-down automata are strictly less expressive than non-deterministic
+top-down automata. For the bottom-up case, deterministic bottom-up tree automata are just
+as powerful, from the point of view of language equivalence, as non-deterministic bottom-up
+tree automata. Non-deterministic top-down tree automata are equivalent to non-deterministic
+bottom-up tree automata.
+%\newpage
+\subsection{Insertion System to Regular Tree Grammar}
+\subsubsection{Method of conversion}
+For a given tree insertion system $\Gamma=(\Sigma,\mathcal{A} ,\mathcal{A} ',R)$ we can construct an equivalent regular tree grammar 
+\hbox{ $G=(N,T,S,\bar{P})$}.
+
+First we consider the simple case where the flag $F_i=[-1,-1,-1], \forall A_i\in\mathcal{A}$ 
+\begin{itemize}
+	\item $T=\Sigma$
+	\item $N$ contains the start symbol  $S$ initially and more symbols of the form $M',M^{2'},\cdots , M^{k'}$ for some fixed $k$, are added to $N$ 
+		as we proceed to define the rules. 
+	\item 	$\forall A_i\in\mathcal{A}'$, if $t\in A_i$ with root with label $p$ having arity $m>0$ and children with label $p_1,p_2,\cdots ,p_m$, 
+		then \hbox{$S\rightarrow p(P_1,P_2,\cdots ,P_m)$} 
+		will be a production rule and if there is a node in $t$ with label $q$ and arity $r$  having children with labels $q_1,q_2,\cdots ,q_r$, 
+		then \hbox{$Q\rightarrow q(Y_1,Y_2,\cdots ,Y_r)$} will be a production rule where $Y_i=Q_i, \forall q_i$ with label not equal to $q$ 
+		and $Y_i=Q_i', \forall q_i$ with label equal to $q$. \hbox{$Q_i'\rightarrow q(Y_1,Y_2,\cdots ,Y_r)$} with \hbox{$Y_i=Q_i^{2'},
+		\forall Y_i=Q_i$}.
+
+		In general \hbox{$Q_i^{n'}\rightarrow q(Y_1,Y_2,\cdots ,Y_r)$} 	with  $Y_i=Q_i^{(n+1)'}, \forall Y_i=Q_i^{n'}$. 
+		
+		If $m=0$, \hbox{$S\rightarrow P$} is a production rule.
+
+	\item	$\forall r_i\in R, r_i=(\chi,C_1,C_2,\cdots ,C_k)$ where $\chi = (p,left,right)$, $C_j=(X_j,rt_j,k'), \forall j\leq k$ with 
+		$rt_j\in \Sigma , X_j\in \mathcal{A}$, \hbox{$P^{n'}\rightarrow p(RT_j)$}, where $RT_j$ is the non terminal corresponding to $rt_j$, 
+		is a production rule.
+		
+	\item	$\forall t\in \mathcal{A}-\mathcal{A'}$ with  root node having label $p$ and arity 0, then \hbox{$P\rightarrow p$} is a production rule.
+
+	\item	$N$ will includes all such $P_i$ , $Q_i$ and $Q_i'$.
+\end{itemize}
+It can easily be proved by induction that $L(G)=L(\Gamma)$.
+\begin{example}
+%\textbf{Example 1:} $L_{r_1}=\{a(b^i(g),c^j(g)),i,j\ge 1\}$\\\\
+$L_{r_1}=\{a(b^i(h),c^j(h)),i,j\ge 1\}$\\\\       
+$\Gamma _{r_1}= (\Sigma ,\mathcal{A},\mathcal{A} ',R)$ where,\\
+$\Sigma =\{a_2,b_1,c_1,h_0\}$, 
+$\mathcal{A}=\{A_1,A_2\}$\\$F_1=\{-1,-1,-1\},F_2=\{-1,-1,-1\}$
+$\mathcal{A} '=\{A_1\}$, where \\
+$A_1=
+\begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+            {
+                \Tr{h}
+            }
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+            {
+                \Tr{h}
+            }
+        }
+
+\end{Bmatrix}
+,
+\hspace{3mm}
+A_2=
+\begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=6ex]{\Tr{b}}
+        {}
+        \hspace{2mm}
+        ,
+        \hspace{2mm}
+        \pstree[nodesep=1pt,levelsep=6ex]{\Tr{c}}
+        {}
+        \hspace{2mm}
+        ,
+        \hspace{2mm}
+        \pstree[nodesep=1pt,levelsep=6ex]{\Tr{h}}
+        {}
+
+\end{Bmatrix}$
+\\\\
+$R=\{r_1,r_2,r_3,r_4\}$, where\\\\
+   $r_1=(\chi _1, C_1)$,  where $\chi _1=(b,-)$ and $C_1= (A_2,b,1)$ \\
+   $r_2=(\chi _2, C_2)$,  where $\chi _2=(c,-)$ and $C_2= (A_2,c,1)$ \\
+   $r_3=(\chi _1, C_3)$   where $C_3=(A_2,h,1)$\\
+   $r_4=(\chi _2, C_3)$\\  
+\\The production rules are\\
+$ \bar{P}=\{
+     S \rightarrow  a(B,C),
+B \rightarrow  b(B)|b(H) , 
+C \rightarrow  c(C)|c(H),
+H \rightarrow  h  \}$
+
+   The regular tree grammar corresponding to $\Gamma _{r_2}$ is    $G_{r_2}=(\{S,B,C,H\},\{a,b,c,h\},S,\bar{P})$\\
+\noindent \rule{\textwidth}{1pt}
+\end{example} 
+\begin{example}
+$L_{r_2}=\{a(b^i(h),c^j(h)),i,j\ge 1\mbox{, } i\%2 =0\}$\\\\
+$\Gamma _{r_2} = (\Sigma,\mathcal{A},\mathcal{A} ',R)$ where,\\
+$\Sigma=\{a_2,b_1,c_1,h_0\}$,  
+$\mathcal{A} = \{A_1,A_2\}$,$F_1=[-1,-1,-1],F_2=[-1,-1,-1]$,
+$\mathcal{A}'= \{A_1\}$, where\\
+{\small
+$A_1=
+\begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+            {
+                \Tr{b}
+            }
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+            {
+                \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+                {
+                  \Tr{h}
+                }
+            }
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+            {
+                \Tr{h}
+            }
+        }
+ \end{Bmatrix}
+ ,
+\hspace{3mm}
+A_2=
+\begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+        }
+         \hspace{2mm}
+        ,
+        \hspace{2mm}
+        \pstree[nodesep=1pt,levelsep=6ex]{\Tr{c}}
+        {}
+        \hspace{2mm}
+        ,
+        \hspace{2mm}
+        \pstree[nodesep=1pt,levelsep=6ex]{\Tr{h}}
+        {}
+\end{Bmatrix}$}
+\\\\
+$R=\{r_1,r_2,r_3,r_4\}$, where\\\\
+   $r_1=(\chi _1, C_1)$,  $r_2=(\chi _2, C_2)$, $r_3=(\chi _1, C_3)$, $r_4=(\chi _2, C_3)$, where \\
+$\chi _1=(b,-)$,  $\chi _2=(c,-)$,  $C_1= (A_2,b,1)$, $C_2= (A_2,c,1)$, $C_3=(A_2,h,1)$\\
+\\The production rules are\\
+$ \bar{P}=\{
+     S \rightarrow  a(B,C),
+B \rightarrow  b(B'),
+B' \rightarrow  b(B)|b(H) , 
+C \rightarrow  c(C)|c(H),
+H \rightarrow  h  \}$
+
+   The regular tree grammar corresponding to $\Gamma _{r_2}$ is    $G_{r_2}=(\{S,B,B',C,H\},\{a,b,c,h\},S,\bar{P})$\\
+\noindent \rule{\textwidth}{1pt}
+\end{example}    
+\begin{example}
+ $L_{r_5}=\{a(b^i(h),c^j(h)),i,j\ge 1\mbox{, } i\%3=0,j\%2 =0\}$\\\\
+$\Gamma _{r_5} = (F,\mathcal{A},\mathcal{A} ',R)$ where,\\
+$F=\{a_2,b_1,c_1,h_0\}$,  
+$\mathcal{A} = \{A_1^{[-1,-1,-1]},A_2^{[-1,-1,-1]}\}$,
+$\mathcal{A}'= \{A_1\}$, where\\
+$A_1=
+\begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+            {
+                \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+                {
+                    \Tr{b}
+                }
+            }
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+            {
+                \Tr{c}
+            }
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+            {
+                \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+                {
+                    \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+                    {
+                        \Tr{h}
+                    }
+                }
+            }
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+            {
+                \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+                {
+                    \Tr{h}
+                }
+            }
+        }
+ \end{Bmatrix}
+ ,
+\hspace{3mm}
+A_2=
+\begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+            {
+                \Tr{b}
+            }
+        }
+         \hspace{2mm}
+        ,
+        \hspace{2mm}
+        \pstree[nodesep=1pt,levelsep=6ex]{\Tr{c}}
+        {
+            \Tr{c}
+        }
+        \hspace{2mm}
+        ,
+        \hspace{2mm}
+        \pstree[nodesep=1pt,levelsep=6ex]{\Tr{h}}
+        {}
+\end{Bmatrix}$
+\\\\
+$R=\{r_1,r_2,r_3,r_4\}$, where\\\\
+   $r_1=(\chi _1, C_1)$,  where $\chi _1=(b,-)$ and $C_1= (A_2,b,1)$ \\
+   $r_2=(\chi _2, C_2)$,  where $\chi _2=(c,-)$ and $C_2= (A_2,c,1)$ \\
+   $r_3=(\chi _1, C_3)$   where $C_3=(A_2,h,1)$\\
+   $r_4=(\chi _2, C_3)$\\  
+\\The production rules are\\
+$ \bar{P}=\{
+     S \rightarrow  a(B,C),
+B \rightarrow  b(B'),
+B' \rightarrow  b(B''),
+B'' \rightarrow  b(B)|b(H) ,
+C \rightarrow  c(C'), 
+C' \rightarrow  c(C)|c(H),
+H \rightarrow  h  \}$
+
+   The regular tree grammar corresponding to $\Gamma _{r_2}$ is    $G_{r_2}=(\{S,B,B',B'',C,H\},\{a,b,c,h\},S,\bar{P})$\\
+\noindent \rule{\textwidth}{1pt}
+\end{example}    
+
+
+The above case will not take care of languages like trees with node labels $a$, $b$, and $c$ where number of $a's$ is odd. For such cases we 
+give the construction below.
+\begin{itemize}
+	\item $T=\Sigma$
+	\item $N$ contains the start symbol  $S$ initially and more symbols of the form $M',M^{2'},\cdots , M^{k'}$ for some fixed $k$, are added to $N$ 
+		as we proceed to define the rules. 
+	\item Let $AJ\subseteq \mathcal{A}'$, where for each $A_i \in AJ, x_i=y_i=z_i \mbox{ in }F_i$ and 
+		$AI= (\mathcal{A}'-AJ)$, where for each $A_i\in AI,$\hbox{$ n_i=|x_i-y_i|.$} (This is used to take care of some constraint on the number of 
+		a particular terminal symbol $\sigma_k\in \Sigma$).
+	\item $\forall A_i\in \mathcal{A}$, if there is a node with label $p$ arity 0 is in $A_i$, then \hbox{$P\rightarrow p$} is a production rule.
+	\item $\forall A_i\in AJ$\\
+		%If $\exists A_l\in AI\mbox{ with }(x_l\neq y_l)\mbox{ in } F_i$, 
+		If  $\exists A_l\in AI\mbox{ with }(x_l\neq y_l)\mbox{ in } F_l$, $t\in A_i$ with root node with label $p$ 
+		having arity $m$ and children with label 
+		$p_1,p_2,\cdots ,p_{m}$, where for  some $j\leq m$, $p_j$ is the label of root node of some $t'\in A_l$, then from 
+		\hbox{$S\rightarrow p(P_1,P_2,\cdots ,P_m)$}  write  $j$ production rules, with $P_k=S,\forall k\leq j$.\\
+		If $m=0$, \hbox{$S\rightarrow P$} will be a production rule.\\
+
+		$\forall A_l'\in AI$, if $(x_l'= y_l')\mbox{ in }F_l'$ then \hbox{$S\rightarrow p(P_1,P_2,\cdots ,P_m)$} will also be a production rule.
+
+		$N$ will includes all such $P_i$.
+
+	\item $\forall A_i\in AI$ with $n_i=1$\\
+		If $t\in A_i$ with root with label $p$ having arity $m$ and children with label $p_1,p_2,\cdots ,p_m$, 
+		then \hbox{$S\rightarrow p(P_1,P_2,\cdots ,P_m)$} 
+		will be a production rule and  if there is a node in $t$ with label $q$ and arity $r$  having children with labels $q_1,q_2,\cdots ,q_r$,
+		then, \hbox{$Q\rightarrow q(Q_1,Q_2,\cdots ,Q_r)$} will be a production rule.\\If $m=0$, \hbox{$S\rightarrow P$} will be a production rule.
+				
+		$\forall r_i\in R, r_i=(\chi,C_1,C_2,\cdots ,C_{k'})$ where $\chi = (p,left,right)$, $C_j=(X_j,rt_j,k''), \forall j\leq k'$ with 
+		$rt_j\in \Sigma , X_j\in \mathcal{A}$
+	
+		If $\forall j\leq k', X_j\notin AI$, \hbox{$P\rightarrow p(RT_1,RT_2,\cdots ,RT_k)$} will be a production rule, 
+
+		If $\exists X_j\in AI,j\leq k$, 
+			\begin{itemize}
+			\item   $P\rightarrow p(Y_1,Y_2,\cdots ,Y_k)$ will be a production rule with 
+				$Y_j=RT_j, \forall j \mbox{ where }X_j\notin AI$ and \hbox{$Y_j=RT'_j, \forall j \mbox{ where } X_j\in AI$.}
+
+		%	If $\forall k, Y_k=RT_{j}'$ for some $rt_{j}$, then \hbox{$P\rightarrow p(RT_1,RT_2,\cdots ,RT_k)$}
+		%	is a production rule.				
+
+				If $rt_j=\sigma _j$ where $X_j\in AI$ then \hbox{$RT'_{\sigma _k}\rightarrow rt_j(Y_1,Y_2,\cdots ,Y_{p'})$} 
+				will be a production rule with $ Y_{p_{''}}=S$ for some $p''\leq p'$, where $p'$ is the arity of $rt_j$.
+
+				If $rt_j\neq \sigma _k$ where $X_j\in AI$ then \hbox{$RT'_j\rightarrow rt_j(Y_1,Y_2,\cdots ,Y_{p'})$} 
+				will be a production rule  $Y_{p_{''}}=RT'_{\sigma _k}$ for some $p^{''}\leq p'$.
+
+			\end{itemize}
+		%f $\forall k, Y_k=RT_{j}'$  for some $rt_{j} $in  \hbox{$P\rightarrow p(Y_1,Y_2,\cdots ,Y_r)$}, 
+		%hen \hbox{$P\rightarrow p(RT_1,RT_2,\cdots ,RT_k)$} is a production rule.				
+
+		$N$ will includes all such $P_i$, $Q_i$, $RT_i'$ and $Y_i$.
+	\item   $\forall A_i\in AI$ with $n_i\neq 1$\\
+		If $t\in A_i$ with root with label  $p\neq \sigma _i$ having arity $m$ and children with label  $p_1,p_2,\cdots ,p_m$, 
+		with some $p_j =\sigma _k,j\leq m$
+		then  \hbox{$S\rightarrow p(P_1,P_2,\cdots ,P_m)$} , where both $P_j=P_{\sigma_k}$ and $P_j=S$ are production rules. Then 
+		\hbox{$P_{\sigma_k}\rightarrow S$}  and \hbox{$P_{\sigma_k}\rightarrow p_{\sigma_k}(Y_1,Y_2,\cdots , Y_{m'})$} will be production rules 
+		where $m'$ is the arity of node with label $p_{\sigma_k}$ and for some 
+		$m''\leq m', Y_{m''}=P_{\sigma_k}'$. \hbox{$P_{\sigma_k}'\rightarrow p_{\sigma_k}(Y_1,Y_2,\cdots , Y_{m'})$} and for some
+		$m''\leq m', Y_{m''}=P_{\sigma_k}^{2'}$. In general \hbox{$P_{\sigma_k}^{q'}\rightarrow p_{\sigma_k}(Y_1,Y_2,\cdots , Y_{m'})$} and for some
+		$m''\leq m', Y_{m''}=P_{\sigma_k}^{(q+1)'}$ and  \hbox{$P_{\sigma_k}^{z_i'}\rightarrow p_{\sigma_k}(Y_1,Y_2,\cdots , Y_{m'})$}
+		and for some $m''\leq m', Y_{m''}=S$.
+
+		If $m=0$, \hbox{$S\rightarrow P$} will be a production rule.
+
+		If $t\in A_i$ with root node with label $p= \sigma _k$ having arity $m$ and children with label $p_1,p_2,\cdots ,p_m$,
+		with some $p_j ,j\leq m$ is the label of root node of some $t'\in AI$, then \hbox{$S\rightarrow p(P_1,P_2,\cdots ,P_m)$}  
+		will be a  production rule with $P_j=P_j'$ and \hbox{$P_j'\rightarrow p_j(Y_1,Y_2,\cdots , Y_{m'})$} where $m'$ is the arity of 
+		node with label $p_j$ and for some $m''\leq m', Y_{m''}=P_{\sigma_k}'$.
+
+
+	 	$\forall r_i\in R, r_i=(\chi,C_1,C_2,\cdots ,C_k')$ where $\chi = (p,left,right)$, $C_j=(X_j,rt_j,k''), \forall j\leq k'$ with 
+		$rt_j\in \Sigma , X_j\in \mathcal{A}$
+	
+		
+		If $\forall j, X_j\in AJ$, with $p\neq \sigma_k$ then \hbox{$P\rightarrow p(RT_1,RT_2,\cdots ,RT_m)$} will be a production rule where
+		$m$ is the arity of node with label $p$.
+		
+		If $\forall j, X_j\in AI$, if $p\neq \sigma_k$ then \hbox{$P\rightarrow p(RT'_1,RT'_2,\cdots ,RT'_m)$} will be a production rule where
+		$m$ is the arity of node with label $p$.
+
+		If $p=\sigma_k$ then \hbox{$P\rightarrow p(Y_1,Y_2,\cdots ,Y_k)$} is a production rule with $Y_j=RT_j, \forall j$ where $X_j\in AJ$
+		$Y_j=RT'_j, \forall j$ where $X_j\in AI$.
+		
+		If $rt_j=\sigma _k$ where $X_j\in AI$ then \hbox{$RT'_{\sigma _k}\rightarrow rt_j(Y_1,Y_2,\cdots ,Y_{p'})$} 
+		will be a production rule with $Y_{p_{''}}=RT_{\sigma _k}^{2'}$ for some $p''\leq p'$, where $p'$ is the arity of $rt_j$.
+					
+		In general,  for some $p''\leq p$, \hbox{$RT^{{(z_j-1)}'}_{\sigma _k}\rightarrow rt_j(Y_1,Y_2,\cdots ,Y_{p'}),$} 
+		with $Y_{p_{''}}=RT^{(z_i)'}_{\sigma _k}$, and \hbox{$RT^{z_i'}_{\sigma _k}\rightarrow rt_j(Y_1,Y_2,\cdots ,Y_{p'})$}
+		, with 	$Y_{p_{''}}=S$. 
+				
+		If $rt_j\neq \sigma _k$ where $X_j\in AI$ then \hbox{$RT'_j\rightarrow rt_j(Y_1,Y_2,\cdots ,Y_{p'})$} 
+		will be a production rule  $Y_{p_{''}}=RT'_{\sigma _k}$ for some $p^{''}\leq p'$.
+
+		
+		$N$ will includes all such $P_i's$, $RT_i's$ and $Y_i's$.
+	\item   If $\forall k, Y_k=RT_{j}'$  for some $rt_{j} $in  \hbox{$P\rightarrow p(Y_1,Y_2,\cdots ,Y_r)$}, 
+		then \hbox{$P\rightarrow p(RT_1,RT_2,\cdots ,RT_k)$} will be a production rule.				
+
+\end{itemize}
+It can easily be proved by induction that $L(G)=L(\Gamma)$.
+
+
+
+
+
+
+\begin{example}
+%\textbf{Example 1:} $L_{r_{10}}=\{t | t\mbox{ has  }a\mbox{ as root}\}$\\\\
+                     $L_{r_{3}}=\{t | t\mbox{ has  }a\mbox{ as root}\}$\\\\
+
+$\Gamma _{r_{3}} = (\Sigma ,\mathcal{A},\mathcal{A} ',R)$ where,\\
+
+    $\Sigma =\{a_2,b_2,c_0\}$,  
+$\mathcal{A} = \{A_1,A_2\}$, $F_1=[-1,-1,-1],F_2=[-1,-1,-1]$,
+$\mathcal{A}'= \{A_1\}$\\
+
+
+{\small $A_1=
+    \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{a}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{b}
+        }
+        , 
+         \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{a}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{a}
+        }       ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{a}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{a}
+        }
+   \end{Bmatrix}$}\\
+
+
+{\small
+    $A_2=
+\begin{Bmatrix}
+       \pstree[nodesep=1pt,levelsep=4ex]{\Tr{c}}
+        {}
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{b}
+        }
+        , 
+         \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{a}
+        }       ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{a}
+        }
+
+\end{Bmatrix}$}\\
+
+$R$ contains rules,\\\\
+%   $r_1=(\chi _1,(C_1|C_3),(C_2|C_4))$, $r_2=(\chi _2, (C_1|C_3),(C_2|C_4))$,  where \\
+   $r_1=(\chi _1,U_1,U_2)$, $r_2=(\chi _2, U_1,U_2)$,  where \\
+   $\chi _1=(a,-,-),\chi _2=(b,-,-)$,        
+   $U_1\in \{C_1,C_3\},U_2\in \{C_2,C_4\}$\\
+   $C_1 =(A_1,a,1),C_2=(A_1,a,2),C_3=(A_2,V_1,1),C_4=(A_2,V_1,2)$\\
+   $V_1\in \{b,c\}$\\\\
+%   $C_1 =(A_1,a,1),C_2=(A_1,a,2),C_3=(A_2,b|c,1),C_4=(A_2,b|c,2)$\\
+ The production rules are
+\begin{eqnarray*}   
+P=\{
+S &\rightarrow & a(C,C)|a(B,B)|a(B,C)|a(C,B)|a(A,A)|a(A,B)|a(A,C)|a(B,A)|a(C,A)\\
+A &\rightarrow & a(A,B)|a(A,C)|a(C,C)|a(C,A)|a(C,B)|a(B,C)|a(B,A)|a(A,A)|a(B,B)\\
+B &\rightarrow & b(A,B)|b(A,C)|b(C,C)|b(C,A)|b(C,B)|b(B,C)|b(B,A)|b(A,A)|b(B,B)\\
+C &\rightarrow & c\}
+\end{eqnarray*}
+  The regular tree grammar corresponding to $\Gamma _{r_{3}}$ is 
+  $G_{r_3}=(\{S,A,B,C\},\{a,b,c\},S,P)$
+
+\noindent \rule{\textwidth}{1pt}
+\end{example}    
+
+
+
+
+
+\begin{example}
+%\textbf{Example 2:} $L_{r_{12}}=\{t|\mbox{ no }a\mbox{ in } t\mbox{ has an } a \mbox{as child}.\}$\\\\        
+                     $L_{r_{6}}=\{t|\mbox{ no }a\mbox{ in } t\mbox{ has an } a \mbox{ as child}.\}$\\\\ 
+
+$\Gamma _{r_{6}} = (\Sigma ,\mathcal{A},\mathcal{A} ',R)$ where,\\
+
+    $\Sigma =\{a_2,b_2,c_0\}$,  
+$\mathcal{A} = \{A_1\}$, $F_1=[-1,-1,-1]$
+$\mathcal{A}'= \{A_1\}$\\
+{\small $A_1=
+    \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{c}}
+        {}
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{b}
+        }
+        , 
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{b}
+        }
+        ,\\ 
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{a}
+        }       ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{a}
+        }
+     \end{Bmatrix}$}\\\\
+
+$R$ contains rules,\\
+   $r_1=(\chi _1,C_1,C_2)$,$r_2=(\chi _2, C_3,C_4)$,  where \\
+   $\chi _1=(a,-,-),\chi _2=(b,-,-)$\\        
+    $C_1 =(A_1,V_1,1),C_2=(A_1,V_1,2),C_3=(A_1,V_2,1),C_4=(A_1,V_2,2)$\\
+        $V_1\in \{c,b\},V_2\in \{a,b,c\}$  \\\\
+%    $C_1 =(A_1,c|b,1),C_2=(A_1,c|b,2),C_3=(A_1,a|b|c,1),C_4=(A_1,a|b|c,2)$\\\\      
+
+The production rules are
+\begin{eqnarray*}   
+P=\{
+S &\rightarrow & a(C,C)|a(B,B)|a(B,C)|a(C,B)|b(C,C)|b(A,A)|b(B,B)|b(A,C)|b(A,A)|b(B,A)|b(A,B)|b(C,B)|b(B,C)|C\\
+A &\rightarrow & a(C,C)|a(C,B)|a(B,C)|a(B,B)\\
+B &\rightarrow & b(A,B)|b(A,C)|b(C,C)|b(C,A)|b(C,B)|b(B,C)|b(B,A)|b(A,A)|b(B,B)\\
+C &\rightarrow & c\}
+\end{eqnarray*}
+  The regular tree grammar corresponding to $\Gamma _{r_{3}}$ is 
+  $G_{r_3}=(\{S,A,B,C\},\{a,b,c\},S,P)$\\
+\noindent \rule{\textwidth}{1pt}
+\end{example} 
+\begin{example}
+%\textbf{Example 3:} $L_{r_{11}}=\{t|n_a(t)\%2\neq 0\}$\\\\        
+                     $L_{r_{4}}=\{t|n_a(t)\%2\neq 0\}$\\\\
+$\Gamma _{r_{4}} = (\Sigma ,\mathcal{A},\mathcal{A} ',R)$ where,\\
+$\Sigma =\{a_2,b_2,c_0\}$,  
+$\mathcal{A} = \{A_1,A_2\}$\\$F_1=[-1,-1,-1],F_2=[0,1,0]$,
+$\mathcal{A}'= \{A_1,A_2\}$, where\\
+{\small $A_1=
+\begin{Bmatrix}
+    %   \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+     %   {
+      %      \Tr{c}
+       %     \Tr{c}
+    %    }
+     %   ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{b}
+        }
+        , 
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        ,
+	 \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {}
+	,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{c}}
+        {}
+\end{Bmatrix}$}\\
+{\small $A_2=
+    \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{b}
+        }
+        , 
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{a}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{a}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{b}
+        }
+        , 
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {}
+\end{Bmatrix}$}\\
+\\\\
+$R$ contains rules,\\
+ $r_1=(\chi _1,U_1,U_2))$, $r_2=(\chi _2, U_1,U_2)$, where\\
+%  $r_1=(\chi _1,(C_1|C_3),(C_2|C_4))$\\ $r_2=(\chi _2, (C_1|C_3),(C_2|C_4))$\\
+  %$r_3=(\chi _3,(C_1|C_4))$\\ $r_4=(\chi _4,(C_1|C_3))$\\  
+  %$r_5=(\chi _5,(C_2|C_4))$\\ $r_6=(\chi _6, (C_1|C_3))$\\
+  %$r_7=(\chi _7,(C_2|C_4))$\\ $r_8=(\chi _8, (C_1|C_3))$ \\
+  %$r_9=(\chi _9,(C_2|C_4))$\\ $r_{10}=(\chi _{10}, (C_1|C_3))$,   where \\
+   $\chi _1=(a,-,-),\chi _2=(b,-,-)$,
+   $U_1\in\{C_1,C_3\},U_2\in\{C_2,C_4\}$\\
+   %\\,\chi _3=(b,a,-),\chi _4=(b,-,a)$, $\chi _5=(a,b,-)$\\
+  % $\chi _6=(a,-,b),\chi _7=(a,c,-),\chi _8=(a,-,c),\chi _9=(b,c,-)$, $\chi _{10}=(b,-,c)$\\
+    $C_1 =(A_1,V_1,1),C_2=(A_1,V_1,2),C_3=(A_2,V_2,1),C_4=(A_2,V_2,2)$\\
+     $V_1\in\{c,b\},V_2\in\{a,b\}$\\
+
+  The production rules are
+\begin{eqnarray*}   
+P=\{
+S &\rightarrow & a(C,C)|a(B,B)|a(B,C)|a(C,B)|a(A,A)|b(A,C)|b(B,A)|b(A,B)|b(C,A)|A\\
+      & &b(S,B)|b(B,S)|b(S,C)|b(C,S)\\        
+A &\rightarrow & a(C,C)|a(C,B)|a(B,C)|a(B,B)|a(C,A')|a(C,B')|a(B,A')|a(B,B')|\\& &
+                  a(A',C)|a(A',B)|a(B',C)|a(B',B)|a(A',A')|a(A',B')|a(B',A')|a(B',B')\\
+                  & & a(A,A)|a(B,B)\\
+B &\rightarrow & b(C,C)|b(C,B)|b(B,C)|b(B,B)|b(C,A')|b(C,B')|b(B,A')|b(B,B')|\\& &
+                 b(A',C)|b(A',B)|b(B',C)|b(B',B)|b(A',A')|b(A',B')|b(B',A')|b(B',B')\\
+                & & b(A,A)|b(B,B)\\
+%A' &\rightarrow & a(A,C)|a(A,B)|a(C,A)|a(B,A)|a(A,A')|a(A',A)\\  
+A' &\rightarrow & a(S,C)|a(S,B)|a(C,S)|a(B,S)|a(S,A')|a(A',S)|a(S,B')|a(B',S)\\ 
+B' &\rightarrow & b(A',C)|b(A',B)|b(C,A')|b(B,A')|b(A',A')|b(A,A)|b(B',A')|b(A',B')\\
+C &\rightarrow & c\}
+\end{eqnarray*}
+  The regular tree grammar corresponding to $\Gamma _{r_{4}}$ is 
+  $G_{r_4}=(\{S,A,A',B,B',C\},\{a,b,c\},S,P)$
+
+\noindent \rule{\textwidth}{1pt}
+\end{example}    
+   
+\emph{\textbf{Result 1:} Given a tree insertion system, we can construct an equivalent regular tree grammar.}\\
+\noindent \rule{\textwidth}{1pt}
+
+\subsection{Finite state Bottom-up Tree Automata to Insertion System}
+Since there exists a bottom-up finite tree automata for accepting a regular tree language,it is enough to simulate that 
+automata using the tree insertion system, to show the equivalence of tree insertion system and regular tree grammars.
+
+\subsubsection{Method of conversion}
+For a given deterministic bottom-up tree automata $D=(\Sigma ' , Q, Q_f, \Delta)$ we can construct a 
+tree insertion system $\Gamma =(\Sigma,\mathcal{A} ,\mathcal{A} ',R)$, where
+\begin{itemize}
+	\item $\Sigma = \Sigma '$
+	\item If transitions are non-recursive
+
+		For each transition of the form $p(q_1,q_2,\cdots ,q_k)\rightarrow q_g$, where $q_1,q_2,\cdots ,q_k,q_g\in Q$, $p\in \Sigma '$, $k$ 
+		is the arity of node with label $p$ and $q_g\in Q_f$, 
+		{\tiny
+		$
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{p}}
+        	{
+            		\Tr{q_1}
+            		\Tr{q_2}
+			\Tr{\cdots }
+			\Tr{q_i}
+			\Tr{\cdots }
+			\Tr{q_k}
+	        }
+		$} will be in $ \mathcal{A '}$
+
+	$\forall q_i,1\leq i\leq k$, %if $c_1(q_{i_1})\rightarrow c_2(q_{i_2})\rightarrow \cdots \rightarrow c_n(q_{i_n})\rightarrow q_i$
+	if $\{c_1(q_{i_1})\rightarrow q_i,c_2(q_{i_2})\rightarrow q_{i_1}\cdots c_n(q_{i_n})\rightarrow q_{i_{n-1}}\}\in \Delta$ where $q_{i_n}=q_i$
+	, $c_i\in \Sigma ', 1\leq i\leq n$ and $\forall i,j,q_{i_j}\in Q,1\leq j\leq n$,
+		{\tiny
+		$	
+		\begin{comment}
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{p}}
+        	{
+            		\Tr{q_1}
+            		\Tr{q_2}
+			\Tr{\cdots }
+			\Tr{q_i}
+			\Tr{\cdots }
+			\Tr{q_f}
+	        }
+		\Rightarrow
+		\end{comment}
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{p}}
+        	{
+            		\Tr{q_1}
+            		\Tr{q_2}
+			\Tr{\cdots }
+			\pstree[nodesep=1pt,levelsep=1ex]{\Tr{c_1}}
+			{
+%				\pstree[nodesep=1pt,levelsep=1ex]{\Tr{c_2}}
+				{
+					\pstree[nodesep=1pt,levelsep=1ex]{\Tr{.}}
+					{
+						\pstree[nodesep=1pt,levelsep=1ex]{\Tr{.}}
+						{
+							\pstree[nodesep=1pt,levelsep=1ex]{\Tr{.}}
+							{
+		`						\Tr{c_n}
+							}
+						}
+					}
+				}
+			}
+			\Tr{\cdots }
+			\Tr{q_k}
+	        }
+		$
+		}
+		will be in $\mathcal{A '}$
+
+	If $\{c_1(q_{i_1})\rightarrow q_i,c_2(q_{i_2})\rightarrow q_{i_1}\cdots c_n(q_{i_n})\rightarrow q_{i_{n-1}}, a\rightarrow q_{i_n}\}\in \Delta$ 
+	where  $a,c_i\in \Sigma ', 1\leq i\leq n$ and \hbox{$\forall i,j,q_{i_j}\in Q,1\leq j\leq n$,}
+		{\tiny
+		$	
+		\begin{comment}
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{p}}
+        	{
+            		\Tr{q_1}
+            		\Tr{q_2}
+			\Tr{\cdots }
+			\Tr{q_i}
+			\Tr{\cdots }
+			\Tr{q_f}
+	        }
+		\Rightarrow
+		\end{comment}
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{p}}
+        	{
+            		\Tr{q_1}
+            		\Tr{q_2}
+			\Tr{\cdots }
+			\pstree[nodesep=1pt,levelsep=1ex]{\Tr{c_1}}
+			{
+%				\pstree[nodesep=1pt,levelsep=1ex]{\Tr{c_2}}
+				{
+					\pstree[nodesep=1pt,levelsep=1ex]{\Tr{.}}
+					{
+						\pstree[nodesep=1pt,levelsep=1ex]{\Tr{.}}
+						{
+							\pstree[nodesep=1pt,levelsep=1ex]{\Tr{.}}
+							{
+								\pstree[nodesep=1pt,levelsep=2ex]{\Tr{c_n}}
+								{
+		`							\Tr{a}
+								}
+							}
+						}
+					}
+				}
+			}
+			\Tr{\cdots }
+			\Tr{q_k}
+	        }
+		$
+		}
+		will be in $ \mathcal{A '}$
+
+	For each transition of the form $p(q_1,q_2,\cdots ,q_k)\rightarrow q_g$, where $q_1,q_2,\cdots ,q_k,q_g\in Q$,  $p\in \Sigma '$, $k$ 
+	is the arity of node with label $p$ and $q_g\in Q_f$ 
+	$\forall q_i,1\leq i\leq p$ 
+	if $\{c_1(q_{i_1})\rightarrow q_i,c_2(q_{i_2})\rightarrow q_{i_1}\cdots c_n(q_{i_n})\rightarrow q_{i_{n-1}}\}\in \Delta$ where $q_{i_n}=q_i$
+	, $c_i\in \Sigma ', 1\leq i\leq n$ and $\forall i,j,q_{i_j}\in Q,1\leq j\leq n$,
+		{\small
+		$
+		\pstree[nodesep=1pt,levelsep=1ex]{\Tr{c_1}}
+		{
+	%		\pstree[nodesep=1pt,levelsep=1ex]{\Tr{c_2}}
+			{
+			%	\pstree[nodesep=1pt,levelsep=1ex]{\Tr{.}}
+				{
+					\pstree[nodesep=1pt,levelsep=1ex]{\Tr{.}}
+					{
+						\pstree[nodesep=1pt,levelsep=1ex]{\Tr{.}}
+						{
+							\Tr{c_n}
+						}
+					}
+				}
+			}
+		}
+		$} will be in $ \mathcal{A}-\mathcal{A}'$
+
+	If $\{c_1(q_{i_1})\rightarrow q_i,c_2(q_{i_2})\rightarrow q_{i_1}\cdots c_n(q_{i_n})\rightarrow q_{i_{n-1}}, a\rightarrow q_{i_n}\}\in \Delta$ 
+	where  $a,c_i\in \Sigma ', 1\leq i\leq n$ and \hbox{$\forall i,j,q_{i_j}\in Q,1\leq j\leq n$,}
+		{\small
+		$
+		\pstree[nodesep=1pt,levelsep=1ex]{\Tr{c_1}}
+		{
+		%	\pstree[nodesep=1pt,levelsep=1ex]{\Tr{c_2}}
+			{
+		%		\pstree[nodesep=1pt,levelsep=1ex]{\Tr{.}}
+				{
+					\pstree[nodesep=1pt,levelsep=1ex]{\Tr{.}}
+					{
+						\pstree[nodesep=1pt,levelsep=1ex]{\Tr{.}}
+						{
+							\pstree[nodesep=1pt,levelsep=2ex]{\Tr{c_n}}
+							{
+	`							\Tr{a}
+							}
+						}
+					}
+				}
+			}
+		}
+		$} will be in $ \mathcal{A}-\mathcal{A}'$
+
+		Set flag $F_i=[x_i,y_i,z_i]$ associated with each $A_i\in\mathcal{A}$ as  [-1,-1,-1].
+	\item If transitions are recursive
+
+		Let $AF$ and $AN$ are two temporary axiom sets
+		
+		For each transition of the form $p(q_1,q_2,\cdots ,q_k)\rightarrow q_g$, where  $q_1,q_2,\cdots ,q_k,q_g\in Q$, $p\in \Sigma '$, 
+		$k$ is the arity of node with label $p$,
+		{\tiny
+		$
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{p}}
+        	{
+            		\Tr{q_1}
+            		\Tr{q_2}
+%			\Tr{\cdots }
+%			\Tr{q_i}
+			\Tr{\cdots }
+			\Tr{q_k}
+	        }
+		$} will be in $AF$ if  $q_g\in Q_f$ and it will be in $AN$ if $q_g\notin Q_f$.
+\begin{comment}
+
+		For each transition of the form $p(q_1,q_2,\cdots ,q_k)\rightarrow q_g$, where  $q_1,q_2,\cdots ,q_g\in Q$, $p\in \Sigma '$, 
+		$k$ is the arity of node with label $p$ and $q_g\notin Q_f$ 
+		{\small
+		$
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{p}}
+        	{
+            		\Tr{q_1}
+            		\Tr{q_2}
+%			\Tr{\cdots }
+%			\Tr{q_i}
+			\Tr{\cdots }
+			\Tr{q_k}
+	        }
+		$}$\in AN $
+\end{comment}		
+		
+		Let $t=$
+%		$\forall t\in AF$, if $t$ is of the form 
+		{\tiny
+		$
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{p}}
+        	{
+            		\Tr{q_1}
+            		\Tr{q_2}
+%			\Tr{\cdots }
+%			\Tr{q_i}
+			\Tr{\cdots }
+			\Tr{q_k}
+	        }
+		$}%with all  $q_1,q_2,\cdots ,q_k\in Q_f$, then $p\in AF$
+		and $t'=$
+		{\tiny
+		$
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{p}}
+        	{
+            		\Tr{t_1}
+            		\Tr{t_2}
+%			\Tr{\cdots }
+%			\Tr{t_i}
+			\Tr{\cdots }
+			\Tr{t_k}
+	        }
+		$}%$\in AF$	 
+
+	$\forall t\in AF$, if  all  $q_1,q_2,\cdots ,q_k\in Q_f$, then $p$ will be in $AF$
+
+	$\forall t\in AN$, if  all  $q_1,q_2,\cdots ,q_k\notin Q_f$, then $p$ will be in $AN$
+
+	$\forall t\in AF$,  $t'$ will be in $AF$ with $t_i$ having the label of root node of some $t''\in AF$, $\forall q_i\in Q_f$. 
+
+	$\forall t\in AN$,  $t'$ will be in $AN$ with $t_i$ having the label of root node of some $t''\in AN$, $\forall q_i\notin Q_f$. 
+
+	$\forall t\in AF$,  $t'$ will be in $AF$ with $t_i$ having the label of root node of some $t''\in AN$, $\forall q_i\notin Q_f$. 
+
+	$\forall t\in AN$,  $t'$ will be in $AN$ with $t_i$ having the label of root node of some $t''\in AF$, $\forall q_i\in Q_f$.
+
+
+ 	Set flag $F_{AN}=[x,y,z]$ associated with $AN$ as  [-1,-1,-1].
+
+ Set  flag $F_{AF}=[x,y,z]$ associated with an axiom $AF$, which has a constraint on 
+$\sigma_i\in\Sigma$, as follows.
+\begin{itemize}
+	\item $x=0$.
+	\item If $\exists t=
+		{\tiny
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{p}}
+        	{
+            		\Tr{p_1}
+            		\Tr{p_2}
+%			\Tr{\cdots }
+%			\Tr{q_i}
+			\Tr{\cdots }
+			\Tr{p_k}
+	        }}\in AF$ , $k\geq 0$, if  $p,p_1,p_2,\cdots ,p_k\neq \sigma_i$ then $y_i=0$.
+	\item Else if $\exists t\in AF$, with $n$ nodes of $t$ have label $\sigma_i$, then $y_i=z_i=n$.
+	\item If $t'=
+		{\tiny
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{q}}
+        	{
+            		\Tr{q_1}
+            		\Tr{q_2}
+%			\Tr{\cdots }
+%			\Tr{q_i}
+			\Tr{\cdots }
+			\Tr{q_k'}
+	        }}\in AF$ , $k'\geq 0$ having $m\geq n$ nodes of $t$ are with label $\sigma_i$.
+		\begin{itemize}
+			\item $z=(m-n)-1$, if $y=0$.
+			\item $z=(m-1)$, if $y\neq 0$.
+		\end{itemize}
+
+	\end{itemize}
+	
+		Now $\mathcal{A} '=AF$ and $\mathcal{A}=AF\cup AN$
+
+
+	\item For each transitions of the form $a\rightarrow q_a \in \Delta$ where, $a\in \Sigma ', q_a\in Q$, $a \mbox{ will be in } \mathcal{A} ', 
+		\mbox{ if }$\hbox{$ q_a\in Q_f$}$\mbox{ and } a $ will be in $\mathcal{A-A}',\mbox{ if } q_a\notin Q_f $ 
+	\item $\forall t\in \mathcal{A}$ which is of the form 
+		{\tiny
+		$
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{p}}
+        	{
+		\Tr{t_1}
+            		\Tr{t_2}
+%			\Tr{\cdots }
+%			\Tr{t_i}
+			\Tr{\cdots }
+			\Tr{t_k}
+	        }
+		$}	
+
+		$r=(\chi,C_1,C_2,\cdots ,C_k)\in R$ where, $\chi=(p,-,\cdots,-)$ and $\forall i\leq k, C_i=(X,a,i)$ where, \hbox{$X\in \mathcal{A},$} 
+		$\mbox{ for some }$\hbox{$ t'\in X,$}$ t'$ has $a$ as root.
+
+		And $\forall t_i, 1\leq i\leq k$ which is of the form
+		{\tiny
+		$
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{p'}}
+        	{
+            		\Tr{t_1}
+            		\Tr{t_2}
+%			\Tr{\cdots }
+%			\Tr{t_i}
+			\Tr{\cdots }
+			\Tr{t_{k'}}
+	        }
+		$}	
+	
+		$r=(\chi,C_1,C_2,\cdots ,C_{k'})\in R$ where, $\chi=(p',-,\cdots,-)$ and $\forall i\leq k', C_i=(X,a,i)$ where, \hbox{$X\in \mathcal{A},$} 
+		$\mbox{ for some } t'\in X,t'$ has $a$ as root.
+
+
+
+\end{itemize}
+
+\begin{example}
+    %\textbf{Example 3:} $L_{r_{13}}=\{a(b^i(g),c^j(g)),i,j\ge 1\mbox{, } i\%3 = 0\mbox{ and }j\%2 =0\}$
+                         $L_{r_{1}}=\{a(b^i(h),c^j(h)),i,j\ge 1\}$   
+Consider the tree automata $D_{r_{1}}=(Q,\Sigma ',Q_f, \Delta)$ which accepts the language $L_{r_{1}}$ over the 
+alphabet $\Sigma ' =\{a_2,b_1,c_1,h_0\}$ 
+where $Q=\{q_a,q_b,q_c,q_h\},Q_f=\{q_a\}$ and $\Delta$ contains following transitions.\\
+
+      \begin{tabular}{llllll}
+$h\rightarrow q_h$ & $ b(q_h) \rightarrow q_b$ & $b(q_b) \rightarrow q_b$ & 
+ $ c(q_h) \rightarrow q_c$ & $ c(q_c) \rightarrow q_c$ & $ a(q_b,q_c) \rightarrow q_a$\\
+\end{tabular}
+%\\Create initial axiom $A_1$ from transitions which directly leads to final state $q_a$. 
+%Since we cannot generate the axioms directly, do it as s sequence of steps.
+
+{\small 
+%    \begin{eqnarray*}
+$
+    A_1=
+     \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+                \Tr{b}
+            	\Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+            {
+                \Tr{h}
+            	        
+            }
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+            {
+                \Tr{h}
+            }
+        }
+     \end{Bmatrix}
+ %    \end{eqnarray*}
+$
+}, 
+%Generate the axioms for states $q_b$ and $q_c$ which are the arguments of transition that leads to final state and for $q_g$ which is an 
+%independent transition.
+{\small
+%    \begin{eqnarray*}
+$
+A_2 =
+    \begin{Bmatrix}
+     \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+     {
+     }
+     \hspace{2mm}
+     ,
+     \hspace{2mm}
+     \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+     {         
+            \Tr{h}
+     }
+    \hspace{2mm}
+     ,
+     \hspace{2mm}
+
+     \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+     {
+     }
+     \hspace{2mm}
+     ,
+     \hspace{2mm}
+     \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+     {
+                \Tr{h}
+     }
+     \hspace{2mm}
+     ,
+     \hspace{2mm}
+
+     \pstree[nodesep=1pt,levelsep=3ex]{\Tr{h}}{}
+    \end{Bmatrix}
+%\end{eqnarray*}
+$
+}\\
+%Since we could generate all trees in the axioms directly from the transitions itself, no need to set the tuple associated with the axioms.
+%Create rules for generating all trees both in $A_1$ and $A_2$.\\\\
+$R$ contains rules,\\
+%   $r_1=(\chi _1,C_1,C_2)$, $r_2=(\chi _2, C_1|C_4)$,  $r_3=(\chi _3, C_3|C_4)$ where \\
+   $r_1=(\chi _1,C_1,C_2)$, $r_2=(\chi _2, U_1)$,  $r_3=(\chi _3, U_2)$ where \\
+   $\chi _1=(a,-,-),\chi _2=(b,-),\chi_3 =(c,-)$, $U_1\in \{C_1,C_4\},U_2\in \{C_3,C_4\}$\\
+    $C_1 =(A_2,b,1),C_2=(A_2,c,2),C_3=(A_2,c,1),C_4=(A_2,h,1)$\\\\
+So the tree insertion system equivalent to $D_{r_{1}}$ is            
+$\Gamma _{r_{1}} = (\Sigma ,\mathcal{A},\mathcal{A} ',R)$ where,\\\\
+    $\Sigma =\{a_2,b_1,c_1,h_0\}$, $\mathcal{A} = \{A_1,A_2\}$,$F_1=[-1,-1,-1],F_2=[-1,-1,-1]$,$\mathcal{A}'= \{A_1\}$\\
+\noindent \rule{\textwidth}{1pt}
+\end{example}    
+
+
+\begin{example}
+    %\textbf{Example 3:} $L_{r_{13}}=\{a(b^i(g),c^j(g)),i,j\ge 1\mbox{, } i\%3 = 0\mbox{ and }j\%2 =0\}$
+                         $L_{r_{5}}=\{a(b^i(h),c^j(h)),i,j\ge 1\mbox{, } i\%3 = 0\mbox{ and }j\%2 =0\}$   
+Consider the tree automata $D_{r_{5}}=(Q,\Sigma ',Q_f, \Delta)$ which accepts the language $L_{r_{5}}$ over the 
+alphabet $\Sigma ' =\{a_2,b_1,c_1,h_0\}$ 
+where $Q=\{q_a,q_b,q_{b_1},q_{b_2},q_c,q_{c_1},q_h\},Q_f=\{q_a\}$ and $\Delta$ contains following transitions.\\
+
+      \begin{tabular}{llllll}
+$h\rightarrow q_h$ & $ b(q_h) \rightarrow q_{b_1}$ & $ b(q_{b_1}) \rightarrow q_{b_2}$ & $b(q_{b_2}) \rightarrow q_b$ & 
+  $ b(q_b) \rightarrow q_{b_1}$\\ 
+& $ c(q_h) \rightarrow q_{c_1}$ & $ c(q_{c_1}) \rightarrow q_c$ & $ c(q_c) \rightarrow q_{c_1}$ & $ a(q_b,q_c) \rightarrow q_a$\\
+\end{tabular}
+%\\Create initial axiom $A_1$ from transitions which directly leads to final state $q_a$.
+%Since we cannot generate the axioms directly, do it as s sequence of steps.
+
+{\small 
+%    \begin{eqnarray*}
+$
+    A_1=
+ \begin{comment}
+   \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \Tr{q_b}
+            \Tr{q_c}
+        }
+    \end{Bmatrix}   
+        \Rightarrow \cdots \Rightarrow
+    \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+            {
+                 \Tr{q_{b_2}}
+            }
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+            {
+                 \Tr{q_{c_1}}
+            }
+        }
+     \end{Bmatrix}
+        \Rightarrow   
+     \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+            {
+                \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+                {
+                    \Tr{q_{b_1}}
+                }
+            }
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+            {
+                \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+                {
+                    \pstree[nodesep=1pt,levelsep=2ex]{\Tr{q_{c}}}
+                    {
+                        {\tiny{{\psset{linestyle=none}\TR{(loop)}}}}
+                    }
+                }
+            }
+        }
+  %   \end{Bmatrix}
+  %      or
+   %  \begin{Bmatrix}
+        ,
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+            {
+                \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+                {
+                     \Tr{q_{b_1}}
+                }
+            }
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+            {
+                \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+                {
+                    \Tr{q_{h}}
+                }
+            }
+        }
+     \end{Bmatrix}\\
+         &\Rightarrow &
+     \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+            {
+                \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+                {
+                    \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+                    {
+                        \pstree[nodesep=1pt,levelsep=2ex]{\Tr{q_{b}}}
+                        {
+                            {\tiny{\psset{linestyle=none}\TR{(loop)}}}
+                        }
+                    }
+                 }
+            }
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+            {
+                \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+                {
+                    \pstree[nodesep=1pt,levelsep=2ex]{\Tr{q_{c}}}
+                    {
+                        {\tiny{\psset{linestyle=none}\TR{(loop)}}}
+                    }
+                }
+            }
+        }
+    % \end{Bmatrix}
+    %    or
+    % \begin{Bmatrix}
+        ,
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+            {
+                \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+                {
+                    \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+                    {
+                        \Tr{q_h}
+                    }
+                }
+            }
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+            {
+                \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+                {
+                    \Tr{q_{h}}
+                }
+            }
+        }
+     \end{Bmatrix}
+          \Rightarrow   
+     \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+            {
+                \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+                {
+                    \Tr{b}
+                 }
+            }
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+            {
+                \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+                {
+                }
+            }
+        }
+    % \end{Bmatrix}
+    %    or
+    % \begin{Bmatrix}
+        ,
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+            {
+                \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+                {
+                    \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+                    {
+                        \Tr{q_h}
+                    }
+                }
+            }
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+            {
+                \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+                {
+                    \Tr{q_{h}}
+                }
+            }
+        }
+     \end{Bmatrix}
+        \Rightarrow 
+\end{comment}
+     \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+            {
+                \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+                {
+                    \Tr{b}
+                 }
+            }
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+            {
+                \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+                {
+                }
+            }
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{a}}
+        {
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+            {
+                \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+                {
+                    \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+                    {
+                        \Tr{h}
+                    }
+                }
+            }
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+            {
+                \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+                {
+                    \Tr{h}
+                }
+            }
+        }
+     \end{Bmatrix}
+ %    \end{eqnarray*}
+$
+  }, 
+%Generate the axioms for states $q_b$ and $q_c$ which are the arguments of transition that leads to final state and for $q_g$ which is an 
+%independent transition.
+{\small
+%    \begin{eqnarray*}
+$
+A_2 =
+ \begin{comment}
+   \begin{Bmatrix}
+     \pstree[nodesep=1pt,levelsep=3ex]{\Tr{q_c}}{},
+     \pstree[nodesep=1pt,levelsep=3ex]{\Tr{q_b}}{}
+    % \pstree[nodesep=1pt,levelsep=3ex]{\Tr{q_h}}{}
+    \end{Bmatrix}
+        \Rightarrow \cdots \Rightarrow
+    \begin{Bmatrix}     
+     \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+     {
+         \Tr{q_{c_1}}
+     }
+     ,
+     \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+     {
+         \Tr{q_{b_2}}
+     }
+     ,
+     \pstree[nodesep=1pt,levelsep=3ex]{\Tr{h}}{}
+   \end{Bmatrix}
+   \Rightarrow
+   \begin{Bmatrix}
+     \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+     {
+         \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+         {
+            \pstree[nodesep=1pt,levelsep=2ex]{\Tr{q_c}}
+            {\tiny{\psset{linestyle=none}\TR{(loop)}}}
+
+         }
+     }
+    % or
+        ,
+     \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+     {
+         \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+         {
+            \Tr{q_h}
+         }
+     }
+    ,
+     \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+     {
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+        {
+            \Tr{q_{b_1}}
+        }
+     }
+     ,
+     \pstree[nodesep=1pt,levelsep=3ex]{\Tr{h}}{}
+    \end{Bmatrix}
+%     \Rightarrow 
+  \begin{Bmatrix}
+     \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+     {
+            \Tr{c}
+     }
+     ,
+     \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+     {
+         \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+         {
+            \Tr{h}
+         }
+     }
+    ,
+     \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+     {
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+        {
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+            {
+                \pstree[nodesep=1pt,levelsep=2ex]{\Tr{q_b}}
+                {
+                    {\tiny{\psset{linestyle=none}\TR{(loop)}} }
+                } 
+            }
+        }
+     }
+    % or
+        ,
+     \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+     {
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+        {
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+            {
+                \Tr{q_h}
+            }
+        }
+     }
+     ,
+     \pstree[nodesep=1pt,levelsep=3ex]{\Tr{h}}{}
+    \end{Bmatrix}
+        \Rightarrow
+\end{comment}
+   \begin{Bmatrix}
+     \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+     {
+            \Tr{c}
+     }
+     \hspace{2mm}
+     ,
+     \hspace{2mm}
+     \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+     {
+         \pstree[nodesep=1pt,levelsep=3ex]{\Tr{c}}
+         {
+            \Tr{h}
+         }
+     }
+    \hspace{2mm}
+     ,
+     \hspace{2mm}
+
+     \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+     {
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+        {
+            \Tr{b}
+        }
+     }
+     \hspace{2mm}
+     ,
+     \hspace{2mm}
+     \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+     {
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+        {
+            \pstree[nodesep=1pt,levelsep=3ex]{\Tr{b}}
+            {
+                \Tr{h}
+            }
+        }
+     }
+     \hspace{2mm}
+     ,
+     \hspace{2mm}
+
+     \pstree[nodesep=1pt,levelsep=3ex]{\Tr{h}}{}
+    \end{Bmatrix}
+%\end{eqnarray*}
+$
+}\\
+%Since we could generate all trees in the axioms directly from the transitions itself, no need to set the tuple associated with the axioms.
+%Create rules for generating all trees both in $A_1$ and $A_2$.\\\\
+$R$ contains rules,\\
+%   $r_1=(\chi _1,C_1,C_2)$, $r_2=(\chi _2, C_1|C_4)$,  $r_3=(\chi _3, C_3|C_4)$ where \\
+   $r_1=(\chi _1,C_1,C_2)$, $r_2=(\chi _2, U_1)$,  $r_3=(\chi _3, U_2)$ where \\
+   $\chi _1=(a,-,-),\chi _2=(b,-),\chi_3 =(c,-)$, $U_1\in \{C_1,C_4\},U_2\in \{C_3,C_4\}$\\
+    $C_1 =(A_2,b,1),C_2=(A_2,c,2),C_3=(A_2,c,1),C_4=(A_2,h,1)$\\\\
+So the tree insertion system equivalent to $D_{r_{5}}$ is            
+$\Gamma _{r_{5}} = (\Sigma ,\mathcal{A},\mathcal{A} ',R)$ where,\\\\
+    $\Sigma =\{a_2,b_1,c_1,h_0\}$, $\mathcal{A} = \{A_1,A_2\}$,$F_1=[-1,-1,-1],F_2=[-1,-1,-1]$,$\mathcal{A}'= \{A_1\}$\\
+\noindent \rule{\textwidth}{1pt}
+\end{example}    
+
+\begin{example}
+%\textbf{Example 1:} $L_{r_{10}}=\{t | t\mbox{ has  }a\mbox{ as root}\}$\\\\
+                     $L_{r_{3}}=\{t | t\mbox{ has  }a\mbox{ as root}\}$\\\\
+Consider the tree automata $D_{r_{3}}=(Q,\Sigma ' ,Q_f, \Delta)$ which accepts the language $L_{r_{3}}$ over 
+the alphabet $\Sigma ' =\{a_2,b_2,c_0\}$ 
+where $Q=\{q_a,q_b,q_c\},Q_f=\{q_a\}$ and $\Delta$ contains following transitions.\\
+
+\begin{tabular}{llllll}
+$c\rightarrow q_c$ & $ b(q_c,q_c) \rightarrow q_b$ & $ b(q_a,q_a) \rightarrow q_b$ & $b(q_b,q_b) \rightarrow q_b$ & 
+$b(q_a,q_c) \rightarrow q_b$\\
+$b(q_c,q_a) \rightarrow q_b$ & $ b(q_b,q_c) \rightarrow q_b$ & $ b(q_c,q_b) \rightarrow q_b$ & $b(q_a,q_b) \rightarrow q_b$ & 
+$b(q_b,q_a) \rightarrow q_b$\\
+$ a(q_c,q_c) \rightarrow q_a$ & $ a(q_a,q_a) \rightarrow q_a$ & $a(q_b,q_b) \rightarrow q_a$ & $a(q_a,q_c) \rightarrow q_a$ &
+$ a(q_c,q_a) \rightarrow q_a$\\
+$ a(q_b,q_c) \rightarrow q_a$ & $ a(q_c,q_b) \rightarrow q_a$ & $a(q_a,q_b) \rightarrow q_a$ & $a(q_b,q_a) \rightarrow q_a$\\
+\end{tabular}
+\\Create initial axiom $A_1$ from transitions which directly leads to final state $q_a$.
+
+{\small $A_1=
+    \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{a}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{b}
+        }
+        , 
+         \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{a}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{a}
+        }       ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{a}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{a}
+        }
+   \end{Bmatrix}$}\\
+Create other axiom $A_2$ from transitions that leads to states which are the arguments of final state transitions.
+
+{\small
+    $A_2=
+\begin{Bmatrix}
+       \pstree[nodesep=1pt,levelsep=4ex]{\Tr{c}}
+        {}
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{b}
+        }
+        , 
+         \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{a}
+        }       ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{a}
+        }
+
+\end{Bmatrix}$}\\
+Since we could generate all trees in the axioms directly from the transitions itself,  no need to set the tuple associated with the axioms.\\
+Create rules for generating all trees in both $A_1$ and $A_2$.\\\\
+$R$ contains rules,\\\\
+%   $r_1=(\chi _1,(C_1|C_3),(C_2|C_4))$, $r_2=(\chi _2, (C_1|C_3),(C_2|C_4))$,  where \\
+   $r_1=(\chi _1,U_1,U_2)$, $r_2=(\chi _2, U_1,U_2)$,  where \\
+   $\chi _1=(a,-,-),\chi _2=(b,-,-)$,        
+   $U_1\in \{C_1,C_3\},U_2\in \{C_2,C_4\}$\\
+   $C_1 =(A_1,a,1),C_2=(A_1,a,2),C_3=(A_2,V_1,1),C_4=(A_2,V_1,2)$\\
+   $V_1\in \{b,c\}$\\\\
+%   $C_1 =(A_1,a,1),C_2=(A_1,a,2),C_3=(A_2,b|c,1),C_4=(A_2,b|c,2)$\\\\
+So the tree insertion system equivalent to $D_{r_{3}}$ is            
+$\Gamma _{r_{3}} = (\Sigma ,\mathcal{A},\mathcal{A} ',R)$ where,\\
+
+    $\Sigma =\{a_2,b_2,c_0\}$,  
+$\mathcal{A} = \{A_1,A_2\}$, $F_1=[-1,-1,-1],F_2=[-1,-1,-1]$,
+$\mathcal{A}'= \{A_1\}$\\
+\noindent \rule{\textwidth}{1pt}
+\end{example}    
+\begin{example}
+%\textbf{Example 2:} $L_{r_{12}}=\{t|\mbox{ no }a\mbox{ in } t\mbox{ has an } a \mbox{as child}.\}$\\\\        
+                     $L_{r_{6}}=\{t|\mbox{ no }a\mbox{ in } t\mbox{ has an } a \mbox{ as child}.\}$\\\\ 
+Consider the tree automata $D_{r_{6}}=(Q,\Sigma ' ,Q_f, \Delta)$ which accepts the language $L_{r_{6}}$ over the 
+alphabet $\Sigma ' =\{a_2,b_2,c_0\}$ 
+where $Q=\{q_a,q_b,q_c\},Q_f=\{q_a,q_b,q_c\}$ and $\Delta$ contains following transitions.\\
+
+\begin{tabular}{llllll}
+$c\rightarrow q_c$ & $ b(q_c,q_c) \rightarrow q_b$ & $ b(q_a,q_a) \rightarrow q_b$ & $b(q_b,q_b) \rightarrow q_b$ & 
+  $ b(q_a,q_c) \rightarrow q_b$\\ 
+& $ b(q_c,q_a) \rightarrow q_b$ & $ b(q_b,q_c) \rightarrow q_b$ & $ b(q_c,q_b) \rightarrow q_b$ & $ b(q_a,q_b) \rightarrow q_b$\\
+& $ b(q_b,q_a) \rightarrow q_b$ & $ a(q_c,q_c) \rightarrow q_a$ & $ a(q_b,q_b) \rightarrow q_a$ & $ a(q_b,q_c) \rightarrow q_a$\\
+& $ a(q_c,q_b) \rightarrow q_a$\\
+\end{tabular}
+\\Create initial axiom $A_1$ from transitions which directly leads to final state $q_a$.
+
+{\small $A_1=
+    \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{c}}
+        {}
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{b}
+        }
+        , 
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{b}
+        }
+        ,\\ 
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{a}
+        }       ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{a}
+        }
+     \end{Bmatrix}$}\\\\
+There is no non-final state in this automata. So $\mathcal{A} =\mathcal{A} '= \{A_1\}$.
+Since we could generate all trees in the axioms directly from the transitions itself, no need to set the tuple associated with the axioms.\\
+Create rules for generating all trees in $A_1$.\\\\
+$R$ contains rules,\\
+   $r_1=(\chi _1,C_1,C_2)$,$r_2=(\chi _2, C_3,C_4)$,  where \\
+   $\chi _1=(a,-,-),\chi _2=(b,-,-)$\\        
+    $C_1 =(A_1,V_1,1),C_2=(A_1,V_1,2),C_3=(A_1,V_2,1),C_4=(A_1,V_2,2)$\\
+        $V_1\in \{c,b\},V_2\in \{a,b,c\}$  \\\\
+%    $C_1 =(A_1,c|b,1),C_2=(A_1,c|b,2),C_3=(A_1,a|b|c,1),C_4=(A_1,a|b|c,2)$\\\\      
+So the tree insertion system equivalent to $D_{r_{6}}$ is            
+$\Gamma _{r_{6}} = (\Sigma ,\mathcal{A},\mathcal{A} ',R)$ where,\\
+
+    $\Sigma =\{a_2,b_2,c_0\}$,  
+$\mathcal{A} = \{A_1\}$, $F_1=[-1,-1,-1]$
+$\mathcal{A}'= \{A_1\}$\\
+\noindent \rule{\textwidth}{1pt}
+\end{example}    
+\begin{example}
+%\textbf{Example 4:} $L_{r_{11}}=\{t|n_a(t)\%2\neq 0\}$\\\\        
+                     $L_{r_{4}}=\{t|n_a(t)\%2\neq 0\}$\\\\ 
+Consider the tree automata $D_{r_{4}}=(Q,\Sigma ',Q_f, \Delta)$ which accepts the language $L_{r_{4}}$ over the alphabet 
+$\Sigma '=\{a_2,b_2,c_0\}$ 
+where $Q=\{e,o\},Q_f=\{o\}$ and $\Delta$ contains following transitions.\\
+
+\begin{tabular}{llllll}
+$c\rightarrow e$ & $ b(e,e) \rightarrow e$ & $ b(o,o) \rightarrow e$ & $a(e,o) \rightarrow e$ & 
+$a(o,e) \rightarrow e$\\
+&$b(e,o) \rightarrow o$ & $ b(o,e) \rightarrow o$ & $ a(e,e) \rightarrow o$ & $a(o,o) \rightarrow o$\\ 
+\end{tabular}\\\\
+
+Here the transition shows a recursive behaviour and so it is not possible to generate all axioms for this language.
+% But inorder to design the tree insertion system, first we need some idea about the language. To get this idea, 
+Generate  temporary axioms: $AF$, from final state transitions and $AN$, from non-final state transitions.
+
+{\small 
+    \begin{eqnarray*}
+    \mbox{AF initially contains }
+	& &
+    \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{e}
+            \Tr{o}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{o}
+            \Tr{e}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{e}
+            \Tr{e}
+        }
+        , 
+         \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{o}
+            \Tr{o}
+        }
+      \end{Bmatrix} \mbox{ which leads to }\\
+        %\hspace{2cm} 
+%{\small 
+    &  &
+    \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{e}
+            \Tr{o}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{o}
+            \Tr{e}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{e}
+            \Tr{e}
+        }
+        , 
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{o}
+            \Tr{o}
+        }
+        ,
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {}
+      \end{Bmatrix} \mbox{which then leads to }\\
+%{\small 
+    &  &
+    \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{b}
+        }
+,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{c}
+        }
+        , 
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        , 
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{a}
+            \Tr{a}
+        }
+        , 
+ \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {}
+    \end{Bmatrix}\\ 
+          AN \mbox{ initially contains }
+&  &
+      \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{c}}
+        {}
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{e}
+%           {\tiny{\psset{linestyle=none}\TR{(l)}} }
+            \Tr{e}
+        }       ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{o}
+            \Tr{o}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{e}
+            \Tr{o}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{o}
+            \Tr{e}
+        }
+      \end{Bmatrix} \mbox{ which leads to }\\
+        %\hspace{3cm}  
+      &  &
+      \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{c}}
+        {}
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {} 
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{e}
+            \Tr{e}
+        }
+	,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{o}
+            \Tr{o}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{e}
+            \Tr{o}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{o}
+            \Tr{e}
+        }
+      \end{Bmatrix} \mbox{ which then leads to}\\
+%        \hspace{2cm}  
+        &   &
+      \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{c}}
+        {}
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {}
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{b}
+        }
+        ,  \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{c}
+        }
+        ,  \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        ,  \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        ,  \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{a}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{a}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{a}
+            \Tr{c}
+        }
+  \end{Bmatrix}
+\end{eqnarray*}
+}\\
+
+The two axiom sets $AF$ and $AN$ differs in the number of $a's$. So $AF$ has some constraint on $a$.
+
+Set the flag associated with $AF$.
+
+Here $x=0$.\\
+Since all axioms in $AF$ contains $a$, $n=1$ and one of the axiom contains 3 $a's$, $m=3$.
+So $y=1$ and $z=2$
+
+In $AF$, split the axioms so that each axiom contains single $a's$.\\
+{\small 
+$    
+	AF =
+    \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{b}
+        }
+,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{c}
+        }
+        , 
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+
+
+        , 
+ \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {}
+    \end{Bmatrix}$}\\ 
+Now let $A_1=AN$ and $A_2=AF$.\\
+As both $a$ and $b$ can lead to final state directly, the insertion can be start from either $A_1$ or $A_2$.
+Hence\\ 
+
+$\mathcal{A} =\{A_1,A_2\}$. $F_1=[-1,-1,-1],F_2=[0,1,2]$
+$\mathcal{A}' =\{A_1,A_2\}$.\\
+
+Create rules for generating all trees both in $A_1$ and in $A_2$.\\
+$R$ contains rules,\\
+   $r_1=(\chi _1,U_1,U_2)$,
+   $r_2=(\chi _2, U_1,U_2)$,
+  where \\
+   $\chi _1=(a,-,-),\chi _2=(b,-,-)$,
+   $U_1\in \{C_1,C_3\},U_2\in \{C_2,C_4\}$\\%,U_3\in \{C_1,C_4\},U_4\in \{C_1,C_3\}$\\
+    $C_1 =(A_1,V_1,1),C_2=(A_1,V_1,2),C_3=(A_2,V_2,1),C_4=(A_2,V_2,2)$\\
+    $V_1\in \{c,b\},V_2\in \{a,b\}$\\\\
+So the tree insertion system equivalent to $D_{r_{4}}$ is            
+$\Gamma _{r_{4}} = (\Sigma ,\mathcal{A},\mathcal{A} ',R)$ where,\\
+
+    $\Sigma =\{a_2,b_2,c_0\}$,  
+$\mathcal{A} ,\mathcal{A}'$ and $R$ as given above.\\
+
+\noindent \rule{\textwidth}{1pt}
+\end{example}    
+
+
+
+
+
+\begin{example}
+%\textbf{Example 4:} $L_{r_{11}}=\{t|n_a(t)\%2\neq 0\}$\\\\        
+                     $L_{r_{8}}=\{t|n_a(t)\%2= 0\}$\\\\ 
+Consider the tree automata $D_{r_{8}}=(Q,\Sigma ',Q_f, \Delta)$ which accepts the language $L_{r_{8}}$ over the alphabet 
+$\Sigma '=\{a_2,b_2,c_0\}$ 
+where $Q=\{e,o\},Q_f=\{e\}$ and $\Delta$ contains following transitions.\\
+
+\begin{tabular}{llllll}
+$c\rightarrow e$ & $ b(e,e) \rightarrow e$ & $ b(o,o) \rightarrow e$ & $a(e,o) \rightarrow e$ & 
+$a(o,e) \rightarrow e$\\
+&$b(e,o) \rightarrow o$ & $ b(o,e) \rightarrow o$ & $ a(e,e) \rightarrow o$ & $a(o,o) \rightarrow o$\\ 
+\end{tabular}\\\\
+
+Here the transition shows a recursive behaviour and so it is not possible to generate all axioms for this language.
+% But inorder to design the tree insertion system, first we need some idea about the language. To get this idea, 
+Generate  temporary axioms: $AF$, from final state transitions and $AN$, from non-final state transitions.
+
+{\small 
+    \begin{eqnarray*}
+    \mbox{AN initially contains }
+	& &
+    \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{e}
+            \Tr{o}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{o}
+            \Tr{e}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{e}
+            \Tr{e}
+        }
+        , 
+         \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{o}
+            \Tr{o}
+        }
+      \end{Bmatrix} \mbox{ which leads to }\\
+        %\hspace{2cm} 
+%{\small 
+    &  &
+    \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{e}
+            \Tr{o}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{o}
+            \Tr{e}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{e}
+            \Tr{e}
+        }
+        , 
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{o}
+            \Tr{o}
+        }
+        ,
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {}
+      \end{Bmatrix} \mbox{which then leads to }\\
+%{\small 
+    &  &
+    \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{b}
+        }
+,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{c}
+        }
+        , 
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        , 
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{a}
+            \Tr{a}
+        }
+        , 
+ \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {}
+    \end{Bmatrix}\\ 
+          AF \mbox{ initially contains }
+&  &
+      \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{c}}
+        {}
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{e}
+%           {\tiny{\psset{linestyle=none}\TR{(l)}} }
+            \Tr{e}
+        }       ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{o}
+            \Tr{o}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{e}
+            \Tr{o}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{o}
+            \Tr{e}
+        }
+      \end{Bmatrix} \mbox{ which leads to }\\
+        %\hspace{3cm}  
+      &  &
+      \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{c}}
+        {}
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {} 
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{e}
+            \Tr{e}
+        }
+	,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{o}
+            \Tr{o}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{e}
+            \Tr{o}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{o}
+            \Tr{e}
+        }
+      \end{Bmatrix} \mbox{ which then leads to}\\
+%        \hspace{2cm}  
+        &   &
+      \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{c}}
+        {}
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {}
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{b}
+        }
+        ,  \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{c}
+        }
+        ,  \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+        ,  \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        ,  \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{a}
+        }
+        ,       
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{a}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{a}
+            \Tr{c}
+        }
+  \end{Bmatrix}
+\end{eqnarray*}
+}\\
+
+The two axiom sets $AF$ and $AN$ differs in the number of $a's$. So $AF$ has some constraint on $a$.
+
+Set the flag associated with $AF$.
+
+Here $x=0$.\\
+Since $AF$ contains some axioms without an $a$, $y=0$ and one of the axiom contains 2 $a's$, $m=2$.
+So $z=1$
+
+In $AF$, split the axioms so that each axiom contains single $a's$.\\
+{\small 
+$    
+	AF =
+    \begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{c}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{b}
+            \Tr{a}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{c}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+        {
+            \Tr{a}
+            \Tr{b}
+        }
+,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{c}
+        }
+        , 
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{c}
+            \Tr{b}
+        }
+        ,
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {
+            \Tr{b}
+            \Tr{c}
+        }
+
+
+        , 
+ \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+        {}
+    \end{Bmatrix}$}\\ 
+Now let $A_1=AN$ and $A_2=AF$.\\
+As both $a$ and $b$ can lead to final state directly, the insertion can be start from either $A_1$ or $A_2$.
+Hence\\ 
+
+$\mathcal{A} =\{A_1,A_2\}$. $F_1=[-1,-1,-1],F_2=[0,0,1]$
+$\mathcal{A}' =\{A_1,A_2\}$.\\
+
+Create rules for generating all trees both in $A_1$ and in $A_2$.\\
+$R$ contains rules,\\
+   $r_1=(\chi _1,U_1,U_2)$,
+   $r_2=(\chi _2, U_1,U_2)$,
+  where \\
+   $\chi _1=(a,-,-),\chi _2=(b,-,-)$,
+   $U_1\in \{C_1,C_3\},U_2\in \{C_2,C_4\}$\\%,U_3\in \{C_1,C_4\},U_4\in \{C_1,C_3\}$\\
+    $C_1 =(A_1,V_1,1),C_2=(A_1,V_1,2),C_3=(A_2,V_2,1),C_4=(A_2,V_2,2)$\\
+    $V_1\in \{c,b\},V_2\in \{a,b\}$\\\\
+So the tree insertion system equivalent to $D_{r_{8}}$ is            
+$\Gamma _{r_{8}} = (\Sigma ,\mathcal{A},\mathcal{A} ',R)$ where,\\
+
+    $\Sigma =\{a_2,b_2,c_0\}$,  
+$\mathcal{A} ,\mathcal{A}'$ and $R$ as given above.\\
+
+\noindent \rule{\textwidth}{1pt}
+\end{example}    
+\emph{\textbf{Result 2:} Given a finite bottom-up tree automata, we can construct an equivalent tree insertion system.}\\
+\noindent \rule{\textwidth}{1pt}\\\\
+\emph{\textbf{Claim: From Result 1 and Result 2, the generative powers of tree insertion systems and regular tree grammars are equal.}}\\
+\subsection{Extended Systems}
+An \emph{extended tree insertion system} can be defined by defining two types of alphabets $T$ and $N$ with $\Sigma = T\cup N$ 
+and additional restriction that
+the symbols in $T$ have arity 0 and each symbol from $N$ has a finite number of arities.
+
+With this extended definition, the parse trees of a context-free grammar can be generated. 
+\begin{example}
+Consider the $CFG$ 
+\hbox{$G=(\{S\},\{a,b\},\{S\rightarrow aSS,S\rightarrow b\},S)$}. The parse tree of $G$ can be generated by the extended tree insertion system
+$(\Sigma ,\mathcal{A} ,\mathcal{A} ',R)$ with $\Sigma =N\cup T$, $N=\{S\}$, $T=\{a,b\}$, arity of $S$ is $\{1,3\}$. Axioms are 
+{\small
+$A_1=\{S
+%\begin{Bmatrix}
+ %       \pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+  %      { }
+%\end{Bmatrix}
+\}
+$}
+and
+{\small
+$
+A_2=\{
+%\begin{Bmatrix}
+  %      \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+   %     { }
+	a
+%	,
+%	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+ %       { }
+%	S
+	,
+%	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+ %       { }
+	b
+%\end{Bmatrix}
+\}
+$}
+with flags $F_1=[-1,-1,-1],F_2=[-1,-1,-1]$, where $\mathcal{A} '=\{A_1\}$. The rules are $r_1=(\chi _1 ,C_1,C_2,C_3)$ and $r_2=(\chi _1,C_4)$, 
+where $\chi _1=(S,-,-),C_1=(A_2,a,1),C_2=(A_1,S,2),C_3=(A_1,S,3),C_4=(A_2,b,1)$.
+
+As an example of derivation
+
+\hbox{
+{\tiny
+$
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+        { 
+	}
+ \Rightarrow       
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+        { 
+		\Tr{a}
+		\Tr{S}		
+		\Tr{S}
+	}
+\Rightarrow
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+        { 
+		\Tr{a}
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+	        {
+			\Tr{b}
+		} 
+		\Tr{S}
+	}
+\Rightarrow
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+        { 
+		\Tr{a}
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+	        {
+			\Tr{b}
+		} 
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+		{ 
+			\Tr{a}
+			\Tr{S}
+			\Tr{S}
+		}
+	}
+\Rightarrow
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+        { 
+		\Tr{a}
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+	        {
+			\Tr{b}
+		} 
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+		{ 
+			\Tr{a}
+			\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+		        {
+				\Tr{b}
+			} 
+			\Tr{S}
+		}
+	}
+\Rightarrow
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+        { 
+		\Tr{a}
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+	        {
+			\Tr{b}
+		} 
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+		{ 
+			\Tr{a}
+			\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+		        {
+				\Tr{b}
+			} 
+			\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+	        	{
+				\Tr{b}
+			} 
+		}
+	}
+$}}
+\noindent \rule{\textwidth}{1pt}
+\end{example}
+
+
+
+
+
+\begin{example}
+Consider the $CFG$ 
+\hbox{$G=(\{S\},\{a,b\},\{S\rightarrow aSb,S\rightarrow SS\},S)$}. The parse tree of $G$ can be generated by the extended tree insertion system
+$(\Sigma ,\mathcal{A} ,\mathcal{A} ',R)$ with $\Sigma =N\cup T$, $N=\{S\}$, $T=\{a,b\}$, arity of $S$ is $\{2,3\}$. Axioms are 
+{\small
+$A_1=\{S
+%\begin{Bmatrix}
+ %       \pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+  %      { }
+%\end{Bmatrix}
+\}
+$}
+and
+{\small
+$
+A_2=\{
+%\begin{Bmatrix}
+  %      \pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+   %     { }
+	a
+%	,
+%	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+ %       { }
+%	S
+	,
+%	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+ %       { }
+	b
+%\end{Bmatrix}
+\}
+$}
+with flags $F_1=[-1,-1,-1],F_2=[-1,-1,-1]$, where $\mathcal{A} '=\{A_1\}$. The rules are $r_1=(\chi _1 ,C_1,C_2,C_3)$ , $r_2=(\chi _1,C_1,C_2)$ 
+and $r_3=(\chi _1,C_4,C_5)$, 
+where $\chi _1=(S,-,-),C_1=(A_2,a,1),C_2=(A_1,S,2),C_3=(A_2,b,3),C_4=(A_1,S,1),C_5=(A_1,S,2)$.
+
+As an example of derivation
+
+\hbox{
+{\small
+$
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+        { 
+	}
+ \Rightarrow       
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+        { 
+		\Tr{a}
+		\Tr{S}		
+		\Tr{b}
+	}
+\Rightarrow
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+        { 
+		\Tr{a}
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+	        {
+			\Tr{S}
+			\Tr{S}
+		} 
+		\Tr{b}
+	}
+\Rightarrow
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+        { 
+		\Tr{a}
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+	        {
+			\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+			{
+				\Tr{a}
+				\Tr{b}
+			}
+			\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+			{
+				\Tr{S}
+				\Tr{S}
+			}	
+		} 
+		\Tr{b}
+	}
+\Rightarrow
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+        { 
+		\Tr{a}
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+	        {
+			\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+			{
+				\Tr{a}
+				\Tr{b}
+			}
+			\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+			{
+				\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+				{
+					\Tr{a}
+					\Tr{b}
+				}
+				\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+				{
+					\Tr{a}
+					\Tr{b}
+				}
+			}	
+		} 
+		\Tr{b}
+	}
+$}}
+\noindent \rule{\textwidth}{1pt}
+\end{example}
+
+But the extended tree insertion system is not capable of generating parse trees for some context free grammars like 
+$G=({S,B,C},{a,b},{S\rightarrow aB|bC|aa|bb,B\rightarrow Sa,C\rightarrow Sb},S)$. 
+
+The extended tree insertion system $\Gamma=(\Sigma,\mathcal{A},\mathcal{A'},R)$, where
+
+ $\Sigma=\{S,B,C,a,b\}$, $\mathcal{A}=\{A_1,A_2\}$, $\mathcal{A'}=\{A_1\}$\\
+{\small
+$A_1=
+\begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+         { 
+		\Tr{a}
+		\Tr{B}	
+	 }
+	,
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+         { 
+		\Tr{b}
+		\Tr{C}	
+	 }
+	,
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+         { 
+		\Tr{a}
+		\Tr{a}	
+	 }
+	,
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+         { 
+		\Tr{b}
+		\Tr{b}	
+	 }
+\end{Bmatrix}
+$}
+,
+{\small
+$
+A_2=
+\begin{Bmatrix}
+      \pstree[nodesep=1pt,levelsep=4ex]{\Tr{B}}
+         { 
+		\Tr{S}
+		\Tr{a}	
+	 }
+	,
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{C}}
+         { 
+		\Tr{S}
+		\Tr{b}	
+	 }
+	,
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+         { 		
+	 }
+	,
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+         { 
+	 }
+\end{Bmatrix}
+$}
+
+ and $R=\{r_1,r_2,r_3\}$ where,\\$r_1=(\chi_1,C_1,C_2),r_2=(\chi_2,C_3,C_4),r_3=(\chi_3,C_3,C_5)$\\
+$\chi_1=(S,-,-),\chi_2=(B,-,-),\chi_3=(C,-,-)\\C_1=(A_2,U_1,1),C_2=(A_2,U_2,2),C_3=(A_1,S,1),C_4=(A_2,a,2),C_5=(A_2,b,2)\\
+U_1\in\{(a,b\},U_2\in\{B,C,a,b\}$\\
+can generate tree in figure~\ref{xtnd_prstree1} which is not generated by the given grammar $G$.
+\begin{figure}[h]
+\begin{center}
+{\small
+      \pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+         { 
+		\Tr{a}
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{B}}
+         	{ 
+			\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}	
+			{
+				\Tr{b}
+				\pstree[nodesep=1pt,levelsep=4ex]{\Tr{B}}
+				{
+					\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}	
+					{	
+						\Tr{a}	
+						\Tr{a}	
+					}
+					\Tr{a}	
+				}
+			}
+			\Tr{a}	
+		}
+	 }
+}
+\end{center}
+\label{xtnd_prstree1}
+\caption{Parse Tree Generated}
+\end{figure}
+By using a tree insertion system with replacement, we can generate the parse tree of the above grammar.
+\subsection{Tree Insertion Systems with Replacement}
+A \emph{tree insertion system with replacement} can be defined by defining two types of alphabets $T$ and $N$ with $\Sigma = T\cup N$ 
+and additional restriction that
+the symbols in $T$ have arity 0 and each symbol from $N$ has a finite number of arities. Here a subtree is inserted in to a tree by cutting the
+ tree at an internal node and inserting the subtree with the cut subtree attaching to a leaf of the inserted tree. 
+\begin{example}
+The  tree insertion system with replacement $\Gamma=(\Sigma,\mathcal{A},\mathcal{A'},R)$, where
+
+ $\Sigma=\{S,B,C,a,b\}$, $\mathcal{A}=\{A_1,A_2\}$, $\mathcal{A'}=\{A_1\}$\\
+{\small
+$A_1=
+\begin{Bmatrix}
+        \pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+         { 
+		\Tr{a}
+		\Tr{B}	
+	 }
+	,
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+         { 
+		\Tr{b}
+		\Tr{C}	
+	 }
+	,
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+         { 
+		\Tr{a}
+		\Tr{a}	
+	 }
+	,
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+         { 
+		\Tr{b}
+		\Tr{b}	
+	 }
+\end{Bmatrix}
+$}
+,
+{\small
+$
+A_2=
+\begin{Bmatrix}
+      \pstree[nodesep=1pt,levelsep=4ex]{\Tr{B}}
+         { 
+		\Tr{S}
+		\Tr{a}	
+	 }
+	,
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{C}}
+         { 
+		\Tr{S}
+		\Tr{b}	
+	 }
+	,
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{a}}
+         { 		
+	 }
+	,
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{b}}
+         { 
+	 }
+\end{Bmatrix}
+$}
+
+ and $R=\{r_1,r_2,r_3\}$ where,\\$r_1=(\chi_1,C_1),r_2=(\chi_2,C_2),r_3=(\chi_3,C_3),r_4=(\chi_4,C_3)$\\
+$\chi_1=(S,-,C),\chi_2=(S,-,B),\chi_3=(B,S,-),\chi_4=(C,S,-)\\C_1=(A_2,C,2),C_2=(A_2,B,2),C_3=(A_1,S,1)\\$
+As an example of derivation
+\begin{center}
+\hbox{
+{\small
+$
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+        {
+		\Tr{a} 
+		\Tr{B}
+	}
+\Rightarrow
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+        { 
+		\Tr{a}
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{B}}
+	        {\psset{linestyle=dashed}
+			\Tr{S}
+			\Tr{a}
+		} 
+	}
+\Rightarrow
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+        { 
+		\Tr{a}
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{B}}
+	        {
+			\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+			{\psset{linestyle=dashed}
+				\Tr{b}
+				\Tr{C}
+			}
+			\Tr{a}
+		} 
+	}
+\Rightarrow
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+        { 
+		\Tr{a}
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{B}}
+	        {
+			\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+			{
+				\Tr{b}
+				\pstree[nodesep=1pt,levelsep=4ex]{\Tr{C}}
+				{\psset{linestyle=dashed}
+					\Tr{S}
+					\Tr{b}
+				}
+			}
+			\Tr{a}
+		} 
+	}
+\Rightarrow
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+        { 
+		\Tr{a}
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{B}}
+	        {
+			\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+			{
+				\Tr{b}
+				\pstree[nodesep=1pt,levelsep=4ex]{\Tr{C}}
+				{
+					\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+					{\psset{linestyle=dashed}
+						\Tr{a}
+						\Tr{a}
+					}
+					\Tr{b}
+				}
+			}
+			\Tr{a}
+		} 
+	}
+\Rightarrow \cdots \Rightarrow 
+	\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+        { 
+		\Tr{a}
+		\pstree[nodesep=1pt,levelsep=4ex]{\Tr{B}}
+	        {
+			\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+			{
+				\psset{linestyle=dashed}
+				\Tr{a}
+				\pstree[nodesep=1pt,levelsep=4ex]{\Tr{B}}
+	        		{
+					\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+					{\psset{linestyle=solid}	
+						\Tr{b}
+						\pstree[nodesep=1pt,levelsep=4ex]{\Tr{C}}
+						{
+							\pstree[nodesep=1pt,levelsep=4ex]{\Tr{S}}
+							{
+								\Tr{a}
+								\Tr{a}
+							}
+							\Tr{b}
+						}
+					}
+					\Tr{a}
+				} 
+			}
+			\Tr{a}
+		}
+	}
+$}}
+\noindent \rule{\textwidth}{1pt}
+\end{center}
+\end{example}
+%\input{treeinsertion/blocked_tree_insertion.tex}
+
+{%\small
+\begin{thebibliography}{99}\setlength{\itemsep}{-2mm}
+	\bibitem{akihiro} Akihiro Takaharai,. Takashi Yokomori, On the Computational power of insertion-deletion systems, Natural
+			Computing 2. pp. 321-336. Kluwer Academic Publishers,(2003)
+	\bibitem{paun} Gheorghe Paun., Grzegorz Rozenberg., Arto Saloma,. DNA Computing, New Computing Paradigms. Springer, (1998)	
+	\bibitem{lila} Lila Kari., Georghe Paun., Thierrin,G., Yu,S., At the crooroads of DNA computing and formal languages: Characterizing
+			RE using insertion-deletion systems. Proc. of $3^{rd}$ DIMACS Workshop on DNA based Computing, Philadelphia, pp. 318-333, (1997)
+	\bibitem{hubert} Hubert Comon., Max Dauchet Remi Gilleron.,Florent Jacquemard Denis Lugiez., Christof Loding., Sophie Tison Marc Tommasi., 
+			Tree Automata Techniques and Applications. Draft book; available electronically on http://www.grappa.univ-lille3.fr/tata, 2008.
+	\bibitem{kamala} M B Siddardha and K. Krithivasan, Ambiguity in Insertion-Deletion Kolam Array Grammers ,
+			Journal of Combinatorics, Information and System Sciences, Vol. 33,Nos. 3-4, pages 323-337, 2008.
+	\bibitem{murata}M. Murata, D. Lee, M. Mani and K. Kawaguchi. Taxonomy of XML Schema Languages using Formal Language Theory, \emph{ACM Trans.
+	\bibitem{marcus}S. Marcus, Contextual grammars, Rev. Roum. Math. Pures Appl., 14 (1969),1525–1534.
+	\bibitem{margentern} M. Margenstern, Gh. Paun, Yu. Rogozhin, S. Verlan, Context-free insertion-deletion systems. Theoretical Computer Science, 
+			330 (2005), 339–348. Inter. Tech.}, 5(4):660-704, 2005.
+	\bibitem{verlan}Sergey Verlan, On Minimal Context-Free Insertion-Deletion Systems,Journal of Automata, Languages and Combinatorics,2007,
+			12,317-328,1-2.
+	\bibitem{madhu}Madhu Mutyam and Kamala Krithivasan and A. Siddhartha Reddy,On Characterizing Recursively Enumerable Languages by Insertion
+               	Grammars,Fundam. Inform.,64,1-4,2005,317-324,
+
+\end{thebibliography}
+}
+\newpage
+%\pagenumbering{num_style}{Roman}
+%\setcounter{page}{1}
+
+
+

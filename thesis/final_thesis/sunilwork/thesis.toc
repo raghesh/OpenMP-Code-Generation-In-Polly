@@ -1,0 +1,75 @@
+\contentsline {chapter}{ACKNOWLEDGEMENTS}{i}{chapter*.1}
+\contentsline {chapter}{ABSTRACT}{iv}{chapter*.2}
+\contentsline {chapter}{LIST OF TABLES}{viii}{chapter*.4}
+\contentsline {chapter}{LIST OF FIGURES}{ix}{chapter*.5}
+\contentsline {chapter}{ABBREVIATIONS}{x}{chapter*.6}
+\contentsline {chapter}{NOTATION}{xi}{chapter*.7}
+\contentsline {chapter}{\numberline {1}INTRODUCTION}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Theoretical Computer Science}{1}{section.1.1}
+\contentsline {subsection}{\numberline {1.1.1}Importance}{2}{subsection.1.1.1}
+\contentsline {subsection}{\numberline {1.1.2}Applications}{2}{subsection.1.1.2}
+\contentsline {section}{\numberline {1.2}Transducers}{2}{section.1.2}
+\contentsline {subsection}{\numberline {1.2.1}Tree Transducers}{2}{subsection.1.2.1}
+\contentsline {subsubsection}{Different Types}{2}{subsubsection*.8}
+\contentsline {subsection}{\numberline {1.2.2}Applications}{2}{subsection.1.2.2}
+\contentsline {section}{\numberline {1.3}Insertion Deletion Systems}{2}{section.1.3}
+\contentsline {subsection}{\numberline {1.3.1}In Strings}{2}{subsection.1.3.1}
+\contentsline {subsection}{\numberline {1.3.2}In Trees}{2}{subsection.1.3.2}
+\contentsline {subsubsection}{Difference when compared to string insertion}{2}{subsubsection*.9}
+\contentsline {section}{\numberline {1.4}Motivation for this Work}{2}{section.1.4}
+\contentsline {section}{\numberline {1.5}Contributions of the Report}{2}{section.1.5}
+\contentsline {section}{\numberline {1.6}Outline of the Report}{2}{section.1.6}
+\contentsline {chapter}{\numberline {2}PRELIMINARIES}{3}{chapter.2}
+\contentsline {section}{\numberline {2.1}Basics of Formal Language}{3}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Grammars}{4}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}Regular Expressions}{4}{subsection.2.1.2}
+\contentsline {subsection}{\numberline {2.1.3}Automata}{5}{subsection.2.1.3}
+\contentsline {section}{\numberline {2.2}Insertion-deletion System}{5}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}DNA Computing}{5}{subsection.2.2.1}
+\contentsline {section}{\numberline {2.3}Tree Language}{7}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}Tree Grammars}{8}{subsection.2.3.1}
+\contentsline {subsubsection}{Regular Tree Grammars}{8}{subsubsection*.11}
+\contentsline {subsubsection}{Context-free Tree Grammars}{9}{subsubsection*.12}
+\contentsline {subsection}{\numberline {2.3.2}Tree Automata}{9}{subsection.2.3.2}
+\contentsline {subsubsection}{Distributed Tree Automata}{10}{subsubsection*.13}
+\contentsline {chapter}{\numberline {3}EARLIER WORK}{13}{chapter.3}
+\contentsline {section}{\numberline {3.1}Insertion deletion System}{13}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}Comparison with grammar systems}{16}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.2}Contextual Grammars}{18}{subsection.3.1.2}
+\contentsline {subsection}{\numberline {3.1.3}Tree Adjoining Grammars(TAG)}{18}{subsection.3.1.3}
+\contentsline {subsection}{\numberline {3.1.4}Contextual Tree Adjoining Grammars(CTAG)}{18}{subsection.3.1.4}
+\contentsline {section}{\numberline {3.2}Tree Transducer}{18}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Top-down Tree Transducers}{18}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Extended Top-down Tree Transducers}{19}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Extended Multi Bottom-up Tree Transducers}{19}{subsection.3.2.3}
+\contentsline {section}{\numberline {3.3}Learning of Finite State Automata}{21}{section.3.3}
+\contentsline {chapter}{\numberline {4}WORK DONE}{22}{chapter.4}
+\contentsline {section}{\numberline {4.1}Tree Insertion Systems}{22}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}Introduction}{22}{subsection.4.1.1}
+\contentsline {subsection}{\numberline {4.1.2}Equivalence with Regular Tree Grammar}{29}{subsection.4.1.2}
+\contentsline {subsection}{\numberline {4.1.3}Insertion System to Regular Tree Grammar}{30}{subsection.4.1.3}
+\contentsline {subsubsection}{Method of conversion}{30}{subsubsection*.21}
+\contentsline {subsection}{\numberline {4.1.4}Finite state Bottom-up Tree Automata to Insertion System}{39}{subsection.4.1.4}
+\contentsline {subsubsection}{Method of conversion}{39}{subsubsection*.22}
+\contentsline {subsection}{\numberline {4.1.5}Extended Systems}{50}{subsection.4.1.5}
+\contentsline {subsection}{\numberline {4.1.6}Tree Insertion Systems with Replacement}{52}{subsection.4.1.6}
+\contentsline {section}{\numberline {4.2}Implementation and Application of Tree Transducers}{55}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Extended Top-down Tree Transducers}{55}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Extended Multi Bottom-up Tree Transducers}{59}{subsection.4.2.2}
+\contentsline {section}{\numberline {4.3}Learning of Distributed Tree Automata}{60}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Learning from Positive Samples}{60}{subsection.4.3.1}
+\contentsline {chapter}{\numberline {5}OBSERVATIONS AND EXTENSIONS}{61}{chapter.5}
+\contentsline {section}{\numberline {5.1}Tree Insertion Systems}{61}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}In Parse Trees}{61}{subsection.5.1.1}
+\contentsline {subsubsection}{Applications in Parikh's Theorem}{61}{subsubsection*.31}
+\contentsline {section}{\numberline {5.2}Blocked Tree Insertion System}{61}{section.5.2}
+\contentsline {section}{\numberline {5.3}Insertion Tree Automata}{64}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}As Accepting Device}{64}{subsection.5.3.1}
+\contentsline {section}{\numberline {5.4}Tree Transducers}{68}{section.5.4}
+\contentsline {subsection}{\numberline {5.4.1}For Local Language Translation}{68}{subsection.5.4.1}
+\contentsline {section}{\numberline {5.5}Insertion System in Tree Transducers}{68}{section.5.5}
+\contentsline {subsection}{\numberline {5.5.1}Tree Transducer with Insertion System}{68}{subsection.5.5.1}
+\contentsline {chapter}{\numberline {6}CONCLUSION}{71}{chapter.6}
+\contentsline {section}{\numberline {6.1}Conclusion}{71}{section.6.1}
+\contentsline {section}{\numberline {6.2}Future Work}{71}{section.6.2}
+\contentsline {chapter}{\numberline {A}A SAMPLE APPENDIX}{72}{appendix.A}

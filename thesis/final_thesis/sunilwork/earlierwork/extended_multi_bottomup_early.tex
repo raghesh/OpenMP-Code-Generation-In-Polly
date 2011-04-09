@@ -1,0 +1,254 @@
+\subsection{Extended Multi Bottom-up Tree Transducers}
+\begin{example}
+The Extended Multi Botttom-up tree transducer for Copying
+\begin{table}[h]
+{\tiny
+ \begin{tabular}{llllll}
+$a(q(x1,x2,x3)) \rightarrow q(a(x1),A(x2),A1(x3))$&
+$b(q(x1,x2,x3)) \rightarrow q(b(x1),B(x2),B1(x3))$\\
+$q(x1,x2,x3) \rightarrow f(x1,x2,x3)$&
+$e \rightarrow q(e,E,E1)$
+\end{tabular}
+}
+\caption{Transition table for Copying.}
+\end{table}
+\begin{figure}
+{\tiny
+%Given Tree
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { a } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { b } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { b } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { b } }
+{
+\Tr { e }
+}
+}
+}
+}%\newpage
+%In Pass 1
+%\\ 
+%The Matching Transition :  $ e\rightarrow  q(e,E,E1)$
+$\Rightarrow$
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { a } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { b } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { b } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { b } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { q } }
+{
+\Tr { e }
+\Tr { E }
+\Tr { E1 }
+}
+}
+}
+}
+}%\\%\newpage
+%In Pass 2
+%\\ 
+%The Matching Transition :  $ b(q(x1,x2,x3)) \rightarrow q(b(x1),B(x2),B1(x3))$
+$\Rightarrow$
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { a } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { b } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { b } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { q } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { b } }
+{
+\Tr { e }
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { B } }
+{
+\Tr { E }
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { B1 } }
+{
+\Tr { E1 }
+}
+}
+}
+}
+}%\\%\newpage
+%In Pass 3
+%\\ 
+%The Matching Transition :  $ b(q(x1,x2,x3)) \rightarrow q(b(x1),B(x2),B1(x3))$
+$\Rightarrow$
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { a } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { b } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { q } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { b } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { b } }
+{
+\Tr { e }
+}
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { B } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { B } }
+{
+\Tr { E }
+}
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { B1 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { B1 } }
+{
+\Tr { E1 }
+}
+}
+}
+}
+}%\newpage
+%In Pass 4
+%\\ 
+%The Matching Transition :  $ b(q(x1,x2,x3)) \rightarrow q(b(x1),B(x2),B1(x3))$
+$\Rightarrow$
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { a } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { q } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { b } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { b } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { b } }
+{
+\Tr { e }
+}
+}
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { B } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { B } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { B } }
+{
+\Tr { E }
+}
+}
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { B1 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { B1 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { B1 } }
+{
+\Tr { E1 }
+}
+}
+}
+}
+}%\\%\newpage
+%In Pass 5
+%\\ 
+%The Matching Transition :  $ a(q(x1,x2,x3)) \rightarrow q(A(x1),A(x2),A1(x3))$
+$\Rightarrow$
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { q } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { a } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { b } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { b } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { b } }
+{
+\Tr { e }
+}
+}
+}
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { A } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { B } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { B } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { B } }
+{
+\Tr { E }
+}
+}
+}
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { A1 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { B1 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { B1 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { B1 } }
+{
+\Tr { E1 }
+}
+}
+}
+}
+}%\newpage
+%In Pass 6
+%\\ 
+%The Matching Transition :  $ q(x1,x2,x3)\rightarrow  f(x1,x2,x3)$
+$\Rightarrow$
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { f } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { a } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { b } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { b } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { b } }
+{
+\Tr { e }
+}
+}
+}
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { A } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { B } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { B } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { B } }
+{
+\Tr { E }
+}
+}
+}
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { A1 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { B1 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { B1 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { B1 } }
+{
+\Tr { E1 }
+}
+}
+}
+}
+}%\\%\newpage
+%In Pass 7
+%\\ 
+%There is no further matching transitions
+\label{xmbt1}
+\caption{Extended Multi Bottom-up Transducer for Copying}
+}
+\end{figure}
+\end{example}

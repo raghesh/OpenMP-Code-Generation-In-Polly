@@ -1,0 +1,161 @@
+%\subsection{In String Languages}
+
+The operations of insertion and deletion are fundamental in formal language theory,
+and generative mechanisms based on them have been considered (with linguistic motivation)
+ since a long time ago, see ~\cite{marcus} . 
+
+In general form, an insertion operation means adding a substring to a given string
+in a specified context, while a deletion operation means removing a substring of a
+given string from a specified context. A finite set of insertion-deletion rules, together
+with a set of axioms provide a language generating device (an \emph{Insdel system}): starting 
+from the set of initial strings and iterating insertion-deletion operations as defined
+by the given rules we obtain a language. The number of axioms, the length of the
+inserted or deleted strings, as well as the length of the contexts where these operations
+take place are natural descriptional complexity measures in this framework. As expected, 
+insertion and deletion operations with context dependence are very powerful,
+leading to characterizations of recursively enumerable languages. 
+
+
+The paper ~\cite{margentern} contains an unexpected result: context-free insertion-deletion systems
+with one axiom are already universal, they can generate any recursively enumerable
+language. Moreover, this result can be obtained by inserting and deleting strings of
+a rather small length, at most three. The same paper stated an open question about
+context-free insertion-deletion systems having rules dealing with strings of length at
+most two.
+
+In ~\cite{verlan} the author answer this open question and showed that if the length of the
+inserted and deleted string is at most two, then such systems generate a particular
+subset of the family of context-free languages. They also showed that the traditional
+complexity measures for insertion-deletion systems, in particular the size of contexts,
+need a revision and we propose new measures based on the total weight.
+
+The insertion and deletion operations with context dependendence are given in ~\cite{paun}. Here the authors 
+explained how a string is inserted/deleted between two given strings using the concept of $DNA$ computing.
+
+The $insertion$ process can be described as follows.
+
+Suppose if we add a single stranded $DNA$ sequence of the form $5'-x_1uvx_2z-3'$ to a test tube which contains another single stranded $DNA$ 
+sequence of the form $3'-\bar{u}\bar{y}\bar{v}-5'$ where $x_1,x_2,u,v,z$ are strings, $\bar{u},\bar{v}$ are the Wartson-Crick complements 
+of the strings $u,v$ and $\bar{y}$ is the complement of some new string $y$. Then the $DNA$ strand will \emph{anneal}, $\bar{u}$ will
+stick to $u$ and $\bar{v}$ to $v$, folding $\bar{y}$ as shown in figure~\ref{dna_insert}. If we cut the double stranded subsequence $uv$ by using a 
+restricyion enzyme: adding $\bar{z}$, which acts as \emph{primer}, we will get a complete double stranded sequence. We can now seperate the two strands 
+by melting the solution and hence we obtain two strands $x_1uyvx_2z$ and $\bar{x_1}\bar{u}\bar{y}\bar{v}\bar{x_2}\bar{z}$. Hence the string $y$ has been
+inserted between strings $u$ and $v$.
+
+Similarly by using a mismatching annealing, deletion operation which is controlled by a context, can also perform theoretically. The different steps in deletion process is shown in figure ~\ref{dna_delet}.
+\begin{definition}
+An Insdel system ~\cite{verlan} is a construct $\gamma = (V, T, A, I, D)$, where $V$ is an alphabet, $T \subseteq V$ ,
+$A$ is a finite language over $V$ , and $I$, $D$ are finite sets of triples of the form $(u, \alpha, v)$, of
+strings over $V$ . The elements of $T$ are terminal symbols (in contrast, those of $V − T$
+are called nonterminals), those of $A$ are axioms, the triples in $I$ are insertion rules,
+and those from $D$ are deletion rules. An insertion rule $(u, \alpha, v) \in I$ indicates that
+the string $\alpha$ can be inserted in between $u$ and $v$, while a deletion rule $(u, \alpha, v) \in D$
+indicates that $\alpha$ can be removed from the context $(u, v)$. Stated otherwise, $(u, \alpha, v) \in I$
+corresponds to the rewriting rule $uv \rightarrow u\alpha v$, and $(u, \alpha, v) \in D$ corresponds to the
+rewriting rule $u\alpha v \rightarrow uv$. We denote by $\Rightarrow_{ins}$ the relation defined by an insertion
+rule (formally, $x \Rightarrow_{ins} y$ iff $x = x_1 uvx_2$ , $y = x_1 u\alpha vx_2$ , for some $(u, \alpha, v) \in I$ and
+$x_1 , x_2 \in V^* $) and by 
+$\Rightarrow_{del}$ the relation defined by a deletion rule (formally, $x \Rightarrow_{del} y$
+iff $x = x_1 u\alpha vx_2$ , $y = x_1 uvx_2$ , for some $(u, \alpha, v) \in D$ and $x_1 , x_2 \in V^*$). We refer by $\Rightarrow$
+to any of the relations $\Rightarrow_{ins}$ , $\Rightarrow_{del}$ , and denote by $\Rightarrow^*$ the reflexive and transitive
+closure of $\Rightarrow$ (as usual, $\Rightarrow^*$ is the transitive closure of $\Rightarrow$).
+
+The language generated by $\gamma$ is defined by $L(\gamma) = \{w \in T^* | x \Rightarrow^* w, \mbox{ for some } x \in A\}$.
+
+An Insdel system $\gamma = (V, T, A, I, D)$ is said to be of weight $(n, m; p, q)$ if
+
+$n = max\{|\alpha| | (u, \alpha, v) \in I\},\\
+m = max\{|u| | (u, \alpha, v) ∈ I or (v, \alpha, u) \in I\},\\
+p = max\{|\alpha| | (u, \alpha, v) \in D\},\\
+q = max\{|u| | (u, \alpha, v) \in D or (v, \alpha, u) \in D\},\\$
+The total weight of $\gamma $ is the sum $m + n + p + q$.
+\end{definition}
+\begin{example}
+Consider the Insdel system $ID = (T, T, A, I, \phi)$, with
+$T = \{0, 1\}$, $A = \{01\}$ and $I = \{(0, 01, 1)\}$. Here at each derivation
+step the string $01$ is inserted in the middle of the word obtained on the previous step
+because this is the only place where the context $01$ occurs. Since we start from $01$ it
+is clear that $L(ID) = \{0^n1^n | n \geq 1\}$.
+Here the weight of the system is (2, 1 ; 0, 0) and has the total weight equal to 3.
+\end{example}
+
+We denote by $INS_n^mDEL_p^q$ , for $n, m, p, q \geq 0$, the family of languages $L(\gamma)$
+generated by Insdel systems of weight $(n , m ; p , q )$ such that $n \leq n$, $m \leq m$,
+$p \leq p$, $q \leq q$. If some of the parameters $n, m, p, q$ is not specified, then we write
+instead the symbol $∗$. Thus, $INS_*^0DEL_*^0$ denotes the family of languages generated
+by context-free Insdel systems, i.e., with insertion rules of the form $(\epsilon, \alpha, \epsilon) \in I$ and
+deletion rules of the form $(\epsilon, \alpha, \epsilon) \in D$, where $\epsilon$ denotes the empty string. 
+
+\subsection{Comparison with grammar systems}
+We denote by $CF$ $INSDEL_{m,p}$ the family of context-free Insdel systems
+having the length of the inserted string at most $m$ and the length of the deleted string
+at most $p$. For a system $ID\in CF$ $INSDEL_{m,p}$ we shall also say that $ID$ is of size
+$(m, p)$.
+
+Context-free Insdel systems have an interesting particularity: insertions and deletions 
+are uncontrolled and may happen at any time at any place in a string. This fact
+can give an impression that such systems cannot be controlled in order to perform
+computations. However, this affirmation is not true. In ~\cite{margentern} it is shown that, in spite of
+the above remark, such systems are able to simulate an arbitrary Chomsky grammar.
+
+\begin{example}
+Consider a context-free Insdel system $ID_2 = (V, T, \{S\}, I, D)$
+of size (3, 2) with $T = \{a, b\}$, $V = T \cup \{S, S'\}$, $I = \{S'aSb, S'ab\}$ and $D = SS'$.
+The computation in this system goes as follows. Given a word $w_1 Sw_2$ (initially
+$w_1 , w_2 = \epsilon$) the string $S'aSb$ is inserted after $S$, which produces $w_1SS'aSbw_2$ . After
+that, the deletion rule eliminates $SS$ and word $w_1aSbw_2$ is obtained. It is easy
+to see that this corresponds to rewriting rule $S \rightarrow aSb$. If the string $S'aSb$ is not
+inserted immediately after $S$, then symbol $S$ cannot be eliminated, hence it will not
+be possible to generate a terminal string.
+
+Therefore, system $ID_2$ simulates the grammar with productions $\{S \rightarrow aSb, S \rightarrow
+ab\}$. Hence, $L(ID_2 ) = \{a^nb^n | n \geq 1\}$.
+\end{example}
+Insdel systems of a “sufficiently large” weight can characterize $RE$, the family
+of recursively enumerable languages. 
+
+The following results about the comparison of insdel system recursively enumerable languagesare given in~\cite{paun} with proofs.
+\begin{itemize}
+\item $RE=INS_3^2 DEL_3^0$
+\item $RE=INS_1^2 DEL_1^1$
+\item $RE=INS_1^1 DEL_2^0$
+\item $RE=INS_*^1 DEL_0^0$
+\item $INS_2^2 DEL_0^0$ contains non semilinear languages.
+\end{itemize}
+
+In ~\cite{madhu} the author gave the following results
+
+from ~\cite{paun,margentern,verlan,madhu}, we can summerize the results as in table~\ref{ins_tble1}.
+\begin{table}
+\begin{tabular}{llllll}
+No.&  Total weight& (n, m; p, q)& Family generated &References\\
+\cline{1-5}
+1 &6 &(3, 0; 3, 0)& RE &~\cite{margentern}\\
+2 &5 &(1, 2; 1, 1)& RE &~\cite{lila,paun}\\
+3 &5 &(1, 2; 2, 0)& RE &~\cite{lila,paun}\\
+4 &5 &(2, 1; 2, 0) &RE &~\cite{lila,paun}\\
+5 &5 &(1, 1; 1, 2)& RE &~\cite{akihiro}\\
+6 &5 &(2, 1; 1, 1)& RE &~\cite{akihiro}\\
+7 &5 &(2, 0; 3, 0)& RE &~\cite{margentern}\\
+8 &5 &(3, 0; 2, 0) &RE &~\cite{margentern}\\
+9 &4 &(1, 1; 2, 0) &RE &~\cite{paun}\\
+10 &4 &(1, 1; 1, 1)& RE &~\cite{akihiro}\\
+11 &4 &(2, 0; 2, 0)& $\subset$ CF &~\cite{verlan}\\
+12 &m+1 &(m, 0; 1, 0)&$\subset$ CF &~\cite{verlan}\\
+13 &p+1 &(1, 0; p, 0)&$\subset$ REG &~\cite{verlan}\\
+14 &4 &(1, 2; 1, 0)& ? &\\
+ 
+
+\end{tabular}
+\label{ins_tble1}
+\caption{Comparison of insdel system and recursively enumerable languages}
+\end{table}
+
+
+%\subsection{In Tree Languages}
+\subsection{Contextual Grammars}
+
+\subsection{Tree Adjoining Grammars(TAG)}
+
+\subsection{Contextual Tree Adjoining Grammars(CTAG)}
+

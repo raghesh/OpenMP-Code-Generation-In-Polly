@@ -1,0 +1,213 @@
+\subsection{Extended Multi Bottom-up Tree Transducers}
+\vbox
+{\tt \obeylines
+{\bf Algorithm}
+\hspace*{1em}   $lhs_leaf(*tfp,*gfp);$\\
+  The $'lhs_leaf'$ function processes the leaves of the tree.
+\hspace*{1em} If a match with a node, reset the $root_array_gbl $to start the operation and call function match\\      
+ $match(root_array_gbl[i],*fp,2);$        
+\hspace*{2em}Copies the first string from the LHS of the transition function          
+\hspace*{2em}Search the $root_array_temp$ for the matching LHS (first string) and replace it with corresponding RHS            
+\hspace*{2em}To count how many words are there in the RHS of a production rule.\\      
+  For each string in RHS call the function 'rhs' to process in the tree\\   
+   rhs(c);
+\hspace*{2em}If no match read the whole line so that we can search from next line again
+\hspace*{2em} $ lhs_non_leaf(*tfp,*gfp);$
+\hspace*{2em}  If a match with a node, reset the $root_array_gbl$ to start the operation and call function match
+\hspace*{2em}  Copies the RHS of the matching transtion function with and without space
+\hspace*{2em} Storing the data of previous match. 
+\hspace*{2em} Chech match again
+\hspace*{2em}  If no match read the whole line so that we can search from next line again
+\hspace*{2em} Processing RHS
+\hspace*{2em}Search the $root_array_temp$ for the matching LHS (first string) and replace it with corresponding RHS
+}
+\begin{example}
+The Extended Multi Botttom-up tree transducer for Number Conversion.
+\begin{table}[h]
+{\tiny
+ \begin{tabular}{llllll}
+$nine    \rightarrow   q(9)$ &
+$eigh    \rightarrow   q(8)$ &
+$five    \rightarrow   q(5)$ &
+$-teen1(q(x1))    \rightarrow   q(10(1,x1))$\\
+$-ty2(q(x1),q(x2))    \rightarrow   q(10(x1,x2))$&
+$hundred2(q(x1),q(x2))    \rightarrow   q(100(x1,x2))$&
+$q(x1)    \rightarrow   f(x1)$
+\end{tabular}
+}
+\caption{Transition table for Number Conversion.}
+\end{table}
+\begin{figure}
+%Given Tree
+{\tiny
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { hundred2 } }
+{
+	\pstree[nodesep=2pt, levelsep=4ex] { \Tr { teen1 } }
+	{
+		\Tr { nine }
+	}
+	\pstree[nodesep=2pt, levelsep=4ex] { \Tr { ty2 } }
+	{
+		\Tr { eigh }
+		\Tr { five }
+	}
+}%\newpage
+%In Pass 1
+%\\ 
+%The Matching Transition :  $ five \rightarrow  q(5)$
+$\Rightarrow$
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { hundred2 } }
+{
+	\pstree[nodesep=2pt, levelsep=4ex] { \Tr { teen1 } }
+	{
+		\Tr { nine }
+	}
+	\pstree[nodesep=2pt, levelsep=4ex] { \Tr { ty2 } }
+	{
+		\Tr { eigh }
+		\pstree[nodesep=2pt, levelsep=4ex] { \Tr { q } }
+		{
+			\Tr { 5 }
+		}
+	}
+}%\\%\newpage
+%In Pass 2
+%\\ 
+%The Matching Transition :  $ eigh \rightarrow  q(8)$
+$\Rightarrow$
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { hundred2 } }
+{
+	\pstree[nodesep=2pt, levelsep=4ex] { \Tr { teen1 } }
+	{
+		\Tr { nine }
+	}
+	\pstree[nodesep=2pt, levelsep=4ex] { \Tr { ty2 } }
+	{
+		\pstree[nodesep=2pt, levelsep=4ex] { \Tr { q } }
+		{
+			\Tr { 8 }
+		}
+		\pstree[nodesep=2pt, levelsep=4ex] { \Tr { q } }
+		{
+			\Tr { 5 }
+		}
+	}
+}%\newpage
+%In Pass 3
+%\\ 
+%The Matching Transition :  $ nine \rightarrow  q(9)$
+$\Rightarrow$
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { hundred2 } }
+{
+	\pstree[nodesep=2pt, levelsep=4ex] { \Tr { teen1 } }
+	{
+		\pstree[nodesep=2pt, levelsep=4ex] { \Tr { q } }
+		{
+			\Tr { nine }
+		}
+	}
+	\pstree[nodesep=2pt, levelsep=4ex] { \Tr { ty2 } }
+	{
+		\pstree[nodesep=2pt, levelsep=4ex] { \Tr { q } }
+		{
+			\Tr { 8 }
+		}		
+		\pstree[nodesep=2pt, levelsep=4ex] { \Tr { q } }
+		{
+		\Tr { 5 }
+		}
+	}
+}%\\%\newpage
+%In Pass 4
+%\\ 
+%The Matching Transition :  $ -ty2(q(x1),q(x2))  \rightarrow q(10(x1,x2))$
+$\Rightarrow$
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { hundred2 } }
+{
+	\pstree[nodesep=2pt, levelsep=4ex] { \Tr { teen1 } }
+	{
+		\pstree[nodesep=2pt, levelsep=4ex] { \Tr { q } }
+		{
+			\Tr { 9 }
+		}
+	}
+	\pstree[nodesep=2pt, levelsep=4ex] { \Tr { q } }
+	{
+		\pstree[nodesep=2pt, levelsep=4ex] { \Tr { 10 } }
+		{
+			\Tr { 8 }
+			\Tr { 5 }
+		}
+	}
+}%\newpage
+%In Pass 5
+%\\ 
+%The Matching Transition :  $ -teen1(q(x1))  \rightarrow q(10(1,x1))$
+$\Rightarrow$
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { hundred2 } }
+{
+	\pstree[nodesep=2pt, levelsep=4ex] { \Tr { q } }
+	{
+		\pstree[nodesep=2pt, levelsep=4ex] { \Tr { 10 } }
+		{
+			\Tr { 1 }
+			\Tr { 9 }
+		}
+	}
+	\pstree[nodesep=2pt, levelsep=4ex] { \Tr { q } }
+	{
+		\pstree[nodesep=2pt, levelsep=4ex] { \Tr { 10 } }
+		{
+			\Tr { 8 }
+			\Tr { 5 }
+		}
+	}
+}%\\%\newpage
+%In Pass 6
+%\\ 
+%The Matching Transition :  $ hundred2(q(x1),q(x2))  \rightarrow q(100(x1,x2))$
+$\Rightarrow$
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { q } }
+{
+	\pstree[nodesep=2pt, levelsep=4ex] { \Tr { 100 } }
+	{
+		\pstree[nodesep=2pt, levelsep=4ex] { \Tr { 10 } }
+		{
+			\Tr { 1 }
+			\Tr { 9 }
+		}
+		\pstree[nodesep=2pt, levelsep=4ex] { \Tr { 10 } }
+		{
+			\Tr { 8 }
+			\Tr { 5 }
+		}
+	}
+}%\newpage
+%In Pass 7
+%\\ 
+%The Matching Transition :  $ q(x1) \rightarrow  f(x1)$
+$\Rightarrow$
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { f } }
+{
+	\pstree[nodesep=2pt, levelsep=4ex] { \Tr { 100 } }
+	{
+		\pstree[nodesep=2pt, levelsep=4ex] { \Tr { 10 } }
+		{
+			\Tr { 1 }
+			\Tr { 9 }
+		}
+		\pstree[nodesep=2pt, levelsep=4ex] { \Tr { 10 } }
+		{
+			\Tr { 8 }
+			\Tr { 5 }
+		}
+	}
+}%\\%\newpage
+%In Pass 8
+%\\ 
+%There is no further matching transitions
+\label{xmbt2}
+\caption{Extended Multi Bottom-up Transducer for Number Convertion}
+}
+\end{figure}
+\end{example}

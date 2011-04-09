@@ -1,0 +1,26 @@
+A LaTeX class (iitmdiss.cls) along with a simple template thesis
+(thesis.tex) and synopsis (synopsis.tex) are provided here.  These can
+be used to easily write a thesis (or synopsis) suitable for submission
+at IIT-Madras.  The class provides options to format PhD, MS,
+M.Tech. and B.Tech. thesis.  It also allows one to write a synopsis
+using the same class file.  Also provided is a BIBTeX style file
+(iitm.bst) that formats all bibliography entries as per the IITM
+format.  A simple sample bibliography file (refs.bib) is also
+provided.
+
+For convenience, I've also included Stephan I. B"ottcher's lineno
+package that allows one to add line numbers to each line of a LaTeX
+document.
+
+
+Compile the sample thesis like so: 
+
+% latex thesis.tex
+% bibtex thesis
+% latex thesis.tex
+% latex thesis.tex
+
+Please read thesis.dvi for more details.
+
+
+Prabhu Ramachandran <prabhu@ae.iitm.ac.in>

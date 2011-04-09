@@ -1,0 +1,222 @@
+\subsection{Extended Top-down Tree Transducers}
+\begin{example}
+The Extended top-down tree transducer for Arabic to English Convertion
+\begin{table}[h]
+{\tiny
+ \begin{tabular}{llllll}
+$q ( S2 ( x1 , VP2 ( x2 , x3 )  )  ) \rightarrow  S3 ( r ( x2 )  , p ( x1 )  , p ( x3 )  ) $ &
+$r ( V1 ( saw )  )  \rightarrow  VP2 ( DT1 ( waa ) , V1 ( ra'aa ) )  $\\
+$p ( NP2 ( DT1 ( the )  , N1 ( boy )  )  )  \rightarrow  NP1 ( N1 ( atefl )  )$ &
+$p ( NP3 ( DT2 ( the )  , N2 ( door )  )  )  \rightarrow  NP1 ( N1 ( albab )  ) $ 
+\end{tabular}
+}
+\caption{Transition table for Arabic to English Convertion.}
+\end{table}
+
+\begin{figure}
+{\tiny
+%Given Tree
+%\\
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { q } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { S2 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { NP2 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { DT1 } }
+{
+\Tr { the }
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { N1 } }
+{
+\Tr { boy }
+}
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { VP2 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { V1 } }
+{
+\Tr { saw }
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { NP3 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { DT2 } }
+{
+\Tr { the }
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { N2 } }
+{
+\Tr { door }
+}
+}
+}
+}
+}%\vspace{2cm}\\
+%In Pass 1
+%\\ 
+%The Matching Transition :  $ q(S2(x1,VP2(x2,x3)))\rightarrow  S3(r(x2),p(x1),p(x3))$
+$\Rightarrow$
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { S3 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { r } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { V1 } }
+{
+\Tr { saw }
+}
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { p } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { NP2 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { DT1 } }
+{
+\Tr { the }
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { N1 } }
+{
+\Tr { boy }
+}
+}
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { p } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { NP3 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { DT2 } }
+{
+\Tr { the }
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { N2 } }
+{
+\Tr { door }
+}
+}
+}
+}%\vspace{2cm}\\
+%In Pass 2
+%\\ 
+%The Matching Transition :  $ r(V1(saw))\rightarrow  VP2(DT1(waa),V1(ra'aa))$
+$\Rightarrow$
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { S3 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { VP2 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { DT1 } }
+{
+\Tr { waa }
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { V1 } }
+{
+\Tr { ra'aa }
+}
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { p } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { NP2 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { DT1 } }
+{
+\Tr { the }
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { N1 } }
+{
+\Tr { boy }
+}
+}
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { p } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { NP3 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { DT2 } }
+{
+\Tr { the }
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { N2 } }
+{
+\Tr { door }
+}
+}
+}
+}%\vspace{2cm}\\
+%In Pass 3
+%\\ 
+%The Matching Transition :  $ p(NP2(DT1(the),N1(boy)))\rightarrow  NP1(N1(atefl))$
+$\Rightarrow$
+
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { S3 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { VP2 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { DT1 } }
+{
+\Tr { waa }
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { V1 } }
+{
+\Tr { ra'aa }
+}
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { NP1 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { N1 } }
+{
+\Tr { atefl }
+}
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { p } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { NP3 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { DT2 } }
+{
+\Tr { the }
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { N2 } }
+{
+\Tr { door }
+}
+}
+}
+}%\vspace{2cm}\\
+%In Pass 4
+%\\ 
+%The Matching Transition :  $ p(NP3(DT2(the),N2(door)))\rightarrow  NP1(N1(albab))$
+$\Rightarrow$
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { S3 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { VP2 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { DT1 } }
+{
+\Tr { waa }
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { V1 } }
+{
+\Tr { ra'aa }
+}
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { NP1 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { N1 } }
+{
+\Tr { atefl }
+}
+}
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { NP1 } }
+{
+\pstree[nodesep=2pt, levelsep=4ex] { \Tr { N1 } }
+{
+\Tr { albab }
+}
+}
+}%\vspace{2cm}\\
+%In Pass 5
+%\\ 
+%There is no further matching transitions
+\label{xtd2}
+\caption{Extended Top-down Transducer for Arabic to English Translation}
+}
+\end{figure}
+\end{example}

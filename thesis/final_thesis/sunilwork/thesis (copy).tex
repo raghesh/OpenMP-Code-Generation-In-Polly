@@ -1,0 +1,398 @@
+\documentclass[MTech]{iitmdiss}
+
+\usepackage{times}
+\usepackage{epsf}
+\usepackage{threeparttable}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{txfonts,pxfonts,amsfonts}
+\usepackage{epsfig}
+\usepackage{caption}
+\usepackage{subfig}
+\usepackage[dvips]{graphicx}
+% \usepackage[square,numbers,sort]{natbib}
+\usepackage[square]{natbib}
+\usepackage[hypertex]{hyperref} % hyperlinks for references.
+%\usepackage{algorithmic}
+%\usepackage{algorithm}
+
+
+%\include{commands}
+
+% Strut macros for skipping spaces above and below text in tables. 
+\def\abovestrut#1{\rule[0in]{0in}{#1}\ignorespaces}
+\def\belowstrut#1{\rule[-#1]{0in}{#1}\ignorespaces}
+
+\def\abovespace{\abovestrut{0.20in }}
+\def\aroundspace{\abovestrut{0.20in}\belowstrut{0.10in}}
+\def\belowspace{\belowstrut{0.10in}}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\def\thesistitle{Abstraction Using Symmetries in Markov Decision Processes}
+\def\thesisauthor{Shravan Matthur Narayanamurthy}
+
+
+\begin{document}
+\bibliographystyle{iitm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% Title page
+
+\title{\thesistitle}
+
+\author{\thesisauthor}
+
+\date{October 2007}
+\department{Computer Science and Engineering}
+
+%\nocite{*}
+\begin{singlespace}
+\maketitle 
+\end{singlespace} 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Certificate
+\certificate
+
+\vspace*{0.5in}
+
+\noindent This is to certify that the thesis entitled {\bf {\thesistitle}}, 
+submitted by {\bf {\thesisauthor}}, to the Indian Institute of Technology, 
+Madras, for the award of the degree of {\bf Master of Technology}, 
+is a bona fide record of the research work carried out by him under my
+supervision. The contents of this thesis, in full or in parts, have not been
+submitted to any other Institute or University for the award of any degree or
+diploma.
+
+\vspace*{1.4in}
+\hspace*{-0.25in}
+\begin{singlespace}
+\noindent {\bf Dr.~B.~Ravindran } \\
+\noindent Research Guide \\ 
+\noindent Assistant Professor \\
+\noindent Dept. of Computer Science and Engineering\\
+\noindent IIT-Madras, 600 036 \\
+\end{singlespace}
+\vspace*{0.20in}
+\noindent Place: Chennai\\ 
+Date:
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Acknowledgements
+\acknowledgements
+
+I would like to thank everyone who helped me.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Abstract
+
+\abstract
+
+\noindent KEYWORDS: \hspace*{0.5em} \parbox[t]{4.4in}{Markov Decision Processes,
+Symmetries, Abstraction}
+
+\vspace*{24pt}
+
+Current approaches to solving Markov Decision Processes (MDPs), the de-facto
+standard for modeling stochastic sequential decision problems, scale poorly
+with the size of the MDP. When used to model real-world problems though,
+MDPs exhibit considerable implicit redundancy, especially in the form of
+symmetries.  However, existing model minimization approaches do not
+efficiently exploit this redundancy due to symmetries. These approaches
+involve constructing a reduced model first and then solving them. Hence we
+term these as ``explicit minimization'' approaches.
+
+In the first part of this work, we address the question of finding
+symmetries of a given MDP. We show that the problem is \emph{Isomorphism
+Complete}, that is, the problem is polynomially equivalent to verifying
+whether two graphs are isomorphic. Apart from the theoretical importance of
+this result it has an important practical application. The reduction
+presented can be used together with any off-the-shelf Graph Isomorphism
+solver, which performs well in the average case, to find symmetries of an
+MDP. In fact, we present results of using NAutY (the best Graph Isomorphism
+solver currently available), to find symmetries of MDPs. We next address the
+issue of exploiting the symmetries of a given MDP. We propose the use of an
+explicit model minimization algorithm called the $G$-reduced image
+algorithm that exploits symmetries in a time efficient manner. We present an
+analysis of the algorithm and corroborate it with empirical results on a
+probabilistic GridWorld domain and a single player GridWorld Soccer domain.
+We also present results of integrating the symmetry finding with the
+explicit model minimization approach to illustrate an end-to-end approach
+for ``Abstraction using Symmetries in MDPs''.
+
+We then note some of the problems associated with this explicit scheme and
+as a solution present an approach wherein we integrate the symmetries into
+the solution technique implicitly. However, we should select a suitable
+solution technique so that the overheads due to integration do not outweigh
+the improvements. We validate this approach by modifying the Real Time
+Dynamic Programming (RTDP) algorithm and empirically demonstrate
+significantly faster learning and reduced overall execution time on several
+domains.
+
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Table of contents etc.
+
+\begin{singlespace}
+\tableofcontents
+\thispagestyle{empty}
+
+\listoftables
+\addcontentsline{toc}{chapter}{LIST OF TABLES}
+\listoffigures
+\addcontentsline{toc}{chapter}{LIST OF FIGURES}
+\end{singlespace}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Abbreviations
+\abbreviations
+ 
+\noindent 
+\begin{tabbing}
+xxxxxxxxxxx \= xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \kill
+\textbf{IITM}   \> Indian Institute of Technology, Madras \\
+\textbf{RTFM} \> Read the Fine Manual \\
+\end{tabbing}
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Notation
+
+ \chapter*{\centerline{NOTATION}}
+ \addcontentsline{toc}{chapter}{NOTATION}
+ 
+ \begin{singlespace}
+ \begin{tabbing}
+ xxxxxxxxxxx \= xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \kill
+ \textbf{$r$}  \> Radius, $m$ \\
+ \textbf{$\alpha$}  \> Angle of thesis in degrees \\
+ \textbf{$\beta$}   \> Flight path in degrees \\
+ \end{tabbing}
+ \end{singlespace}
+ 
+ \pagebreak
+ \clearpage
+
+%The main text will follow from this point so set the page numbering
+%to arabic from here on.
+\pagenumbering{arabic}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Introduction.
+
+ \chapter{INTRODUCTION}
+ \label{chap:intro}
+ 
+ This document provides a simple template of how the provided
+ \verb+iitmdiss.cls+ \LaTeX\ class is to be used.  Also provided are
+ several useful tips to do various things that might be of use when you
+ write your thesis.
+ 
+ Before reading any further please note that you are strongly advised
+ against changing any of the formatting options used in the class
+ provided in this directory, unless you are absolutely sure that it
+ does not violate the IITM formatting guidelines.  \emph{Please do not
+   change the margins or the spacing.}  If you do change the formatting
+ you are on your own (don't blame me if you need to reprint your entire
+ thesis).  In the case that you do change the formatting despite these
+ warnings, the least I ask is that you do not redistribute your style
+ files to your friends (or enemies).
+ 
+ It is also a good idea to take a quick look at the formatting
+ guidelines.  Your office or advisor should have a copy.  If they
+ don't, pester them, they really should have the formatting guidelines
+ readily available somewhere.
+ 
+ To compile your sources run the following from the command line:
+ \begin{verbatim}
+ % latex thesis.tex
+ % bibtex thesis
+ % latex thesis.tex
+ % latex thesis.tex
+ \end{verbatim}
+ Modify this suitably for your sources.
+ 
+ To generate PDF's with the links from the \verb+hyperref+ package use
+ the following command:
+ \begin{verbatim}
+ % dvipdfm -o thesis.pdf thesis.dvi
+ \end{verbatim}
+ 
+ \section{Package Options}
+ 
+ Use this thesis as a basic template to format your thesis.  The
+ \verb+iitmdiss+ class can be used by simply using something like this:
+ \begin{verbatim}
+ \documentclass[PhD]{iitmdiss}  
+ \end{verbatim}
+ 
+ To change the title page for different degrees just change the option
+ from \verb+PhD+ to one of \verb+MS+, \verb+MTech+ or \verb+BTech+.
+ The dual degree pages are not supported yet but should be quite easy
+ to add.  The title page formatting really depends on how large or
+ small your thesis title is.  Consequently it might require some hand
+ tuning.  Edit your version of \verb+iitmdiss.cls+ suitably to do this.
+ I recommend that this be done once your title is final.
+ 
+ To write a synopsis simply use the \verb+synopsis.tex+ file as a
+ simple template.  The synopsis option turns this on and can be used as
+ shown below.
+ \begin{verbatim}
+ \documentclass[PhD,synopsis]{iitmdiss}                                
+ \end{verbatim}
+ 
+ Once again the title page may require some small amount of fine
+ tuning.  This is again easily done by editing the class file.
+ 
+ This sample file uses the \verb+hyperref+ package that makes all
+ labels and references clickable in both the generated DVI and PDF
+ files.  These are very useful when reading the document online and do
+ not affect the output when the files are printed.
+ 
+ 
+ \section{Example Figures and tables}
+ 
+ Figure \ref{fig:iitm} shows a simple figure for illustration along with
+ a long caption.  The formatting of the caption text is automatically
+ single spaced and indented.  Table~\ref{tab:sample} shows a sample
+ table with the caption placed correctly.  The caption for this should
+ always be placed before the table as shown in the example.
+ 
+ 
+ \begin{figure}[htpb]
+   \begin{center}
+     \resizebox{50mm}{!} {\includegraphics *{iitm.eps}}
+     \resizebox{50mm}{!} {\includegraphics *{iitm.eps}}
+     \caption {Two IITM logos in a row.  This is also an
+       illustration of a very long figure caption that wraps around two
+       two lines.  Notice that the caption is single-spaced.}
+   \label{fig:iitm}
+   \end{center}
+ \end{figure}
+ 
+ \begin{table}[htbp]
+   \caption{A sample table with a table caption placed
+     appropriately. This caption is also very long and is
+     single-spaced.  Also notice how the text is aligned.}
+   \begin{center}
+   \begin{tabular}[c]{|c|r|} \hline
+     $x$ & $x^2$ \\ \hline
+     1  &  1   \\
+     2  &  4  \\
+     3  &  9  \\
+     4  &  16  \\
+     5  &  25  \\
+     6  &  36  \\
+     7  &  49  \\
+     8  &  64  \\ \hline
+   \end{tabular}
+   \label{tab:sample}
+   \end{center}
+ \end{table}
+ 
+ \section{Bibliography with BIB\TeX}
+ 
+ I strongly recommend that you use BIB\TeX\ to automatically generate
+ your bibliography.  It makes managing your references much easier.  It
+ is an excellent way to organize your references and reuse them.  You
+ can use one set of entries for your references and cite them in your
+ thesis, papers and reports.  If you haven't used it anytime before
+ please invest some time learning how to use it.  
+ 
+ I've included a simple example BIB\TeX\ file along in this directory
+ called \verb+refs.bib+.  The \verb+iitmdiss.cls+ class package which
+ is used in this thesis and for the synopsis uses the \verb+natbib+
+ package to format the references along with a customized bibliography
+ style provided as the \verb+iitm.bst+ file in the directory containing
+ \verb+thesis.tex+.  Documentation for the \verb+natbib+ package should
+ be available in your distribution of \LaTeX.  Basically, to cite the
+ author along with the author name and year use \verb+\cite{key}+ where
+ \verb+key+ is the citation key for your bibliography entry.  You can
+ also use \verb+\citet{key}+ to get the same effect.  To make the
+ citation without the author name in the main text but inside the
+ parenthesis use \verb+\citep{key}+.  The following paragraph shows how
+ citations can be used in text effectively.
+ 
+ More information on BIB\TeX\ is available in the book by
+ \cite{lamport}.  There are many
+ references~\citep{lamport, helmut, david} that explain how to use
+ BIB\TeX.  Read the \verb+natbib+ package documentation for more
+ details on how to cite things differently. Different type of citations are 
+book~\cite{bellman}, one atricle in the book~\cite{Amarel:1968}, thesis~\cite{manning}, technical report
+~\cite{Ravindran:proof}, journal~\cite{Barto:rtdp}, conference~\cite{knoblock90learning} and other like url~\cite{crawford92theoretical}.
+ 
+ \section{Other useful \LaTeX\ packages}
+ 
+ The following packages might be useful when writing your thesis.
+ 
+ \begin{itemize}  
+ \item It is very useful to include line numbers in your document.
+   That way, it is very easy for people to suggest corrections to your
+   text.  I recommend the use of the \texttt{lineno} package for this
+   purpose.  This is not a standard package but can be obtained on the
+   internet.  The directory containing this file should contain a
+   lineno directory that includes the package along with documentation
+   for it.
+ 
+ \item The \texttt{listings} package should be available with your
+   distribution of \LaTeX.  This package is very useful when one needs
+   to list source code or pseudo-code.
+ 
+ \item For special figure captions the \texttt{ccaption} package may be
+   useful.  This is specially useful if one has a figure that spans
+   more than two pages and you need to use the same figure number.
+ 
+ \item The notation page can be entered manually or automatically
+   generated using the \texttt{nomencl} package.
+ 
+ \end{itemize}
+ 
+ More details on how to use these specific packages are available along
+ with the documentation of the respective packages.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Appendices.
+
+ \appendix
+ 
+ \chapter{A SAMPLE APPENDIX}
+ 
+ Just put in text as you would into any chapter with sections and
+ whatnot.  Thats the end of it.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% List of papers
+
+\chapter*{Publications}
+\vspace{-0.3cm}
+
+\begin{enumerate}
+\item S. M. Narayanamurthy and B. Ravindran (2007). \newblock
+  Efficiently Exploiting Symmetries in Real Time Dynamic Programming. \newblock {\em
+  IJCAI 2007, Proceedings of the 20th International Joint Conference on
+  Artificial Intelligence}, pages 2556--2561.
+\end{enumerate}
+
+%\nocite{bellman, Amarel:1968, manning, knoblock90learning,
+%crawford92theoretical, Barto:rtdp, Ravindran:proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliography.
+\pagebreak
+\begin{singlespace}
+  \begin{small}
+	\bibliography{refs}
+  \end{small}
+\end{singlespace}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

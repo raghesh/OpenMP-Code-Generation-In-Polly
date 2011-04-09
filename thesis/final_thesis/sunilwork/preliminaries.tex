@@ -1,0 +1,362 @@
+ \label{chap:prelim}
+ 
+\section{Basics of Formal Language}
+
+The basic data structure or input to grammars or automaton are strings. Strings are defined over a finite alphabet.
+Alphabet may vary depending upon application. Elements of an alphabets are called symbols. Usually we denote the basic alphabet set either as $\Sigma$
+or $T$. For example,
+
+$\Sigma_1=\{a,b\}\\\Sigma_2=\{0,1,2\}$ are few examples for alphabet set.
+
+A string or word is a finite sequence of symbols from that alphabet, usually written as concatenated symbols and not seperated by commas or space.
+If $w$ is a string over an alphabet $\Sigma$, then the length of $w$ written as $len(w)$ or $|w|$ is the number of symbols it contains. For example,
+if $\Sigma_1=\{a,b\}$, a string $abbab$ is a string or word over $\Sigma$ with $|w|$=5. If $|w|$=0, then $w$ is called as emty string denoted either as 
+$\lambda$ or $\epsilon$.
+ 
+
+\subsection{Grammars}
+\begin{definition}
+A Grammar is a construct
+      $G=(N,T,S,P)$ where,
+   \begin{itemize}%\addtolength{\itemsep}{-0.5\baselineskip}
+% \begin{itemize}\addtolength{\itemsep}{0.2pt}
+  \item $N$ is a finite set of non terminals,
+  \item $T$ is a finite set of terminals,
+  \item $S \in N$ is the start symbol,
+  \item $P$ is a finite set of production rules.
+  \end{itemize}
+\end{definition}
+Chomsky's classifiaction of grammars.
+\begin{itemize}%\addtolength{\itemsep}{-0.5\baselineskip}
+  \item Type 0 or Phrase structured grammar
+  \item Type 1 or context sensitive grammar
+  \item Type 2 or Context free grammar
+  \item Type 3 or Regular grammar
+  \end{itemize}
+\subsection{Regular Expressions}
+\begin{definition}
+Let $\Sigma$ be an alphabet. For each $a \in \Sigma$ , \textbf{a} is a regular expression representing the regular set $\{a\}$. 
+$\phi$ is a regular expression representing the empty set. $\epsilon$ is a regular expression representing the set $\{\epsilon \}$.
+If \textbf{$r_1$} and \textbf{$r_2$} are regular expression representing the regular sets $R_1$ and $R_2$ respectively, 
+then \textbf{$r_1+r_2$} is a regular expression representing $R_1\cup R_2$. \textbf{$r_1.r_2$} is a regular expression representing $R_1R_2$.
+\textbf{$r_1^*$} is a regular expression representing $R_1^*$.
+
+Any expression obtained from $\phi,\epsilon,a(a\in\Sigma)$, using the above operations and paranthesis where required, is a regular expression.
+\end{definition}
+\begin{example}
+$a(bc)^*bcd$ represents the regular set:
+$\{a(bc)^nd|n\geq 1\}$
+\end{example}
+\subsection{Automata}
+
+
+\section{Insertion-deletion System}
+Insertion-deletion systems are one of the models studied inspired by biology~\cite{paun}. The operation of insertion and deletion on strings have 
+some relevances to some phenomena in human genetics~\cite{lila}. A DNA strand can be inserted into/deleted from another strand. The idea of 
+insertion-deletion has been extended to arrays also~\cite{kamala}. In this paper we consider the insertion systems for trees. Trees are important 
+data structures and find use in many applications from the description of parse trees to representation of XML and DTD~\cite{murata}. Considering
+insertion systems in trees can have profound applications in such areas~\cite{akihiro}.
+
+\subsection{DNA Computing}
+$DNA$ is the molecule which plays the central role in $DNA$ computing. $DNA$ is a \emph{polymer}(large molecule) which strung together form 
+\emph{monomers} (small molecules) called \emph{deoxyribonucleotides(nucleotides)}. $DNA$ is a crucial molecule in living cells and it has a
+ fascinating structure which supports two most important functions of $DNA$: coding for production of protiens and self replication so that an exact
+ copy is passed to the offspring cell.
+
+Each nucleotide consists of three components: a sugar, a phosphate group and a nitrogenous base. The sugar(\emph{deoxyribose}) has five carbons
+ which are numbered from $1'$ to $5'$. The phosphate group is attached to the $5'$ carbon and the base is attached to $1'$ carbon. Within the sugar
+structure there is a \emph{hydroxyl group(OH)} attached to the $3'$ carbon.
+
+Different nucleotides differs only by their bases which come in two sorts: \emph{purines and pyramidines}. \emph{aDENINE(a)} and \emph{guanine(G)}
+are purine bases and \emph{cytosine(C)} and \emph{thymine(T)} are pyramidine bases.
+
+Nucleotides can be linked together in two ways.
+\begin{itemize}
+	\item The $5'$-phoshpate group of one nucleotide is joined with the $3'$-hydroxyl group of other forming a \emph{phosphodiester} bond
+		which is a string(\emph{covalent}) bond
+	\item The base of one nucleotide interacts with the base of other to form a weak(\emph{hydrogen}) bond. Here $A$ and $T$ can pair together
+		and $C$ and $G$ can pair together- no other pairing are possible.
+
+		Fusing two single stranded $DNA$ molecules by complementary base pairing is known as \emph{annealing}.
+\end{itemize}
+
+Since the hydrogen bond between complementary bases is weaker than the phosphodiester bond between the consecutive nucleotides within one strand, 
+we can seperate two strnds of $DNA$ without breaking the single strand. This seperation can be acheived by heating $DNA$ solution to a temperature
+between 85$^\circ$C and 90$^\circ$C which is the melting temperature of $DNA$. This process of seperating $DNA$ strands by heating the solution is 
+known as \emph{denaturation}.
+
+If the heated solution is allowed to cool down slowly, the seperated strands fuse again by hydrogen bonds. This process is called 
+\emph{renaturation(reannealing)}.
+
+\emph{Enzymes} are protiens that catalyze chemical reactions taking place in living cells. A class of enzymes called \emph{(DNA) polymerases} is 
+able to add nucleotides to an existing $DNA$ molecule. To do so, they require an existing single stranded templates which prescribes the chain of 
+nucleotides to be added and an already existing sequence\emph{(primer)} which is bounded to a part of the template with the $3'$ end available for
+extension.
+
+\section{Tree Language}
+Let $N$ be the set of positive integers. Then the set of finite strings over $N$ is denoted by $N^*$. 
+The empty string is denoted by $\epsilon$. A \textbf{ranked alphabet} $\Sigma$ is a finite set of symbols together
+with a function \emph{Rank}: $\Sigma\rightarrow N$. For $f\in \Sigma$, the value $Rank(f)$ is called the rank of $f$.
+ For every $n\geq 0$, we denote by $\Sigma _n$ the set of all symbols of rank $n$. Elements of rank $0,1,\cdots ,n$
+ are respectively called constants, unary, $\cdots$, $n$-ary symbols.
+
+ A \textbf{tree t}~\cite{hubert} over an alphabet $\Sigma$ is a partial mapping $t$ : $N^*\rightarrow \Sigma$ that satisfies the
+ following conditions:
+\begin{itemize}%\addtolength{\itemsep}{-0.5\baselineskip}
+\item \emph{dom(t)} is a finite, prefix-closed subset of $N^*$, and
+\item for each $p\in dom(t)$, if  $Rank(t(p)) = n > 0$, then $\{i|p.i \in dom(t)\}=\{1,2,\cdots ,n\}$
+\end{itemize}
+Each $p\in dom(t)$ is called a \textbf{node} of $t$. The node with domain element $\Sigma$ is the \textbf{root}. 
+For a node $p$, we define the $i^{th} \mbox{ } child$ of $p$ to be the node $p.i$, and we define the
+$i^{th} \mbox{ } subtree$ of $p$ to be the tree $t'$ such that $t'(p)=t(p.i.p'),\forall p' \in dom(t)$. We denote 
+by $T(\Sigma )$ the set of all trees over the alphabet $\Sigma$. The \textbf{size} of a tree is the number 
+of elements in $dom(t)$. The \textbf{height} of a tree $t$ is $max\{|w|:w\in dom(t)\}$. Given a finite tree $t$, 
+   the \textbf{frontier} of $t$ is the set $\{p\in dom(t)|\forall n\in N,p.n \notin dom(t)\}$. A tree with root $a$
+   and subtrees $t_1,t_2,\cdots ,t_r$ is represented by $a(t_1,t_2,\cdots ,t_r$).
+\begin{example}
+Let $\Sigma = \{a,b,c,h\}, a,b\in \Sigma_2,c \in \Sigma_1 , h \in \Sigma_0.$ \\
+A tree over $\Sigma $ and its diagrammatic representation is shown in Figure~\ref{fig1}
+\begin{figure}[h]
+\begin{tabular}{c}
+\begin{minipage}[c]{0.50\textwidth}
+$\mbox{Let } t \mbox{ be the tree } a(b(b(h,h),h),c(h)).
+\\dom(t)=\{\epsilon,1,1.1,1.1.1,1.1.2,1.2,2,2.1\}.\\
+size(t) = 8. \\ height(t) = 3.$\\$frontier(t)=\{1.1.1,1.1.2,1.2,2.1\}.$\\
+\end{minipage}
+\begin{minipage}[c]{0.50\textwidth}
+%\begin{flushleft}
+\begin{center}
+{\small
+\pstree[nodesep=1pt,levelsep=6ex]{\Tr{a}}
+{
+    \pstree[nodesep=1pt,levelsep=6ex] {\Tr{b}\tlput{1}}
+    {
+        \pstree[nodesep=1pt,levelsep=6ex]{\Tr{b}\tlput{1.1}}
+        {
+                \Tr{h}\tlput{1.1.1}
+                \Tr{h}\trput{1.1.2}
+        }
+        \Tr{h}\trput{1.2}
+    }
+    \pstree[nodesep=1pt,levelsep=6ex]{\Tr{c}\trput{2}}
+    {
+            \Tr{h}\trput{2.1}
+    }
+}}
+%\includegraphics{fig1.eps}
+%\end{flushleft}
+\end{center}
+\end{minipage} 
+\end{tabular}
+\caption{A tree and its diagrammatic representation}
+\label{fig1}
+\noindent \rule{\textwidth}{1pt}
+\end{figure}
+\end{example}
+
+
+\subsection{Tree Grammars}
+
+
+
+
+
+
+
+
+\subsubsection{Regular Tree Grammars}
+A Regular Tree Grammar $(RTG)$~\cite{hubert}  is a construct
+      $G=(N,T,S,P)$ where,
+   \begin{itemize}%\addtolength{\itemsep}{-0.5\baselineskip}
+% \begin{itemize}\addtolength{\itemsep}{0.2pt}
+  \item $N$ is a finite set of non terminals,
+  \item $T$ is a finite set of terminals,
+  \item $S \in N$ is the start symbol,
+  \item $P$ is a finite set of production rules.\\
+Each rule in $P$ is of the form $X\rightarrow x(X_1,X_2,\cdots ,x_p),p\geq 0$, where
+$X,X_1,X_2,\cdots ,X_p\in N$ and $x\in T$
+  \end{itemize}
+The \textbf{ language generated} by an $RTG$ $G$ is represented by $L(G)$, is defined as
+the set of trees generated by $G$ using productions rules in $P$, starting from $S$.
+ A \textbf{regular tree language} is a language generated by a regular tree grammar.
+
+\begin{example}
+   $G_{r_2}=(N,T,S,P)$ where, 
+        $  N = \{S,B,B',C,H\}$,  $T = \{a_2,b_1,c_1,h_0\}$\\
+         $ P = \{
+        % \begin{Bmatrix}
+                S \rightarrow  a(B,C),
+                B \rightarrow  b(B'),
+                B' \rightarrow  b(B)|b(H),  
+                C \rightarrow  c(C)|c(H),
+                H \rightarrow  h  
+         %\end{Bmatrix}       
+        \}$\\
+ $L(G_{r_2})=\{a(b^i(h),c^j(h)),i,j\ge 1\mbox{, } i\%2 =0\}$\\
+\noindent \rule{\textwidth}{1pt}
+\end{example}
+
+
+\subsubsection{Context-free Tree Grammars}
+A Context-free Tree Grammar $(CTG)$~\cite{hubert}  is a construct $G=(S,N,\mathcal{F},R)$ where the
+rules have the form $X(x_1,x_2,\cdot,x_n)\rightarrow t$ with $t$ a tree of $T(\mathcal{F}\cup N\cup \{x_1,x_2,\cdot ,x_n\})$, 
+$\{x_1,x_2,\cdot ,x_n\}\in \mathcal{X}$ where $\mathcal{X}$ is the set of reserved variables with $\mathcal{X}\cap(\mathcal{F}\cup)N)=\phi$, 
+$\mathcal{X}$ a non-terminal of arity $n$.
+
+The \textbf{ language generated} by an $CTG$ $G$ is represented by $L(G)$, is defined as
+the set of trees generated by $G$ using productions rules in $P$, starting from $S$.
+ A \textbf{context-free tree language} is a language generated by a context-free tree grammar.
+\begin{example}
+The grammar of axiom $Prog$, set of non-terminals $\{Prog,Nat,Fact()\}$, the set of terminals $\{0,s,if(,),eq(,),not(),times(,),dec()\}$
+and rules
+
+\begin{tabular}{llllll}
+$Prog\rightarrow Fact(Nat)$ ,& $Nat\rightarrow 0$ ,   $Nat\rightarrow s(Nat)$ \\
+$Fact(x)\rightarrow if(eq(x,0),s(0))$ ,& $Fact(x)\rightarrow if(not(eq(x,0)),times(x,Fact(dec(x))))$ \\ 
+\end{tabular}\\\\
+where $\mathcal{X}=x$ is a context-free tree grammar. Here the last rule is the classical definition of the factorial function.\\
+\noindent \rule{\textwidth}{1pt}
+\end{example}
+
+
+\subsection{Tree Automata}
+A \textbf{\textsl{non deterministic botttom-up finite tree automata}} (NFTA)~\cite{hubert} over an alphabet $\Sigma$ is a tuple \\
+      $D=(Q,\Sigma,Q_f,\Delta)$ where,
+  \begin{itemize}%\addtolength{\itemsep}{-0.5\baselineskip}
+  \item
+  $Q$ is a finite set of states,
+  \item
+  $\Sigma$ is a ranked input alphabet,
+  \item
+  $Q_f \subseteq Q$ is a set of final states,
+  \item
+  $\Delta$ is a finite set of transition rules.
+  \end{itemize}
+
+  Each transition rule is a triple of the form $((q_1,q_2,\cdots,q_n),f,q)$ where $q_1,q_2,\cdots,q_n,q \in Q, f \in \Sigma_n$,
+  i.e. $Rank(f) = n$. We use $f(q_1,q_2,\cdots,q_n) \rightarrow q $ to denote that $((q_1,q_2,\cdots,q_n),f,q) \in \Delta$.
+  If $Rank(f) = 0 $ ,i.e. $f$ is a constant, then we use rules of the form $f \rightarrow q$.
+   The epsilon rules are denoted by rules of the form $q_i \RA q_j $.
+   A \textbf{\textsl{run}} of $A$ over a tree $t \in T(\Sigma) $ is a mapping 
+   $r : dom(t) \RA Q $ such that for each node $p \in dom(t) $ where $q = r(p)$,
+   we have that if $q_i = r(pi) $ for $ 1 \le i \le n $ then $\Delta $ has the 
+   rule $t(p)(q_1,q_2,\cdots,q_n) \RA q$. 
+\begin{example}
+The tree automata $D_{r_{4}}=(Q,\Sigma ,Q_f, \Delta)$ accepts trees with odd number of $a's$  over the alphabet 
+$\Sigma =\{a_2,b_2,c_0\}$ 
+where $Q=\{e,o\},Q_f=\{o\}$ and $\Delta$ contains following transitions.\\
+
+\begin{tabular}{llllll}
+$c\rightarrow e$ & $ b(e,e) \rightarrow e$ & $ b(o,o) \rightarrow e$ & $a(e,o) \rightarrow e$ & 
+$a(o,e) \rightarrow e$\\
+&$b(e,o) \rightarrow o$ & $ b(o,e) \rightarrow o$ & $ a(e,e) \rightarrow o$ & $a(o,o) \rightarrow o$\\ 
+\end{tabular}\\\\
+\noindent \rule{\textwidth}{1pt}
+\end{example}
+
+
+\subsubsection{Distributed Tree Automata}
+
+{Distributed Nondeterministic Tree Automata (DNTA)}
+In this section we define distributed nondeterministic tree automata(DNTA), the 
+different modes of acceptance of DNTA and discuss the power of different modes
+of acceptance.
+\begin{definition}
+A DNTA is a $4$-tuple $D=(K,\Sigma,F,\Delta)$ where,
+\begin{itemize}%\addtolength{\itemsep}{-0.5\baselineskip}
+\item
+$K$ is an $n$-tuple $(K_1,K_2,\cdots,K_n) $ where each $K_i$ is a set of states of
+the $i^{th}$ component;
+\item
+$\Sigma$ is a finite set of ranked alphabet;
+\item
+$F \subseteq \bigcup_i K_i$ is the set of final states;
+\item
+$\Delta$ is a $n$-tuple $(\delta_1,\delta_2,\cdots,\delta_n) $ of state transistion
+function where each $\delta_i$ is a set of transition rules of the $i^{th}$ component
+having the form $f(q_1,q_2,\cdots,q_n)\RA q, f \in \Sigma_n,q_1,q_2,\cdots,q_n \in K_i,
+ q \in \bigcup_i K_i $ or $q_i \RA q_j.$
+\end{itemize}
+\end{definition}
+In the case of DNTA, we can consider many modes of acceptance depending upon the
+number of steps the system has to go through in each of the $n$ components.
+The different modes of acceptance are $*$-mode, $t$-mode, 
+$\le k$-mode, $\ge k$-mode, and $=k$-mode, where $k$ is a positive integer.
+Description of each of the above modes of acceptance is as follows:\\
+\noindent
+\textbf{$t$-mode acceptance :}An automaton that has a leaf transition rule begins
+processing the input tree. Suppose that the system starts from the component $i$. 
+The control stays in component $i$ as long as it can follow the transition rules
+in component $i$. Otherwise, it transfers the control to some other component $j$, $j\ne i$  
+which has the transition function to proceed. If more than one component succeeds,
+then the selection of $j$ is done nondeterministically. The process is repeated
+and we accept the tree if the system reaches any one of the final states. It does
+not matter which component the system is in while accepting.
+\begin{definition}
+The instantaneous description(ID) of a DNTA $D=(K,\Sigma,F,\Delta)$ 
+ working in $t$-mode is given by a triple $(B,t,i)$ 
+where $B \subseteq \bigcup_i K_i $ and it  denotes the current active state 
+set of the whole system, 
+$t \in T(\Sigma \cup  \bigcup_i K_i)$ and $i,1\le i \le n$ the index of 
+the component in which the system is currently in.
+\end{definition}
+The transition between the ID's is defined as follows:
+%\renewcommand{\labelenumii}{(\roman{enumii})}
+\renewcommand{\theenumi}{\roman{enumi}}
+\begin{enumerate}%\addtolength{\itemsep}{-0.5\baselineskip}
+\item
+$(B,t,i) \vdash_t (B^{'},t^{'},i)$ if
+there is a rule of the form $a(q_1,q_2,\cdots,q_n) \RA q^{'} \in \delta_i$ such that 
+$t^{'}$ is obtained from $t$ by replacing a subtree of $t$ of the form
+$a(t_1,t_2,\cdots,t_n)$ by $q^{'}(t_1,t_2,\cdots,t_n)$, where 
+$a \in \Sigma_n,n \ge 0,t_1,t_2,\cdots,t_n \in T(\bigcup_i K_i),r(root(t_1))=q_1,
+r(root(t_2))=q_2,\cdots , \\r(root(t_n)) = q_n,q_1,q_2,\cdots,q_n \in B$
+and $B^{'}$ is the set of active state set after performing the transition.
+ \item
+$(B,t,i) \vdash_t (B,t,j) $ iff  component $i$ does not 
+have a transition to proceed and component $j$ has a transition to proceed.
+\end{enumerate}		
+The reflexive and transitive closure of $\vdash_t $ is denoted by $\vdash_t^*$.
+\begin{comment}
+\begin{definition}
+The language accepted by a DNTA $D=(K,\Sigma,F,\Delta)$ working in $t$-mode is
+defined as follows:
+\[L_t(D) = \{ t \in T(\Sigma) | (\phi,t,i) \vdash^*_t (\{q_f\},t^{'},j), t^{'} \in T(\bigcup_i K_i),
+\mbox{ for some } q_f \in F, 1 \le i,j \le  n\}\]
+\end{definition}
+\end{comment}
+We now give an example of a distributed bottom up tree automata working in $t$-mode.
+\begin{example}
+\label{eg1}
+Consider the language $L_1 = \{a(bd(g^jd)^i(f),ce(h^ke)^i(f)),i, j, k \ge 1\}$ over
+$\Sigma = \{a,b,c,d,e,f,g,h\}, a \in \Sigma_2,b,c,d,e,g,h \in \Sigma_1, f \in \Sigma_0$.\\
+We define a distributed tree automaton $D_1=(K,\Sigma,\{q_a\},\Delta)$ 
+working in $t$-mode as follows.\\
+The components are defined as follows
+\begin{itemize}%\addtolength{\itemsep}{-0.5\baselineskip}
+\item Component $1$
+	\begin{itemize}\addtolength{\itemsep}{-0.5\baselineskip}
+	\item $K_1 = \{q_f,q_g, q_1,q_2\}$
+	\item $\delta_1 = \{ d(q_f) \RA q_g, g(q_g) \RA q_1, g(q_1) \RA q_1, q_2 \RA q_f\}$
+	\end{itemize}
+\item Component $2$
+	\begin{itemize}\addtolength{\itemsep}{-0.5\baselineskip}
+	\item $K_2 = \{q_f,q_e, q_1,q_2\}$
+	\item $\delta_2 = \{ e(q_f) \RA q_e, h(q_e) \RA q_2, h(q_2) \RA q_2, q_1 \RA q_f\}$
+	\end{itemize}
+\item Component $3$
+	\begin{itemize}\addtolength{\itemsep}{-0.5\baselineskip}
+	\item $K_3 = \{q_f,q_a,q_b,q_c,q_d,q_e,q_1,q_2\}$
+	\item $\delta_3 = \{ f \RA q_f,b(q_1) \RA q_b, c(q_2) \RA q_c, a(q_b,q_c) \RA q_a\}$
+	\end{itemize}
+\end{itemize}
+\end{example}
+The processing starts in component 3 , with the two leaves using 
+the rule $f \RA q_f$. As further processing is not possible in component $3$, 
+processing continues with $2$ or $1$. Then it alternates between $1$ and $2$ 
+processing $d$'s, $g$'s, $e$'s and $f$'s. Finally when the labels are $b$ and $c$, processing 
+takes the tree to $q_b$ and $q_c$ and in component $3$ state $q_a$ is reached 
+by the root.
+
+
+

@@ -1,0 +1,264 @@
+\documentclass[MTech]{iitmdiss}
+
+\usepackage{times}
+\usepackage{epsf}
+\usepackage{threeparttable}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{txfonts,pxfonts,amsfonts}
+\usepackage{epsfig}
+\usepackage{caption}
+\usepackage{subfig}
+\usepackage[dvips]{graphicx}
+% \usepackage[square,numbers,sort]{natbib}
+\usepackage[square]{natbib}
+\usepackage[hypertex]{hyperref} % hyperlinks for references.
+%\usepackage{algorithmic}
+%\usepackage{algorithm}
+\usepackage{listings}
+
+
+%\include{commands}
+
+% Strut macros for skipping spaces above and below text in tables. 
+\def\abovestrut#1{\rule[0in]{0in}{#1}\ignorespaces}
+\def\belowstrut#1{\rule[-#1]{0in}{#1}\ignorespaces}
+
+\def\abovespace{\abovestrut{0.20in }}
+\def\aroundspace{\abovestrut{0.20in}\belowstrut{0.10in}}
+\def\belowspace{\belowstrut{0.10in}}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\def\thesistitle{Framework For Realizing Autoparallelism Through Automatic OpenMP Code Generation}
+
+\def\thesisauthor{Raghesh A}
+
+
+\begin{document}
+\bibliographystyle{iitm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% Title page
+
+\title{\thesistitle}
+
+\author{\thesisauthor}
+
+\date{April 2011}
+\department{Computer Science and Engineering}
+
+%\nocite{*}
+\begin{singlespace}
+\maketitle 
+\end{singlespace} 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Certificate
+\certificate
+
+\vspace*{0.5in}
+
+\noindent This is to certify that the thesis entitled {\bf {\thesistitle}}, 
+submitted by {\bf {\thesisauthor}}, to the Indian Institute of Technology, 
+Madras, for the award of the degree of {\bf Master of Technology}, 
+is a bona fide record of the research work carried out by him under my
+supervision. The contents of this thesis, in full or in parts, have not been
+submitted to any other Institute or University for the award of any degree or
+diploma.
+
+\vspace*{1.4in}
+\hspace*{-0.25in}
+\begin{singlespace}
+\noindent {\bf Dr.~Shankar~ Balachandran} \\
+\noindent Research Guide \\ 
+\noindent Assistant Professor \\
+\noindent Dept. of Computer Science and Engineering\\
+\noindent IIT-Madras, 600 036 \\
+\end{singlespace}
+\vspace*{0.20in}
+\noindent Place: Chennai\\ 
+Date:
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Acknowledgements
+\acknowledgements
+
+I would like to thank everyone who helped me.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Abstract
+
+\abstract
+
+\noindent KEYWORDS: \hspace*{0.5em} \parbox[t]{4.4in}{Markov Decision Processes,
+Symmetries, Abstraction}
+
+\vspace*{24pt}
+
+Current approaches to solving Markov Decision Processes (MDPs), the de-facto
+standard for modeling stochastic sequential decision problems, scale poorly
+with the size of the MDP. When used to model real-world problems though,
+MDPs exhibit considerable implicit redundancy, especially in the form of
+symmetries.  However, existing model minimization approaches do not
+efficiently exploit this redundancy due to symmetries. These approaches
+involve constructing a reduced model first and then solving them. Hence we
+term these as ``explicit minimization'' approaches.
+
+In the first part of this work, we address the question of finding
+symmetries of a given MDP. We show that the problem is \emph{Isomorphism
+Complete}, that is, the problem is polynomially equivalent to verifying
+whether two graphs are isomorphic. Apart from the theoretical importance of
+this result it has an important practical application. The reduction
+presented can be used together with any off-the-shelf Graph Isomorphism
+solver, which performs well in the average case, to find symmetries of an
+MDP. In fact, we present results of using NAutY (the best Graph Isomorphism
+solver currently available), to find symmetries of MDPs. We next address the
+issue of exploiting the symmetries of a given MDP. We propose the use of an
+explicit model minimization algorithm called the $G$-reduced image
+algorithm that exploits symmetries in a time efficient manner. We present an
+analysis of the algorithm and corroborate it with empirical results on a
+probabilistic GridWorld domain and a single player GridWorld Soccer domain.
+We also present results of integrating the symmetry finding with the
+explicit model minimization approach to illustrate an end-to-end approach
+for ``Abstraction using Symmetries in MDPs''.
+
+We then note some of the problems associated with this explicit scheme and
+as a solution present an approach wherein we integrate the symmetries into
+the solution technique implicitly. However, we should select a suitable
+solution technique so that the overheads due to integration do not outweigh
+the improvements. We validate this approach by modifying the Real Time
+Dynamic Programming (RTDP) algorithm and empirically demonstrate
+significantly faster learning and reduced overall execution time on several
+domains.
+
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Table of contents etc.
+
+\begin{singlespace}
+\tableofcontents
+\thispagestyle{empty}
+
+\listoftables
+\addcontentsline{toc}{chapter}{LIST OF TABLES}
+\listoffigures
+\addcontentsline{toc}{chapter}{LIST OF FIGURES}
+\end{singlespace}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Abbreviations
+\abbreviations
+ 
+\noindent 
+\begin{tabbing}
+xxxxxxxxxxx \= xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \kill
+\textbf{IITM}   \> Indian Institute of Technology, Madras \\
+\textbf{RTFM} \> Read the Fine Manual \\
+\end{tabbing}
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Notation
+
+ \chapter*{\centerline{NOTATION}}
+ \addcontentsline{toc}{chapter}{NOTATION}
+ 
+ \begin{singlespace}
+ \begin{tabbing}
+ xxxxxxxxxxx \= xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \kill
+ \textbf{$r$}  \> Radius, $m$ \\
+ \textbf{$\alpha$}  \> Angle of thesis in degrees \\
+ \textbf{$\beta$}   \> Flight path in degrees \\
+ \end{tabbing}
+ \end{singlespace}
+ 
+ \pagebreak
+ \clearpage
+
+%The main text will follow from this point so set the page numbering
+%to arabic from here on.
+\pagenumbering{arabic}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Background.
+ \chapter{Background}
+\input{background.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The polyhedral model
+ \chapter{The polyhedral model}
+\input{polyhedral.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% llvm
+ \chapter{Introduction to LLVM}
+\input{llvm.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% polly
+\chapter{Polly - Pollyhedral optmizations in LLVM}
+\input{polly.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% openmp
+\chapter{OpenMP Code generation in Polly}
+\input{openmp.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% testing
+\chapter{Testng with pollybench}
+\input{testing.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% gccvsllvm
+%\chapter{Comparison of GCC and LLVM}
+%\input{gcc_and_llvm.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Appendices.
+
+\appendix
+ 
+\chapter{A SAMPLE APPENDIX}
+ 
+ Just put in text as you would into any chapter with sections and
+ whatnot.  Thats the end of it.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% List of papers
+
+\chapter*{Publications}
+\vspace{-0.3cm}
+
+\begin{enumerate}
+\item S. M. Narayanamurthy and B. Ravindran (2007). \newblock
+  Efficiently Exploiting Symmetries in Real Time Dynamic Programming. \newblock {\em
+  IJCAI 2007, Proceedings of the 20th International Joint Conference on
+  Artificial Intelligence}, pages 2556--2561.
+\end{enumerate}
+
+%\nocite{bellman, Amarel:1968, manning, knoblock90learning,
+%crawford92theoretical, Barto:rtdp, Ravindran:proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliography.
+\pagebreak
+\begin{singlespace}
+  \begin{small}
+	\bibliography{refs}
+  \end{small}
+\end{singlespace}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

@@ -1,0 +1,34 @@
+\BOOKMARK [0][-]{chapter*.1}{ACKNOWLEDGEMENTS}{}
+\BOOKMARK [0][-]{chapter*.2}{ABSTRACT}{}
+\BOOKMARK [0][-]{chapter*.4}{LIST OF TABLES}{}
+\BOOKMARK [0][-]{chapter*.5}{LIST OF FIGURES}{}
+\BOOKMARK [0][-]{chapter*.6}{ABBREVIATIONS}{}
+\BOOKMARK [0][-]{chapter*.7}{NOTATION}{}
+\BOOKMARK [0][-]{chapter.1}{Background}{}
+\BOOKMARK [1][-]{section.1.1}{Parallelism in Programs}{chapter.1}
+\BOOKMARK [2][-]{subsection.1.1.1}{Parallelism and locality}{section.1.1}
+\BOOKMARK [2][-]{subsection.1.1.2}{Types of parallelism}{section.1.1}
+\BOOKMARK [2][-]{subsection.1.1.3}{Realizing Parallelism}{section.1.1}
+\BOOKMARK [1][-]{section.1.2}{Auto Parallelization}{chapter.1}
+\BOOKMARK [1][-]{section.1.3}{The Polyhedral Model}{chapter.1}
+\BOOKMARK [1][-]{section.1.4}{LLVM}{chapter.1}
+\BOOKMARK [1][-]{section.1.5}{Polly}{chapter.1}
+\BOOKMARK [1][-]{section.1.6}{Manual OpenMP Code Generation}{chapter.1}
+\BOOKMARK [1][-]{section.1.7}{SPEC2006 Benchmarks}{chapter.1}
+\BOOKMARK [0][-]{chapter.2}{The polyhedral model}{}
+\BOOKMARK [1][-]{section.2.1}{Program Transformations with polyhedral model}{chapter.2}
+\BOOKMARK [2][-]{subsection.2.1.1}{Transformation for improving data docality}{section.2.1}
+\BOOKMARK [1][-]{section.2.2}{Constant propagation through arrays}{chapter.2}
+\BOOKMARK [1][-]{section.2.3}{Eliminate dead loop iterations}{chapter.2}
+\BOOKMARK [1][-]{section.2.4}{Automatic parallelization}{chapter.2}
+\BOOKMARK [1][-]{section.2.5}{Vectorization}{chapter.2}
+\BOOKMARK [0][-]{chapter.3}{Introduction to LLVM}{}
+\BOOKMARK [1][-]{section.3.1}{What Is LLVM?}{chapter.3}
+\BOOKMARK [1][-]{section.3.2}{The Intermediate Representation}{chapter.3}
+\BOOKMARK [0][-]{chapter.4}{Polly - Pollyhedral optmizations in LLVM}{}
+\BOOKMARK [0][-]{chapter.5}{OpenMP Code generation in Polly}{}
+\BOOKMARK [1][-]{section.5.1}{Generating OpenMP Library Calls}{chapter.5}
+\BOOKMARK [1][-]{section.5.2}{Support for inner loops}{chapter.5}
+\BOOKMARK [0][-]{chapter.6}{Testng with pollybench}{}
+\BOOKMARK [1][-]{section.6.1}{Polybench}{chapter.6}
+\BOOKMARK [0][-]{appendix.A}{A SAMPLE APPENDIX}{}

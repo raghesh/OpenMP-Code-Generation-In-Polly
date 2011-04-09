@@ -1,0 +1,176 @@
+\subsection{Tree Transducer with Insertion System}
+
+I have implemented three different types of tree transducers \emph{(Top-down, Extended Top-down and 
+Extended Multi Bottom-up)} as a part of my M.Tech project and have shown some language translation like
+ \emph{english to malayalam, malayalam to english and arabic to english}.
+
+But my implementation works only for fixed trees. We can give a sentence in the form of a tree, say \emph{initial tree} and some 
+transitions as inputs to the transducer. Based on the transitions given, the transducer converts given sentence to some other
+language.\\For example a sentence \emph{The machine runs the program} can be given in the form of a tree as
+\begin{figure}[h]
+\begin{center}
+{\tiny
+\pstree[nodesep=1pt,levelsep=3ex]{\Tr{S}}
+{
+	\pstree[nodesep=1pt,levelsep=3ex]{\Tr{NP}}
+	{
+		\pstree[nodesep=1pt,levelsep=3ex]{\Tr{DET}}
+		{
+			\Tr{The}
+		}
+		\pstree[nodesep=1pt,levelsep=3ex]{\Tr{N}}
+		{
+			\Tr{machine}
+		}
+	}
+        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{VP}}
+	{
+        	\pstree[nodesep=1pt,levelsep=3ex]{\Tr{V}}
+		{
+			\Tr{runs}
+		}					
+	        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{NP}}
+		{
+	        	\pstree[nodesep=1pt,levelsep=3ex]{\Tr{DET}}
+			{
+				\Tr{the}
+			}
+		        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{N}}
+			{
+				\Tr{program}
+			}
+		}
+	}
+}
+\label{fig2}
+\caption{Initial Tree}
+%\noindent \rule{\textwidth}{1pt}
+}
+\end{center}
+\end{figure}
+
+What happens if we need some changes in the input sentence, after generating the tree?\\\\
+One idea is to create a new tree for the new sentence. But it is not an efficient method, if there are only minor changes.
+Because a small change may not affect the whole tree which already generated. So reconstruction of the tree is not a good idea.\\
+Here I would like to use the idea of \emph{tree insdel system}. The idea is to construct a tree, say 
+\emph{auxilary trees} for the parts of sentence where changes occurs. This auxilaruy trees can be inserted to the initial trees
+ using the concept of tree insdel system.\\
+For example the tree structure of the sentence \emph{The machine which compiles the language runs the program} is almost similar 
+to the above tree. By making some insertions in the above tree we can generate tree for this sentence. To do that, first 
+construct an auxilary tree for \emph{which compiles the language} and insert it to the initial tree.
+\begin{figure}[h]
+\begin{center}
+{\tiny
+%\begin{minipage}[b]{0.2\linewidth}
+\pstree[nodesep=1pt,levelsep=2ex]{\Tr{S}}
+{
+	\pstree[nodesep=1pt,levelsep=3ex]{\Tr{NP}}
+	{
+		\pstree[nodesep=1pt,levelsep=3ex]{\Tr{RE}}
+		{
+			\Tr{which}
+		}
+	}
+        \pstree[nodesep=1pt,levelsep=2ex]{\Tr{VP}}
+	{
+        	\pstree[nodesep=1pt,levelsep=2ex]{\Tr{V}}
+		{
+			\Tr{compiles}
+		}					
+	        \pstree[nodesep=1pt,levelsep=2ex]{\Tr{NP}}
+		{
+	        	\pstree[nodesep=1pt,levelsep=2ex]{\Tr{DET}}
+			{
+				\Tr{the}
+			}
+		        \pstree[nodesep=1pt,levelsep=2ex]{\Tr{N}}
+			{
+				\Tr{language}
+			}
+		}
+	}
+}
+\label{fig3}
+\caption{Auxilary Tree}
+%\noindent \rule{\textwidth}{1pt}
+}
+\end{center}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+{\tiny
+\pstree[nodesep=1pt,levelsep=3ex]{\Tr{S}}
+{
+	\pstree[nodesep=1pt,levelsep=3ex]{\Tr{NP}}
+	{
+		\pstree[nodesep=1pt,levelsep=3ex]{\Tr{NP}}
+		{
+			\pstree[nodesep=1pt,levelsep=3ex]{\Tr{DET}}
+			{
+				\Tr{The}
+			}
+			\pstree[nodesep=1pt,levelsep=3ex]{\Tr{N}}
+			{
+				\Tr{machine}
+			}
+		}
+   		\pstree[nodesep=1pt,levelsep=3ex]{\Tr{S}}
+		{
+            \psset{linestyle=dashed}
+            {      
+    			\pstree[nodesep=1pt,levelsep=3ex]{\Tr{NP}}
+	    		{
+		    		\pstree[nodesep=1pt,levelsep=3ex]{\Tr{RE}}
+			    	{
+				    	\Tr{which}
+    				}
+	    		}
+		        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{VP}}
+			    {
+		        	\pstree[nodesep=1pt,levelsep=3ex]{\Tr{V}}
+				    {
+					    \Tr{compiles}
+    				}					
+			        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{NP}}
+	    			{
+			        	\pstree[nodesep=1pt,levelsep=3ex]{\Tr{DET}}
+		    			{
+			    			\Tr{the}
+				    	}
+				        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{N}}
+				    	{
+					    	\Tr{language}
+					    }
+       				}
+        		}
+		     }
+        }
+	}
+    \pstree[nodesep=1pt,levelsep=3ex]{\Tr{VP}}
+	{
+        	\pstree[nodesep=1pt,levelsep=3ex]{\Tr{V}}
+		{
+			\Tr{runs}
+		}					
+	        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{NP}}
+		{
+	        	\pstree[nodesep=1pt,levelsep=3ex]{\Tr{DET}}
+			{
+				\Tr{the}
+			}
+		        \pstree[nodesep=1pt,levelsep=3ex]{\Tr{N}}
+			{
+				\Tr{program}
+			}
+		}
+	}
+}
+\label{fig4}
+\caption{Initial Tree after Insertion of Auxilary Tree}
+%\noindent \rule{\textwidth}{1pt}
+}
+\end{center}
+\end{figure}
+The system mentined above has a lot of applications in language processing. 
+So I would like to do some work on that.\\
