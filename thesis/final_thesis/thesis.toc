@@ -29,6 +29,10 @@
 \contentsline {chapter}{\numberline {5}OpenMP Code generation in Polly}{15}{chapter.5}
 \contentsline {section}{\numberline {5.1}Generating OpenMP Library Calls}{15}{section.5.1}
 \contentsline {section}{\numberline {5.2}Support for inner loops}{16}{section.5.2}
-\contentsline {chapter}{\numberline {6}Testng with pollybench}{17}{chapter.6}
-\contentsline {section}{\numberline {6.1}Polybench}{17}{section.6.1}
-\contentsline {chapter}{\numberline {A}A SAMPLE APPENDIX}{18}{appendix.A}
+\contentsline {section}{\numberline {5.3}Adding OpenMP testcases}{17}{section.5.3}
+\contentsline {section}{\numberline {5.4}Dealing with memory references}{17}{section.5.4}
+\contentsline {subsection}{\numberline {5.4.1}Adding memory references}{17}{subsection.5.4.1}
+\contentsline {subsection}{\numberline {5.4.2}Extracting memory references}{17}{subsection.5.4.2}
+\contentsline {chapter}{\numberline {6}Testng with pollybench}{18}{chapter.6}
+\contentsline {section}{\numberline {6.1}Polybench}{18}{section.6.1}
+\contentsline {chapter}{\numberline {A}Doing Projects - The Open Source Way}{19}{appendix.A}

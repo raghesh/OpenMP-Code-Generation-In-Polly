@@ -1,83 +1,88 @@
-@book{bellman,
-	author = "Richard E Bellman",
-	year = "1957",
-	title = "Dynamic Programming",
-	publisher = "Princeton University Press"
+@InProceedings{cloog,
+	author =        {Bastoul, C\'{e}dric},
+	title =         {Code Generation in the Polyhedral Model Is Easier Than You Think},
+	booktitle =     {{PACT'13 IEEE} International Conference on Parallel Architecture and Compilation Techniques},
+	keywords =      {Iterative Polyhedral Transformations},
+	year =          2004,
+	pages =         {7--16},
+	month =         sep,
+	address =       {Juan-les-Pins, France},
+	note = 	  {Classement CORE~:~A, nombre de papiers accept\'es~:~23, soumis~:~122, student award},
+	URL =           {http://hal.ccsd.cnrs.fr/ccsd-00017260},
+	pdf =           {http://hal.ccsd.cnrs.fr/docs/00/05/52/29/PDF/bastoul2004code.pdf}
 }
 
-@book{lamport,
-	author = "Leslie Lamport",
-	year = "1994",
-	title = "{LaTeX}: A Document Preparation System (2nd Edition)",
-	publisher = "Addison-Wesley Professional"
+
+@misc{pollywiki,
+	title = {Polly Project Page},
+	howpublished = {http://wiki.llvm.org/Polyhedral\_optimization\_framework}
 }
 
-@book{helmut,
-	author = "Helmut Kopka And Patrick W. Daly",
-	year = "2003",
-	title = "Guide to {LaTeX} (4th Edition)",
-	publisher = "Addison-Wesley Professional"
+@misc{lice,
+	title = {{LLVM} Lincence Document},
+	howpublished = {http://llvm.org/releases/2.8/LICENSE.TXT}
+}
+@misc{llvm,
+	title = {{LLVM} Project Home Page},
+	howpublished = {http://llvm.org}
 }
 
-@book{david,
-	author = "David Francis Griffiths And Desmond J. Higham",
-	year = "1997",
-	title = "Learning {LaTeX}",
-	publisher = "SIAM"
+
+@misc{parfor,
+	title =  {Implementing {FOR}},
+	howpublished = {http://gcc.gnu.org/onlinedocs/libgomp/Implementing-FOR-construct.html}
 }
 
-@InCollection{Amarel:1968,
-  author =       "Saul Amarel",
-  year =         "1968",
-  title =        "On representations of problems of reasoning about actions",
-  booktitle =    "Machine Intelligence~3",
-  editor =       "Donald Michie",
-  publisher =    "Elsevier/North-Holland",
-  address =      "Amsterdam, London, New York",
-  volume =       "3",
-  pages =        "131--171",
+@misc{kaleid,
+	title = {{LLVM} Function Code Generation},
+	howpublished = {http://llvm.org/docs/tutorial/LangImpl3.html\#funcs}
 }
 
-@PhdThesis{manning,
-  author = 	 {Joseph Brendan Manning},
-  title = 	 {Geometric symmetry in graphs},
-  school = 	 {Purdue University},
-  year = 	 {1990},
+@misc{libgomp,
+	title =         {libgomp Manual},
+	howpublished = {http://gcc.gnu.org/onlinedocs/libgomp/}
+}
+@misc{clang,
+	title = {Clang Project Home page},
+	howpublished = {http://clang.llvm.org}
 }
 
-@inproceedings{ knoblock90learning,
-    author = "Craig A. Knoblock",
-    title = "Learning Abstraction Hierarchies for Problem Solving",
-    booktitle = "Proceedings of the Eighth National Conference on Artificial Intelligence",
-    publisher = "AAAI Press",
-    address = "Menlo Park, California",
-    editor = "Thomas Dietterich and William Swartout",
-    year = "1990",
-    url = "citeseer.ist.psu.edu/knoblock90learning.html"
+
+@article{pgo,
+	author = {R. Gupta and E. Mehofer and Y. Zhan},
+	publisher = {CRC Press},
+	journal =     {The Compiler Design Handbook: Optimizations and Machine Code Generation},
+	title = {Profile Guided Compiler Optimization},
+	year = 2002
+}
+@article{scop,
+	author = {Sebastian Pop},
+	journal =     {GREPS: International Workshop on GCC for Research in Embedded and Parallel Systems},
+	title = {Towards a Declarative Polyhedral Representation}
+}
+@MastersThesis{openmp,
+	author     =     {J. Stadler},
+	title     =     {Towards dynamic threading support for OpenMP},
+	address     =     {ETH Zurich},
+	year     =     {2009},
+	month     =     {Jan}
 }
 
-@misc{ crawford92theoretical,
-  author = "J. Crawford",
-  title = "A theoretical analysis of reasoning by symmetry in first-order logic",
-  text = "J.M. Crawford. A theoretical analysis of reasoning by symmetry in first-order
-    logic. In AAAI Workshop on Tractable Reasoning, 1992.",
-  year = "1992",
-  url = "citeseer.ist.psu.edu/crawford92theoretical.html" }
-
-@article{Barto:rtdp,
-  AUTHOR = {A. G. Barto and S. J. Bradtke and S. P. Singh},
-  TITLE = {Learning to act using real-time dynamic programming},
-  YEAR = 1995,
-  JOURNAL = {Artificial Intelligence},
-  VOLUME = {72},
-  PAGES = {81--138},
-}
-
-@TechReport{Ravindran:proof,
-  author = 	 {Balaraman Ravindran and Andrew G. Barto},
-  title = 	 {Symmetries and model minimization of markov decision processes},
-  institution =  {University of Massachusetts, Amherst},
-  year = 	 {2001},
-  key = 	 {01-43},
-}
+@inproceedings{pluto,
+	author = {Bondhugula, Uday and Hartono, Albert and Ramanujam, J. and Sadayappan, P.},
+	title = {A practical automatic polyhedral parallelizer and locality optimizer},
+	booktitle = {Proceedings of the 2008 ACM SIGPLAN conference on Programming language design and implementation},
+	series = {PLDI '08},
+	year = {2008},
+	isbn = {978-1-59593-860-2},
+	location = {Tucson, AZ, USA},
+	pages = {101--113},
+	numpages = {13},
+	url = {http://doi.acm.org/10.1145/1375581.1375595},
+	doi = {http://doi.acm.org/10.1145/1375581.1375595},
+	acmid = {1375595},
+	publisher = {ACM},
+	address = {New York, NY, USA},
+	keywords = {affine transformations, automatic parallelization, locality optimization, loop transformations, polyhedral model, tiling},
+} 
 

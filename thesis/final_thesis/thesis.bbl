@@ -1,57 +1,22 @@
-\begin{thebibliography}{10}
+\begin{thebibliography}{2}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax
   \def\url#1{{\tt #1}}\fi
 \expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
 
-\bibitem[{Amarel(1968)}]{Amarel:1968}
-{\bf Amarel, S.}, On representations of problems of reasoning about actions.
-\newblock {\em In\/} {\bf D.~Michie} (ed.), {\em Machine Intelligence~3\/},
-  volume~3. Elsevier/North-Holland, Amsterdam, London, New York, 1968,
-  131--171.
+\bibitem[{par()}]{parfor}
+ ().
+\newblock Implementing {FOR}.
+\newblock
+  http://gcc.gnu.org/onlinedocs/libgomp/Implementing-FOR-construct.html.
 
-\bibitem[{Barto {\em et~al.\/}(1995)Barto, Bradtke, and Singh}]{Barto:rtdp}
-{\bf Barto, A.~G.}, {\bf S.~J. Bradtke}, and {\bf S.~P. Singh} (1995).
-\newblock Learning to act using real-time dynamic programming.
-\newblock {\em Artificial Intelligence\/}, {\bf 72}, 81--138.
-
-\bibitem[{Bellman(1957)}]{bellman}
-{\bf Bellman, R.~E.}, {\em Dynamic Programming\/}.
-\newblock Princeton University Press, 1957.
-
-\bibitem[{Crawford(1992)}]{crawford92theoretical}
-{\bf Crawford, J.} (1992).
-\newblock A theoretical analysis of reasoning by symmetry in first-order logic.
-\newblock \urlprefix\url{citeseer.ist.psu.edu/crawford92theoretical.html}.
-
-\bibitem[{Griffiths and Higham(1997)}]{david}
-{\bf Griffiths, D.~F.} and {\bf D.~J. Higham}, {\em Learning {LaTeX}\/}.
-\newblock SIAM, 1997.
-
-\bibitem[{Knoblock(1990)}]{knoblock90learning}
-{\bf Knoblock, C.~A.}, Learning abstraction hierarchies for problem solving.
-\newblock {\em In\/} {\bf T.~Dietterich} and {\bf W.~Swartout} (eds.), {\em
-  Proceedings of the Eighth National Conference on Artificial Intelligence\/}.
-  AAAI Press, Menlo Park, California, 1990.
-\newblock \urlprefix\url{citeseer.ist.psu.edu/knoblock90learning.html}.
-
-\bibitem[{Kopka and Daly(2003)}]{helmut}
-{\bf Kopka, H.} and {\bf P.~W. Daly}, {\em Guide to {LaTeX} (4th Edition)\/}.
-\newblock Addison-Wesley Professional, 2003.
-
-\bibitem[{Lamport(1994)}]{lamport}
-{\bf Lamport, L.}, {\em {LaTeX}: A Document Preparation System (2nd
-  Edition)\/}.
-\newblock Addison-Wesley Professional, 1994.
-
-\bibitem[{Manning(1990)}]{manning}
-{\bf Manning, J.~B.} (1990).
-\newblock {\em Geometric symmetry in graphs\/}.
-\newblock Ph.D. thesis, Purdue University.
-
-\bibitem[{Ravindran and Barto(2001)}]{Ravindran:proof}
-{\bf Ravindran, B.} and {\bf A.~G. Barto} (2001).
-\newblock Symmetries and model minimization of markov decision processes.
-\newblock Technical report, University of Massachusetts, Amherst.
+\bibitem[{Bastoul(2004)}]{cloog}
+{\bf Bastoul, C.}, Code generation in the polyhedral model is easier than you
+  think.
+\newblock {\em In\/} {\em {PACT'13 IEEE} International Conference on Parallel
+  Architecture and Compilation Techniques\/}. Juan-les-Pins, France, 2004.
+\newblock \urlprefix\url{http://hal.ccsd.cnrs.fr/ccsd-00017260}.
+\newblock Classement CORE~:~A, nombre de papiers accept\'es~:~23, soumis~:~122,
+  student award.
 
 \end{thebibliography}

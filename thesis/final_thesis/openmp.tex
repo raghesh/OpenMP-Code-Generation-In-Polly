@@ -1,56 +1,67 @@
 \label{chap:openmp}
 
-Optimizations in Polly should be able to create loops that are executed in parallel, as if the user would have
-added some OpenMP pragmas. To achieve this, code generation needs to emit code that calls an OpenMP
-library to be executed in parallel. The GNU OpenMP Library(libgomp) is used for this purpose. The
+Transformations in Polly create loops that are executed in parallel, as if the user would have
+added some OpenMP pragmas. To achieve this, code generation needs to emit code that calls OpenMP
+library functions to be executed in parallel. The GNU OpenMP Library(libgomp) is used for this purpose. The
 dependency analysis module of Polly automatically detects parallel loops(SCoPs) and are given to OpenMP
-code generation module. Here we generate the required libgomp library calls. The code generated is similar
-the code generated if the user have added OpenMP pragmas[2]. The following sections explain the steps
+code generation module. Here we generate the required libgomp library calls. The generated code is similar
+to the one generated if the user have added OpenMP pragmas\cite{parfor}. The following sections explain the steps
 taken towards generating the OpenMP code. The generated code is in LLVM IR format.
+
 \section{Generating OpenMP Library Calls}
+
+Typically when a user want to run a particular section of the code in parallel he/she annotate the code with
+OpenMP pragmas. The compiler will then convert this pragmas into the corresponding library calls. In Polly the
+approach taken is to generate these calls automatically when a loop is detected as parallel.
+
 Consider the for loop below to have a basic understanding about what is to be done.
 
-{\footnotesize
 \begin{lstlisting}
   for (int i = 0; i <= N; i++)
     A[i] = 1 ;
 \end{lstlisting}
-}
 
-The above for loop is detected as a parallel loop and given for OpenMP code generation. Here the following
+The above for loop is detected as a parallel and given for OpenMP code generation. Here the following
 sequence of GOMP library calls with proper arguments and return types(signature) has to be generated in
 LLVM IR format.
 
 \begin{itemize}
-\item GOMP parallel loop runtime start
+\item GOMP\_parallel\_loop\_runtime\_start
 \item subfunction
-\item GOMP parallel end
+\item GOMP\_parallel\_end
 \end{itemize}
 
 The code for body of the for loop is generated inside the subfunction which has the following GOMP library
 calls to achieve the necessary parallelism.
 
 \begin{itemize}
-\item GOMP loop runtime next
-\item GOMP loop end nowait
+\item GOMP\_loop\_runtime\_next
+\item GOMP\_loop\_end\_nowait
 \end{itemize}
 
-The signature and descriptions of each of the above functions can be found in in libgomp manual[3].
+The signature and descriptions of each of the above functions can be found in in libgomp manual\cite{libgomp}.
 
 \section{Support for inner loops}
-So far OpenMP code created apply only for outer loops, which is detected as SCoP. Next step is to do it for
+
+So far OpenMP code created apply only for outermost loops, which is detected as SCoP. Next step is to do it for
 inner loops. Due to dependency issues the outer loop is not detected as SCoP, but innerloop can be safely
 parallelized as in the following example.
 
-{\footnotesize
 \begin{lstlisting}
-  for (int i = 0; i < N; i++)
+  for (int i = 0; i < M; i++)
     for (int j = 0; j < N; j++)
-      A[j] += i;
+      A[j] += M;
 \end{lstlisting}
-}
 
-Those loops need the values of the surrounding induction variables in the OpenMP subfunction. We need
-to pass the values of the outer induction variables in a structure to the subfunction. This step is almost
-completed with some minor issues to be fixed.
+Those loops need the values of the surrounding induction variables and parameters in the OpenMP subfunction. We need
+to pass the values of the outer induction variables in a structure to the subfunction. All the required variables
+were already available in a datastructure used by Polly. We just needed to copy those into the body of the subfunction
+so that it can refer those whenever needed.
 
+\section{Adding OpenMP testcases}
+
+<give more explanation>
+
+\section{Dealing with memory references}
+\subsection{Adding memory references}
+\subsection{Extracting memory references}
