@@ -11,6 +11,19 @@ The basic design of LLVM is an unlimited register machine (URM), familiar to mos
 
 LLVM programs are assembled from basic blocks. A basic block is a sequence of instructions with no branches.
 
+The low level virtual machine (LLVM) \cite{10.1109/CGO.2004.1281665} is a set
+of tools and libraries to build a compiler. Constructed around a language and
+platform-independent intermediate representation (IR) it provides
+state-of-the-art analyses, optimizations and target code generation. Besides production
+quality support for x86-32, x86-64 and ARM, there is target code generation for
+the C programming language, various GPU accelerators or even hardware
+descriptions.  There exist LLVM based static and just-in-time
+compilers for nine of the ten most used programming languages \cite{tiobe11}.
+Furthermore, there are OpenCL compilers developed by Apple, AMD and NVIDIA, as
+well as various graphics shader compilers. Due to the modular structure, the
+human readable IR and a set of helpful tools, development with LLVM is easy and
+productive.
+
 \section{The Intermediate Representation}
 
 The core of LLVM is the intermediate representation (IR). Front ends compile code from a source language to the IR, optimization passes transform the IR, and code generators turn the IR into native code.

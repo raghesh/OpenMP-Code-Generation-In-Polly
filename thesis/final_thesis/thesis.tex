@@ -11,16 +11,15 @@
 \usepackage{caption}
 \usepackage{subfig}
 \usepackage[dvips]{graphicx}
-% \usepackage[square,numbers,sort]{natbib}
+\usepackage[square,numbers,sort]{natbib}
 \usepackage[square]{natbib}
 \usepackage[hypertex]{hyperref} % hyperlinks for references.
 %\usepackage{algorithmic}
 %\usepackage{algorithm}
 \usepackage{listings}
-
-
 %\include{commands}
 
+%\usepackage[pdftex]{graphicx}
 % Strut macros for skipping spaces above and below text in tables. 
 \def\abovestrut#1{\rule[0in]{0in}{#1}\ignorespaces}
 \def\belowstrut#1{\rule[-#1]{0in}{#1}\ignorespaces}
@@ -248,10 +247,9 @@ xxxxxxxxxxx \= xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \kill
 \vspace{-0.3cm}
 
 \begin{enumerate}
-\item S. M. Narayanamurthy and B. Ravindran (2007). \newblock
-  Efficiently Exploiting Symmetries in Real Time Dynamic Programming. \newblock {\em
-  IJCAI 2007, Proceedings of the 20th International Joint Conference on
-  Artificial Intelligence}, pages 2556--2561.
+\item Tobias Grosser, Hongbin Zheng, Raghesh Aloor, Andreas Simb{\"u}rger, Armin {G}r{\"o}{\ss}linger and Louis-No{\"e}l Pouchet \newblock
+  Polly - Polyhedral optimization in LLVM \newblock {\em
+  IMPACT 2011(First International workshop on PolyhedrAl Compilation Techniques)}, Chamonix, France.
 \end{enumerate}
 
 %\nocite{bellman, Amarel:1968, manning, knoblock90learning,
@@ -263,7 +261,7 @@ xxxxxxxxxxx \= xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \kill
 \begin{singlespace}
   \begin{small}
 	\bibliography{refs}
-    \bibliographystyle{plain}
+%\bibliographystyle{plain}
   \end{small}
 \end{singlespace}
 
