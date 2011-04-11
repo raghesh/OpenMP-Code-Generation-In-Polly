@@ -31,6 +31,7 @@
 \BOOKMARK [1][-]{section.3.2}{The Intermediate Representation}{chapter.3}
 \BOOKMARK [0][-]{chapter.4}{Polly - Pollyhedral optmizations in LLVM}{}
 \BOOKMARK [1][-]{section.4.1}{Introduction}{chapter.4}
+\BOOKMARK [1][-]{section.4.2}{Implementation}{chapter.4}
 \BOOKMARK [0][-]{chapter.5}{OpenMP Code generation in Polly}{}
 \BOOKMARK [1][-]{section.5.1}{Generating OpenMP Library Calls}{chapter.5}
 \BOOKMARK [1][-]{section.5.2}{Support for inner loops}{chapter.5}
