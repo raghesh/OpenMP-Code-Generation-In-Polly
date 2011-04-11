@@ -10,13 +10,9 @@
 \newblock
   http://gcc.gnu.org/onlinedocs/libgomp/Implementing-FOR-construct.html.
 
-\bibitem[{Bastoul(2004)}]{cloog}
-{\bf Bastoul, C.}, Code generation in the polyhedral model is easier than you
-  think.
-\newblock {\em In\/} {\em {PACT'13 IEEE} International Conference on Parallel
-  Architecture and Compilation Techniques\/}. Juan-les-Pins, France, 2004.
-\newblock \urlprefix\url{http://hal.ccsd.cnrs.fr/ccsd-00017260}.
-\newblock Classement CORE~:~A, nombre de papiers accept\'es~:~23, soumis~:~122,
-  student award.
+\bibitem[{lib()}]{libgomp}
+ ().
+\newblock libgomp manual.
+\newblock http://gcc.gnu.org/onlinedocs/libgomp/.
 
 \end{thebibliography}
