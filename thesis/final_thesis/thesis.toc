@@ -30,6 +30,7 @@
 \contentsline {section}{\numberline {3.1}What Is LLVM?}{10}{section.3.1}
 \contentsline {section}{\numberline {3.2}The Intermediate Representation}{10}{section.3.2}
 \contentsline {chapter}{\numberline {4}Polly - Pollyhedral optmizations in LLVM}{14}{chapter.4}
+\contentsline {section}{\numberline {4.1}Introduction}{14}{section.4.1}
 \contentsline {chapter}{\numberline {5}OpenMP Code generation in Polly}{15}{chapter.5}
 \contentsline {section}{\numberline {5.1}Generating OpenMP Library Calls}{15}{section.5.1}
 \contentsline {section}{\numberline {5.2}Support for inner loops}{16}{section.5.2}

@@ -1,48 +1,54 @@
 This is BibTeX, Version 0.99c (Web2C 7.5.4)
 The top-level auxiliary file: thesis.aux
 The style file: iitm.bst
+Illegal, another \bibstyle command---line 100 of file thesis.aux
+ : \bibstyle
+ :          {plain}
+I'm skipping whatever remains of this command
 Database file #1: refs.bib
 Warning--to sort, need author or key in parfor
 Warning--to sort, need author or key in libgomp
-You've used 2 entries,
+Warning--missing publisher in Baskaran10
+Warning--missing publisher in RISSET:2008
+You've used 6 entries,
             2930 wiz_defined-function locations,
-            602 strings with 4873 characters,
-and the built_in function-call counts, 611 in all, are:
-= -- 60
-> -- 0
-< -- 0
-+ -- 2
-- -- 0
-* -- 34
-:= -- 88
-add.period$ -- 6
-call.type$ -- 2
-change.case$ -- 10
-chr.to.int$ -- 2
-cite$ -- 8
-duplicate$ -- 48
-empty$ -- 59
-format.name$ -- 0
-if$ -- 125
+            631 strings with 5923 characters,
+and the built_in function-call counts, 3713 in all, are:
+= -- 274
+> -- 150
+< -- 1
++ -- 52
+- -- 44
+* -- 307
+:= -- 499
+add.period$ -- 18
+call.type$ -- 6
+change.case$ -- 52
+chr.to.int$ -- 6
+cite$ -- 14
+duplicate$ -- 320
+empty$ -- 313
+format.name$ -- 57
+if$ -- 761
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 6
-newline$ -- 17
-num.names$ -- 0
-pop$ -- 28
+missing$ -- 56
+newline$ -- 33
+num.names$ -- 18
+pop$ -- 150
 preamble$ -- 1
-purify$ -- 8
+purify$ -- 38
 quote$ -- 0
-skip$ -- 19
+skip$ -- 102
 stack$ -- 0
-substring$ -- 26
-swap$ -- 12
-text.length$ -- 0
+substring$ -- 128
+swap$ -- 159
+text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 18
-warning$ -- 2
-while$ -- 0
+type$ -- 54
+warning$ -- 4
+while$ -- 17
 width$ -- 0
-write$ -- 28
-(There were 2 warnings)
+write$ -- 76
+(There was 1 error message)
