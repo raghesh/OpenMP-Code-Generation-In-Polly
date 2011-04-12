@@ -92,46 +92,39 @@ I would like to thank everyone who helped me.
 
 \abstract
 
-\noindent KEYWORDS: \hspace*{0.5em} \parbox[t]{4.4in}{Markov Decision Processes,
-Symmetries, Abstraction}
+\noindent KEYWORDS: \hspace*{0.5em} \parbox[t]{4.4in}{Loop Transformation,
+OpenMP, Polyhedral Model, Vectorization, Autoparallelism}
 
 \vspace*{24pt}
 
-Current approaches to solving Markov Decision Processes (MDPs), the de-facto
-standard for modeling stochastic sequential decision problems, scale poorly
-with the size of the MDP. When used to model real-world problems though,
-MDPs exhibit considerable implicit redundancy, especially in the form of
-symmetries.  However, existing model minimization approaches do not
-efficiently exploit this redundancy due to symmetries. These approaches
-involve constructing a reduced model first and then solving them. Hence we
-term these as ``explicit minimization'' approaches.
+It is always a tedious task to manualy analyze and detect parallelism in programs. When
+we deal with autoparallelism the task becomes more complex. Frameworks such as OpenMP
+is available through which we can manually annotate the code to realize parallelism and take the
+advantage of undelying multi-core architecture. But the programmer's life becomes simple
+when this is done automatically. In this report we present a framework for autoparallelism through Polly,
+a project to enable polyhedral optimizations in LLVM and the workdone
+towards automatically generating OpenMP library calls for relevent parts of the code.
 
-In the first part of this work, we address the question of finding
-symmetries of a given MDP. We show that the problem is \emph{Isomorphism
-Complete}, that is, the problem is polynomially equivalent to verifying
-whether two graphs are isomorphic. Apart from the theoretical importance of
-this result it has an important practical application. The reduction
-presented can be used together with any off-the-shelf Graph Isomorphism
-solver, which performs well in the average case, to find symmetries of an
-MDP. In fact, we present results of using NAutY (the best Graph Isomorphism
-solver currently available), to find symmetries of MDPs. We next address the
-issue of exploiting the symmetries of a given MDP. We propose the use of an
-explicit model minimization algorithm called the $G$-reduced image
-algorithm that exploits symmetries in a time efficient manner. We present an
-analysis of the algorithm and corroborate it with empirical results on a
-probabilistic GridWorld domain and a single player GridWorld Soccer domain.
-We also present results of integrating the symmetry finding with the
-explicit model minimization approach to illustrate an end-to-end approach
-for ``Abstraction using Symmetries in MDPs''.
+Various powerful polyhedral techniques exist to optimize
+computation intensive programs effectively.  Applying these techniques on any
+non-trivial
+program is still surprisingly difficult and often not as effective as expected.
+Most polyhedral tools are limited to a specific programming language.  Even for
+this language, relevant code needs to match specific syntax that rarely
+appears in existing code.  It is therefore hard or even impossible to
+process existing programs automatically.  In addition, most tools target C or
+OpenCL code, which prevents effective communication with compiler internal
+optimizers. As a result target architecture specific optimizations are
+either little effective or not approached at all.
 
-We then note some of the problems associated with this explicit scheme and
-as a solution present an approach wherein we integrate the symmetries into
-the solution technique implicitly. However, we should select a suitable
-solution technique so that the overheads due to integration do not outweigh
-the improvements. We validate this approach by modifying the Real Time
-Dynamic Programming (RTDP) algorithm and empirically demonstrate
-significantly faster learning and reduced overall execution time on several
-domains.
+ Polly automatically detects and transforms relevant program parts in a
+language-independent and syntactically transparent way. Therefore, it supports
+programs written in most common programming languages and constructs
+like C++ iterators, goto based loops and pointer arithmetic.  Internally it
+provides a state-of-the-art polyhedral library with full support for
+$\mathbb{Z}$-polyhedra, advanced data dependency analysis and
+support for external optimizers. Through LLVM, machine code for CPUs and GPU accelerators,
+C source code and even hardware descriptions can be targeted.
 
 
 \pagebreak

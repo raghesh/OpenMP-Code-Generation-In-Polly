@@ -29,7 +29,7 @@ it to multi-core processors. Another limitation of Pthreads is programmers are r
 deal with a lot of thread-specific code. The number of threads required for a computation
 need to be hard corded which makes it less scalable.
 
-\textbf{MPI:}
+%\textbf{MPI:}
 
 \textbf{OpenMP:} In view of the shortcomings of POSIX threads there was an urge to formulate a new threading
 interface. The major objective was to overcome the burden of learning different ways for programming threads in different
@@ -74,7 +74,7 @@ be \emph{shared} to get the intended result.
 
 %\textbf{OpenCL}
 
-\textbf{Intel TBB:}
+%\textbf{Intel TBB:}
 
 \section{Auto Parallelization}
 We can take the advantage of hardware support for parallelism only if the compiler has
@@ -154,6 +154,6 @@ to a parallel loop and these can be vectorized or parallelize using OpenMP.
 
 More details on LLVM and Polly can be found at chapters 3 and 4 respectively.
 
-\section{Manual OpenMP Code Generation}
+\section{OpenMP Code Generation}
 
-\section{SPEC2006 Benchmarks}
+\section{Polybench Benchmarks}

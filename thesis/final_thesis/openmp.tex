@@ -1,5 +1,6 @@
 \label{chap:openmp}
 
+\section{Introduction}
 Transformations in Polly create loops that are executed in parallel, as if the user would have
 added some OpenMP pragmas. To achieve this, code generation needs to emit code that calls OpenMP
 library functions to be executed in parallel. The GNU OpenMP Library(libgomp) is used for this purpose. The
@@ -14,16 +15,19 @@ Typically when a user want to run a particular section of the code in parallel h
 OpenMP pragmas. The compiler will then convert this pragmas into the corresponding library calls. In Polly the
 approach taken is to generate these calls automatically when a loop is detected as parallel.
 
-Consider the for loop below to have a basic understanding about what is to be done.
+Consider the for loop in ~\ref{fig:openmp1} to have a basic understanding about what is to be done.
+This is detected as a parallel and given for OpenMP code generation. Here the following
+sequence of GOMP library calls with proper arguments and return types(signature) has to be generated in
+LLVM IR format.
 
+\begin{figure}
 \begin{lstlisting}
   for (int i = 0; i <= N; i++)
     A[i] = 1 ;
 \end{lstlisting}
-
-The above for loop is detected as a parallel and given for OpenMP code generation. Here the following
-sequence of GOMP library calls with proper arguments and return types(signature) has to be generated in
-LLVM IR format.
+	\caption{An example}
+	\label{fig:openmp1}
+\end{figure}
 
 \begin{itemize}
 \item GOMP\_parallel\_loop\_runtime\_start
@@ -31,6 +35,13 @@ LLVM IR format.
 \item GOMP\_parallel\_end
 \end{itemize}
 
+\begin{figure}
+  \label{fig:openmp_cfg}
+  \includegraphics[width=1\textwidth]{images/ompcalls.eps}
+  \caption{CFG showing sequence of OpenMP library calls}
+\end{figure}
+
+The control flow graph corresponding to the simple code in ~\ref{fig:openmp1} is shown in ~\ref{fig:openmp_cfg}
 The code for body of the for loop is generated inside the subfunction which has the following GOMP library
 calls to achieve the necessary parallelism.
 
