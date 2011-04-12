@@ -63,5 +63,29 @@ so that it can refer those whenever needed.
 <give more explanation>
 
 \section{Dealing with memory references}
+
+\begin{lstlisting}
+#define N 10
+  void foo() {
+    float A[N];
+    for (int i=0; i < N; i++)
+      A[i] = 10;
+    return;
+}
+\end{lstlisting}
+
+Consider the above code segement. The 'for' loop will be detected as parallel by Polly and will be embedded in the
+body of the OpenMP subfunction. But it accesses a non-global array 'A' and so accessing the same will not be possible inside
+the subfunction. The approach for solving this issue is explained below.
+
 \subsection{Adding memory references}
+
+The base addresses of all memory references made by a statement is available in each statement instance. Prior to creating the body
+of the subfunction we add all these base addresses are added into the same data structure where we stored the induction variables and parameters.
+And then it is added to the subfunction structure.
+
 \subsection{Extracting memory references}
+
+Inside the body of the subfunction the base addresses are extracted from the subfunction structure and a new LLVM load instruction is created for each. The
+new base addresses mapped to the old addresses so that any future references are made on the new addresses.
+
