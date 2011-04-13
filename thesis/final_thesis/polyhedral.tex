@@ -43,12 +43,40 @@ for(j = 6; j <= 15; j++)
 \end{lstlisting}
 }
 
+\subsection{Scalar Expansion}
+
+----Give example gsoc----
+
 \subsection{Constant propagation through arrays}
 \subsection{Eliminate dead loop iterations}
 \subsection{Automatic parallelization}
 \subsection{Vectorization}
 
 \section{Polyhedral representation of Programs}
+
+The polyhedral model does its tranformations based on linear algebra and linear programming.
+Certian parts of programs known as SCoPs(Static control Part) are represented in this model.
+A program part that can be represented using polyhedral model is called SCoPs. Generally
+loops are the candidates for SCoPs. There are some restrictions to the set of statements 
+in the section of code to be qualified as SCoP. Those are listed below.
+
+\begin{itemize}
+\item The set of statements in the loops should have bounds and conditionals having affine functions
+of surrounding iterators and the parameters (constants whose values are unknown at compile time).
+\item There should be structured control flow.
+\item Side effect free(Only pure functions are allowed)
+\end{itemize}
+
+There are efforts to increase the application domain of polyhedral model \cite{Benabderrahmane}
+which shows most of the restrictions are artificial.
+
+There are three parts to this representation.
+\begin{figure}
+  \label{fig:poly_steps}
+  \includegraphics[width=1\textwidth]{images/poly_steps.eps}
+  \caption{Transformation in polyhedral model}
+\end{figure}
+
 \subsection{Iteration Domain}
 \subsection{The Schedule}
 \subsection{Access function}

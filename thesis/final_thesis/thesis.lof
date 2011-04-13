@@ -1,13 +1,15 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Transformation in polyhedral model\relax }}{10}{figure.caption.8}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Architecture of Polly\relax }}{16}{figure.caption.8}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces A valid syntactic SCoP. Not always a valid semantic SCoP\relax }}{19}{figure.caption.11}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Valid semantic SCoPs\relax }}{22}{figure.caption.12}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Architecture of Polly\relax }}{17}{figure.caption.9}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces A valid syntactic SCoP. Not always a valid semantic SCoP\relax }}{20}{figure.caption.12}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Valid semantic SCoPs\relax }}{23}{figure.caption.13}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces An example\relax }}{29}{figure.caption.18}
-\contentsline {figure}{\numberline {5.2}{\ignorespaces CFG showing sequence of OpenMP library calls\relax }}{29}{figure.caption.19}
+\contentsline {figure}{\numberline {5.1}{\ignorespaces An example\relax }}{30}{figure.caption.19}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces CFG showing sequence of OpenMP library calls\relax }}{30}{figure.caption.20}
+\addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
