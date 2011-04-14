@@ -10,12 +10,12 @@ In this chapter a extremely powerful mathematical model which puts together anal
 
 \section{Program Transformations with polyhedral model}
 
-In this section some of the common program tranformations which can be realized with the
-assistance of polyhedral model are explained. The polyhedral model is not a normal representation of progarms when compared to the
+In this section some of the common program transformations which can be realized with the
+assistance of polyhedral model are explained. The polyhedral model is not a normal representation of programs when compared to the
 classical structure of programs(like AST) that every programmer is familiar with. But
 it is easier to do transformations smoothly in this model.
 
-\subsection{Transformation for improving data docality}
+\subsection{Transformation for improving data locality}
 
 The polyhedral model can detect common array accesses which improves the data locality. It is
 illustrated with a simple example.
@@ -54,8 +54,8 @@ for(j = 6; j <= 15; j++)
 
 \section{Polyhedral representation of Programs}
 
-The polyhedral model does its tranformations based on linear algebra and linear programming.
-Certian parts of programs known as SCoPs(Static control Part) are represented in this model.
+The polyhedral model does its transformations based on linear algebra and linear programming.
+Certain parts of programs known as SCoPs(Static control Part) are represented in this model.
 A program part that can be represented using polyhedral model is called SCoPs. Generally
 loops are the candidates for SCoPs. There are some restrictions to the set of statements 
 in the section of code to be qualified as SCoP. Those are listed below.

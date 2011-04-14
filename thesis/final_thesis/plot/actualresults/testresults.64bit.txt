@@ -1,0 +1,30 @@
+2mm/2mm.c:serial 1.976261s
+2mm/2mm.c:autopar(graphite) 1.622490s
+2mm/2mm.c:autopar(polly) 1.031165s
+adi/adi.c:serial 0.418657s
+adi/adi.c:autopar(graphite) 0.461362s
+adi/adi.c:autopar(polly) 0.462340s
+correlation/correlation.c:serial 0.338003s
+correlation/correlation.c:autopar(graphite) 0.338462s
+correlation/correlation.c:autopar(polly) 0.198239s
+covariance/covariance.c:serial 0.336355s
+covariance/covariance.c:autopar(graphite) 0.334376s
+covariance/covariance.c:autopar(polly) 0.199907s
+doitgen/doitgen.c:serial 0.560561s
+doitgen/doitgen.c:autopar(graphite) infinite loop (check it)
+doitgen/doitgen.c:autopar(polly) 0.340958s
+gemm/gemm.c:serial 0.809508s
+gemm/gemm.c:autopar(graphite) 0.859278s
+gemm/gemm.c:autopar(polly) 0.346735s
+gramschmidt/gramschmidt.c:serial 1.888611s
+gramschmidt/gramschmidt.c:autopar(graphite) 1.439654s
+gramschmidt/gramschmidt.c:autopar(polly) 2.338576s (to be checked problem with -fparallel)
+jacobi-2d-imper/jacobi-2d-imper.c:serial 0.234721s
+jacobi-2d-imper/jacobi-2d-imper.c:autopar(graphite) 0.218231s
+jacobi-2d-imper/jacobi-2d-imper.c:autopar(polly) 0.225501s
+lu/lu.c:serial 1.414490s
+lu/lu.c:autopar(graphite) 1.422918s
+lu/lu.c:autopar(polly) 1.381594s (to be checked problem with -fparallel)
+seidel/seidel.c:serial 0.310160s
+seidel/seidel.c:autopar(graphite) 0.309659s
+seidel/seidel.c:autopar(polly) 0.459641s

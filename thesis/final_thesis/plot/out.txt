@@ -1,0 +1,8 @@
+2mm/2mm.c:autopar(polly) 0.331969s
+adi/adi.c:autopar(polly) 1.809630s
+correlation/correlation.c:autopar(polly) 0.038285s
+covariance/covariance.c:autopar(polly) 0.039890s
+doitgen/doitgen.c:autopar(polly) 0.097274s
+gemm/gemm.c:autopar(polly) 0.081309s
+jacobi-2d-imper/jacobi-2d-imper.c:autopar(polly) 0.134631s
+seidel/seidel.c:autopar(polly) 0.678914s

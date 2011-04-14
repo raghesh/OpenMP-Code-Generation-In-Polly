@@ -66,7 +66,7 @@ parallelized as in the following example.
 
 Those loops need the values of the surrounding induction variables and parameters in the OpenMP subfunction. We need
 to pass the values of the outer induction variables in a structure to the subfunction. All the required variables
-were already available in a datastructure used by Polly. We just needed to copy those into the body of the subfunction
+were already available in a data structure used by Polly. We just needed to copy those into the body of the subfunction
 so that it can refer those whenever needed.
 
 \section{Adding OpenMP testcases}
@@ -85,7 +85,7 @@ so that it can refer those whenever needed.
 }
 \end{lstlisting}
 
-Consider the above code segement. The 'for' loop will be detected as parallel by Polly and will be embedded in the
+Consider the above code segment. The 'for' loop will be detected as parallel by Polly and will be embedded in the
 body of the OpenMP subfunction. But it accesses a non-global array 'A' and so accessing the same will not be possible inside
 the subfunction. The approach for solving this issue is explained below.
 

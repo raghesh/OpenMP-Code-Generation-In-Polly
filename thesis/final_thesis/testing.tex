@@ -1,32 +1,22 @@
 \label{chap:testing}
 \section{Polybench}
-\textbf{Intel Core 2 Duo}(32 Bit OS) - Black \\
-\textbf{Intel Core 2 Duo}(64 Bit OS) - Red   \\
-\textbf{Intel Core i5}(64 Bit OS)    - Blue  \\
-\textbf{AMD Engineering Sample(24 Core)}(64 Bit OS) - Green \\
 
-\begin{table}[h]
-\begin{center}
-{\footnotesize
-\begin{tabular}{| l | p{2cm} | p{2cm} | p{2cm} | p{2cm} |}
-\hline
-                  &\textbf{Serial Execution} & \textbf{Autom Parallelization(gcc)} & \textbf{Auto Parallelization(gcc graphite)} \\ \hline
-\textbf{2mm}      &                          &                                     &                                    \\ \hline
-\textbf{3mm}      &                          &                                     &                                    \\ \hline
-\textbf{atax}     &                          &                                     &                                    \\ \hline
-\textbf{lu}       &                          &                                     &                                     \\
-\hline
-%\hline
-%                  &\textbf{Serial Execution} & \textbf{Automatic Parallelization(Polly)} & \textbf{Manual Parallelization(GCC)} \\ \hline
-%\textbf{2mm}      & -   &  -  &  -  &   -    & -    &    -    &     -     &     -        & -     &   -   &   -   &    -         \\ \hline
-%\textbf{3mm}      & -   &  -  &  -  &   -    & -    &    -    &     -     &     -        & -     &   -   &   -   &    -         \\ \hline
-%\textbf{atax}     & -   &  -  &  -  &   -    & -    &    -    &     -     &     -        & -     &   -   &   -   &    -         \\ \hline
-%\textbf{lu}       & -   &  -  &  -  &   -    & -    &    -    &     -     &     -        & -     &   -   &   -   &    -         \\
-%\hline
+\section{Results}
 
-\end{tabular}
-}
-\end{center}
-\caption{Performance Comparison}
-\end{table}
+\begin{figure}
+  \label{fig:2core1}
+  \includegraphics[width=1\textwidth]{images/2core32bit.eps}
+  \caption{Performance comparison}
+\end{figure}
 
+\begin{figure}
+  \label{fig:2core2}
+  \includegraphics[width=1\textwidth]{images/2core64bit.eps}
+  \caption{Performance comparison}
+\end{figure}
+
+\begin{figure}
+  \label{fig:10core}
+  \includegraphics[width=1\textwidth]{images/10core64bit.eps}
+  \caption{Performance comparison}
+\end{figure}

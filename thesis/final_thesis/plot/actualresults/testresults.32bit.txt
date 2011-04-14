@@ -1,0 +1,31 @@
+Linux debian 2.6.32-5-686 #1 SMP Tue Oct 19 14:40:34 UTC 2010 i686 GNU/Linux
+2mm/2mm.c:serial 3.223501s
+2mm/2mm.c:autopar(graphite) 3.228089s
+2mm/2mm.c:autopar(polly) 2.472263s
+adi/adi.c:serial 0.723425s
+adi/adi.c:autopar(graphite) 0.487649s
+adi/adi.c:autopar(polly) 1.024179s
+correlation/correlation.c:serial 0.451803s
+correlation/correlation.c:autopar(graphite) 0.445492s
+correlation/correlation.c:autopar(polly) 0.249978s
+covariance/covariance.c:serial 0.447007s
+covariance/covariance.c:autopar(graphite) 0.441063s
+covariance/covariance.c:autopar(polly) 0.263240s
+doitgen/doitgen.c:serial 0.730774s
+doitgen/doitgen.c:autopar(graphite): Infinite loop(check it)
+doitgen/doitgen.c:autopar(polly) 0.444576s
+gemm/gemm.c:serial 1.759291s
+gemm/gemm.c:autopar(graphite) 1.666291s
+gemm/gemm.c:autopar(polly) 1.022302s
+gramschmidt/gramschmidt.c:serial 33.735953s
+gramschmidt/gramschmidt.c:autopar(graphite) 27.395112s
+gramschmidt/gramschmidt.c:autopar(polly) 2.715383s
+jacobi-2d-imper/jacobi-2d-imper.c:serial 0.224991s
+jacobi-2d-imper/jacobi-2d-imper.c:autopar(graphite) 0.262309s
+jacobi-2d-imper/jacobi-2d-imper.c:autopar(polly) 0.275020s
+lu/lu.c:serial 98.301124s
+lu/lu.c:autopar(graphite) 98.375655s
+lu/lu.c:autopar(polly) 1.491762s
+seidel/seidel.c:serial 0.417174s
+seidel/seidel.c:autopar(graphite) 0.421496s
+seidel/seidel.c:autopar(polly) 0.591673s
