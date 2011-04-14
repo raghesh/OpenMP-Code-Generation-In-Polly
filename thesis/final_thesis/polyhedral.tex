@@ -61,8 +61,8 @@ loops are the candidates for SCoPs. There are some restrictions to the set of st
 in the section of code to be qualified as SCoP. Those are listed below.
 
 \begin{itemize}
-\item The set of statements in the loops should have bounds and conditionals having affine functions
-of surrounding iterators and the parameters (constants whose values are unknown at compile time).
+\item The set of statements in the loops should have bounds and conditionals having affine functions(linear
+combination with constant) of surrounding iterators and the parameters (constants whose values are unknown at compile time).
 \item There should be structured control flow.
 \item Side effect free(Only pure functions are allowed)
 \end{itemize}
@@ -70,13 +70,88 @@ of surrounding iterators and the parameters (constants whose values are unknown 
 There are efforts to increase the application domain of polyhedral model \cite{Benabderrahmane}
 which shows most of the restrictions are artificial.
 
-There are three parts to this representation.
+The representation of polyhedral model has three parts. Each of them is explained in detail with simple
+examples in the following sections.
+
+\subsection{Iteration Domain}
+Consider the following loop.
+{\footnotesize
+\begin{lstlisting}
+for (int i = 2; i <= N; i++)
+  for (int j = 2; j <= N; j++)
+    A[i] = 10; // S1
+\end{lstlisting}
+}
+Notice that the statement A[i] = 10 is denoted by S1. Even though this is a single statement, considering
+the loop as a whole it has several statement instances along the life time of the loop. Each statement
+instance has an \textbf{iteration vector} associated with it. In general the iteration vector for S1 is (i,j).
+To be more precise each statement instance has its own iteration vector. The set of all iteration vectors
+for a given statement is called \textbf{iteration domain} of that statement. Since the value of N
+is not known at compile time and the value is unchanged while runtime we call N as \textbf{parameter}.
+Hence the above loop is \textbf{parametric}. For the above loop we can write the iteration domain mathematically as
+\begin{center}
+$D_{S1}\ =\ \{(i,j)\ \epsilon\ Z^2\ |\ 2\ \leq\ i\ \leq\ N\ \wedge\ 2\ \leq\ j\ \leq\ N\}$
+\end{center}
+This is a subspace of $Z^2$. To get a better view This can be represented graphically as in figure 
+\begin{figure}
+  \label{fig:iter}
+%  \includegraphics[width=1\textwidth]{images/iter.eps}
+  \caption{Graphical represenation of iteration domain}
+\end{figure}
+It can be seen that the iteration domain is specified by set of constraints. When those constraints are
+affine and depend only on the outer loop induction variables and parameters, the set of constraints
+defines a polyhedron (Z-polyhedron, polyhedron for short). Hence it has got the name Polyhedral Model.
+
+\subsection{The Schedule}
+
+The iteration domain does not give any information on the order of statements to be executed. If there
+is no order specified among the execution of statements it means that all the statements can be executed
+in parallel. But due to data dependences this assumption may not be always true. So a method is deviced
+to represent this order of execution which is called \textbf{scattering} function. There are many
+kinds of scattering in polyhedral model, as allocation, scheduling, chunking. For simplicity
+we are dealing only with \textbf{scheduling}. We are free to select any scheduling for better
+transformation and hence better parallelism.
+Consider the following loop.
+{\footnotesize
+\begin{lstlisting}
+for (int i = 2; i <= 4; i++)
+  for (int j = 2; j <= 4; j++)
+    P[i][j] = A[i] * B[j] ; // S2
+\end{lstlisting}
+}
+We can define a scheduling(scattering) funciton:
+\begin{center}
+$\phi_S2(i,j) = (i,j)$
+\end{center}, which means that each iteration vector (i,j) in the iteration domain is associated with
+a logical date. That is the statement instances need to be executed in the lexicographical order of the
+logical date. Another possible scattering function would be:
+\begin{center}
+$\phi_S2(i,j) = (j,i)$
+\end{center}. It is possible to generate code for the changed schedule with ClooG\cite{cloog}. The
+transformed code is:
+{\footnotesize
+\begin{lstlisting}
+for (t1 = 2; t1 <= 4; t1++) {
+  for (t2 = 2; t2 <= 4; t2++) {
+    i = t2;
+    j = t1;
+    P[i+j] += A[i] + B[j]; // S4
+  }
+}
+\end{lstlisting}
+}
+It can be observed that we just performed loop interchange.
+
+\subsection{Access function}
+Consider a statement with array access A[i+j][i+N]. The \textbf{access function} corresponding to this can be written
+as:
+\begin{center}
+$F_A(i,j) = (i+j,i+N)$
+\end{center}
+We can manipulate the access function for achieving better data locality and parallelism.
+\section{Representation of polyhedral model in Polly}
 \begin{figure}
   \label{fig:poly_steps}
   \includegraphics[width=1\textwidth]{images/poly_steps.eps}
   \caption{Transformation in polyhedral model}
 \end{figure}
-
-\subsection{Iteration Domain}
-\subsection{The Schedule}
-\subsection{Access function}

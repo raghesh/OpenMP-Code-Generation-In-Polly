@@ -1,18 +1,19 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Transformation in polyhedral model\relax }}{10}{figure.caption.8}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Graphical represenation of iteration domain\relax }}{10}{figure.caption.8}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Transformation in polyhedral model\relax }}{12}{figure.caption.9}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Architecture of Polly\relax }}{17}{figure.caption.9}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces A valid syntactic SCoP. Not always a valid semantic SCoP\relax }}{20}{figure.caption.12}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Valid semantic SCoPs\relax }}{23}{figure.caption.13}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Architecture of Polly\relax }}{19}{figure.caption.10}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces A valid syntactic SCoP. Not always a valid semantic SCoP\relax }}{22}{figure.caption.13}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Valid semantic SCoPs\relax }}{25}{figure.caption.14}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces An example\relax }}{30}{figure.caption.19}
-\contentsline {figure}{\numberline {5.2}{\ignorespaces CFG showing sequence of OpenMP library calls\relax }}{30}{figure.caption.20}
+\contentsline {figure}{\numberline {5.1}{\ignorespaces An example\relax }}{32}{figure.caption.20}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces CFG showing sequence of OpenMP library calls\relax }}{32}{figure.caption.21}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Performance comparison\relax }}{35}{figure.caption.21}
-\contentsline {figure}{\numberline {6.2}{\ignorespaces Performance comparison\relax }}{36}{figure.caption.22}
-\contentsline {figure}{\numberline {6.3}{\ignorespaces Performance comparison\relax }}{37}{figure.caption.23}
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Performance comparison\relax }}{37}{figure.caption.22}
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Performance comparison\relax }}{38}{figure.caption.23}
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Performance comparison\relax }}{39}{figure.caption.24}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
