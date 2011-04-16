@@ -7,13 +7,13 @@
 \contentsline {figure}{\numberline {3.2}{\ignorespaces A valid syntactic SCoP. Not always a valid semantic SCoP\relax }}{19}{figure.caption.13}
 \contentsline {figure}{\numberline {3.3}{\ignorespaces Valid semantic SCoPs\relax }}{22}{figure.caption.14}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Detailed control flow in Polly\relax }}{29}{figure.caption.20}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces CFG showing sequence of OpenMP library calls\relax }}{31}{figure.caption.21}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces CFG showing basic blocks in the subfunction body\relax }}{33}{figure.caption.22}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Detailed control flow in Polly\relax }}{32}{figure.caption.20}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces CFG showing sequence of OpenMP library calls\relax }}{33}{figure.caption.21}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces CFG showing basic blocks in the subfunction body\relax }}{35}{figure.caption.22}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Performance comparison\relax }}{37}{figure.caption.23}
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Performance comparison\relax }}{37}{figure.caption.24}
-\contentsline {figure}{\numberline {5.3}{\ignorespaces Performance comparison\relax }}{38}{figure.caption.25}
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Performance comparison\relax }}{39}{figure.caption.23}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Performance comparison\relax }}{39}{figure.caption.24}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Performance comparison\relax }}{40}{figure.caption.25}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

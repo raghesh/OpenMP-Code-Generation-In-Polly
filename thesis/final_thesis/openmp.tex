@@ -8,19 +8,91 @@ dependency analysis module of Polly automatically detects parallel loops(SCoPs) 
 code generation module. Here we generate the required libgomp library calls. The generated code is similar
 to the one generated if the user have added OpenMP pragmas\cite{parfor}. The following sections explain the steps
 taken towards generating the OpenMP code. The generated code is in LLVM IR format.
+\section{Setting up the environment}
+The source code for Polly can be downloaded from http://repo.or.cz/w/polly.git. This section describes
+how to set up the environmen to work with Polly. We have to install libgmp, llvm-gcc/clang executables,
+cmake, llvm, ClooG, Pocc and scoplib. libgmp, llvm-gcc/clang and cmake can be installed using the package
+management system of the operating system. Installing others are explained below
+
+\subsection{CLooG}
+\begin{verbatim}
+git clone git://repo.or.cz/cloog.git
+cd cloog
+./get_submodules.sh
+./autogen.sh
+./configure --with-gmp-prefix=/path/to/gmp/installation --prefix=/path/to/cloog/installation
+make
+make install
+\end{verbatim}
+
+\subsection{Pocc}
+\begin{verbatim}
+wget http://www.cse.ohio-state.edu/~pouchet/software/pocc/download/
+                                         pocc-1.0-rc3.1-full.tar.gz
+tar xzf pocc-1.0-rc3.1-full.tar.gz
+cd pocc-1.0-rc3.1
+./install.sh
+export PATH=`pwd`/bin
+\end{verbatim}
+
+\subsection{Scoplib}
+\begin{verbatim}
+wget http://www.cse.ohio-state.edu/~pouchet/software/pocc/download/
+                                       modules/scoplib-0.2.0.tar.gz
+tar xzf  scoplib-0.2.0.tar.gz
+cd scoplib-0.2.0
+./configure --enable-mp-version --prefix=/path/to/scoplib/installation
+make && make install
+\end{verbatim}
+
+\subsection{Building LLVM with Polly}
+\begin{verbatim}
+git clone http://llvm.org/git/llvm.git
+cd llvm/tools
+git clone git://repo.or.cz/polly.git
+mkdir build
+cd build
+cmake <llvm_source_dir>
+# If CMAKE cannot find CLooG and ISL
+cmake -DCMAKE_PREFIX_PATH=/path/to/cloog/installation . 
+# To point CMAKE to the scoplib source
+cmake -DCMAKE_PREFIX_PATH=/path/to/scoplib/installation . 
+make
+\end{verbatim}
+
+\section{Enabling OpenMP code generation in Polly}
+The easiest way to create the executable for a program with OpenMP support is by using the 'polycc' utility
+which is available in 'utils' directory under Polly source tree. Suppose you want to build a C file
+named 'a.c' issue the commands
+\begin{verbatim}
+export LIBPOLLY=<path to the cmake build directory>/lib/LLVMPolly.so
+pollycc -fpolly -fparallel a.c
+\end{verbatim}Polly is built as a shared library as LLVMPolly.so.
+
+If we need more debugging options we can use the 'opt' command, which is the optimizer command for LLVM.
+
+\begin{verbatim}
+# Generate the LLVM-IR files from source code.
+clang -S -emit-llvm a.c
+alias opt="opt -load $LIBPOLLY
+# Apply optimizations to prepare code for polly
+opt -S -mem2reg -loop-simplify -indvars a.c -o a.preopt.ll
+# Generate OpenMP code with Polly
+opt -S -polly-codegen -enable-polly-openmp a.preopt.ll -o a.ll
+# Link with libgomp
+llc a.ll -o a.s
+llvm-gcc a.s -lgomp
+\end{verbatim}
+
+
+\section{Codegeneration pass in Polly}
 \begin{figure}
 \begin{center}
   \label{detailed}
-  \includegraphics[width=1.1\textwidth]{images/detailedarch.eps}
+  \includegraphics[width=1\textwidth]{images/detailedarch.eps}
   \caption{Detailed control flow in Polly}
 \end{center}
 \end{figure}
-
-
-\section{Setting up environment}
-\section{Enabling OpenMP code generation in Polly}
-Describe the sequence of commands here.
-\section{Codegeneration pass in Polly}
 Refer to the detailed control flow in Polly in ~\ref{detailed}. Each of the modules in Polly is
 implemented as a LLMV pass\cite{llvmpass}. We have to generate the OpenMP code in the code 
 generation pass of Polly(CodeGeneration.cpp). LLVM does the magic of running this code generation
@@ -149,9 +221,6 @@ Those loops need the values of the surrounding induction variables and parameter
 to pass the values of the outer induction variables in a structure to the subfunction. All the required variables
 were already available in a data structure used by Polly. We just needed to copy those into the body of the subfunction
 so that it can refer those whenever needed.
-\section{Adding OpenMP testcases}
-
-<give more explanation>
 
 \section{Dealing with memory references}
 {\footnotesize
@@ -180,3 +249,8 @@ And then it is added to the subfunction structure.
 Inside the body of the subfunction the base addresses are extracted from the subfunction structure and a new LLVM load instruction is created for each. The
 new base addresses mapped to the old addresses so that any future references are made on the new addresses.
 
+\section{OpenMP testcases}
+
+Polly follows the LLVM testing infrastrcutre\cite{llvmtest} to add regression testcases. Testecases for OpenMP are added into
+'test/Codegen/OpenMP' directory under Polly source tree. The tests can be carried out by just issuing the command 'make polly-test'
+from the 'cmake' build directory.
