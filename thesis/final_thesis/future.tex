@@ -1,1 +1,90 @@
 \label{chap:future}
+\section{Support for memory access transformations in Polly}
+An improvement that can be made to polly is to add support for memory access transformations in Polly.
+In many cases it would be great to change the pattern of memory access to obtain better data locality.
+This can remove dependences that would otherwise block transformations and it can allow LLVM to use registers to store such values.
+
+Polly performs its optimization on LLVM-IR based on the polyhedral model. Currently the transformations can be applied on Schedule (Order of computations)
+Transformations can also be applied on the Memory Access (Pattern of memory access). A proper memory access transformation can improve data locality. This will in turn improve parallelism.
+
+\section{Increasing Coverage of Polly}
+
+Polly (Polyhedral optimization framework in LLVM) is showing very nice results for
+several testcases. Yet, lot of larger test cases needs to be improved. we can explore
+the reasons for this, find solutions for those and implement it. There are two parts for this.
+
+\subsection{Increasing SCoP coverage}
+
+The number of SCoPs detected need to be improved. This can be called as "Increasing SCoP Coverage". 
+
+Expressions like min, max, sext, zext, trunc or unsigned comparisons in the loop bounds or memory
+accesses are not handled in the current implementation. For example consider the following loop.
+{\footnotesize
+\begin{lstlisting}
+for (int i = 0; i < N; i++)
+  A[i] = B[i] + C[i];
+\end{lstlisting}
+}
+In this case a sext is necessary if the code is translated to LLVM-IR and keep i as an i32 and
+use an i64 to calculate the access to A[i]. This is  not currently handled in Polly.
+
+Overflows NSW(No signed wrap) or NUW(No unsigned wrap) are not handled in the current implementation. So
+it is not safe to compile a large project with Polly.
+
+\subsection{Increasing the System Coverage}
+
+Some of the testcases are failing when Polly is tested in machines which does not
+have 64-bit Operating system. This needs to be fixed and can be called as "Increasing the System Coverage".
+This can also be treated as porting to Polly to more architectures.
+A solution for this issue could be to derive the data type needed by the maximal possible value a variable can have.
+
+\section{Integrating Profile Guided Optimization into Polly}
+An improvement that can be made to Polly is integrating profile guided optimization
+\cite{pgo}. The idea is explained below with a few examples. Consider the following code.
+{\footnotesize
+\begin{lstlisting}
+scanf("%d", &b);
+for(i = 0; i < N; i +=  b) {
+    body;
+}
+\end{lstlisting}
+}
+Polly will not detect this as a SCoP because the variable b is read as an user
+input. So to detect this as a SCoP we instrument the IR with the information
+provided by profiling. Suppose using profiling we figure out that most of the 
+time the value of b is say 2. we can convert the above code as follows.
+%\begin{verbatim}
+{\footnotesize
+\begin{lstlisting}
+scanf("%d", &b);
+if(b == 2) {
+  for(i = 0; i < N; i += 2) {
+      body;
+  }
+} else {
+    for(i = 0; i < N; i += b) {
+        body;
+    }
+}
+\end{lstlisting}
+}
+Now with the transformed code the for loop inside 'if' will be detected as a 
+SCoP and can be parallelised. Since value of N is 100 most of the time, the 
+overall performance will be improved.
+
+Consider another scenario.
+{\footnotesize
+\begin{lstlisting}
+  for(i = 0; i < N; i++) {
+      body;
+  }
+\end{lstlisting}
+}
+Suppose using profiling we know that N is always very small. So there wont be
+much gain from parallelising it. So we have to tell polly that don't detect
+this as a SCoP if N is less than a specific value.
+
+Integrating such versioning we can expect to get heavily optimized performance 
+for some often used cases.
+
+

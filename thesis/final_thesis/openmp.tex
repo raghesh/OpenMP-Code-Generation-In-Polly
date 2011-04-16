@@ -8,26 +8,45 @@ dependency analysis module of Polly automatically detects parallel loops(SCoPs) 
 code generation module. Here we generate the required libgomp library calls. The generated code is similar
 to the one generated if the user have added OpenMP pragmas\cite{parfor}. The following sections explain the steps
 taken towards generating the OpenMP code. The generated code is in LLVM IR format.
+\begin{figure}
+\begin{center}
+  \label{detailed}
+  \includegraphics[width=1.1\textwidth]{images/detailedarch.eps}
+  \caption{Detailed control flow in Polly}
+\end{center}
+\end{figure}
 
-\section{Generating OpenMP Library Calls}
+
+\section{Setting up environment}
+\section{Enabling OpenMP code generation in Polly}
+Describe the sequence of commands here.
+\section{Codegeneration pass in Polly}
+Refer to the detailed control flow in Polly in ~\ref{detailed}. Each of the modules in Polly is
+implemented as a LLMV pass\cite{llvmpass}. We have to generate the OpenMP code in the code 
+generation pass of Polly(CodeGeneration.cpp). LLVM does the magic of running this code generation
+pass for each of the detected SCoP. The runOnScop function initiates this. This function gather
+the required information by running all passes(ScalarEvolution, LoopInfo, CloogInfo, SCopDetection, etc.).
+The current pass can refer to all of those passes as and when required. 
+
+While generating the code for a loop we check whether this loop is parallel or not. If it is
+parallel instead of generating the normal sequential code  loop is embedded in
+libgomp library calls explained in the next section.
+\section{Generating OpenMP library calls}
 
 Typically when a user want to run a particular section of the code in parallel he/she annotate the code with
 OpenMP pragmas. The compiler will then convert this pragmas into the corresponding library calls. In Polly the
 approach taken is to generate these calls automatically when a loop is detected as parallel.
 
-Consider the for loop in ~\ref{fig:openmp1} to have a basic understanding about what is to be done.
+Consider the for loop below to have a basic understanding about what is to be done.
+{\footnotesize
+\begin{lstlisting}
+for (int i = 0; i <= N; i++)
+  A[i] = 1 ;
+\end{lstlisting}
+}
 This is detected as a parallel and given for OpenMP code generation. Here the following
 sequence of GOMP library calls with proper arguments and return types(signature) has to be generated in
-LLVM IR format.
-
-\begin{figure}
-\begin{lstlisting}
-  for (int i = 0; i <= N; i++)
-    A[i] = 1 ;
-\end{lstlisting}
-	\caption{An example}
-	\label{fig:openmp1}
-\end{figure}
+LLVM IR format. A general outline of the steps are given here and we enter into the implementation details.
 
 \begin{itemize}
 \item GOMP\_parallel\_loop\_runtime\_start
@@ -36,9 +55,12 @@ LLVM IR format.
 \end{itemize}
 
 \begin{figure}
+\begin{center}
   \label{fig:openmp_cfg}
-  \includegraphics[width=1\textwidth]{images/ompcalls.eps}
+  %\includegraphics[width=1\textwidth]{images/ompcalls.eps}
+  \includegraphics[width=14cm]{images/ompcalls.eps}
   \caption{CFG showing sequence of OpenMP library calls}
+\end{center}
 \end{figure}
 
 The control flow graph corresponding to the simple code in ~\ref{fig:openmp1} is shown in ~\ref{fig:openmp_cfg}
@@ -52,39 +74,97 @@ calls to achieve the necessary parallelism.
 
 The signature and descriptions of each of the above functions can be found in in libgomp manual\cite{libgomp}.
 
+The very first step is to create the prototype for each of the functions in LLVM-IR format\cite{kaleid}.
+Code for generating prototype for "GOMP\_parallel\_end" is given below.
+{\footnotesize
+\begin{lstlisting}
+Module *M = Builder.GetInsertBlock()->getParent()->getParent();
+LLVMContext &Context = Builder.getContext();
+if (!M->getFunction("GOMP_parallel_end")) {
+  FunctionType *FT = FunctionType::get(Type::getVoidTy(Context), false);
+  Function::Create(FT, Function::ExternalLinkage, "GOMP_parallel_end", M);
+}
+\end{lstlisting}
+}
+The first line gets the global module(M) where we store the information about the function to be created.
+The 'Builder' function gives the current place to insert instructions. The 'FunctionType::get' method
+puts the types of arguments and return type and 'Function::Create' create and insert the prototype
+into the code. In a similar manner all the prototypes for other functions are created.
+
+The next step is to insert calls to the library calls. These calls replaces the sequential code for
+the original loop and the body of the loop is embedded in the OpenMP subfunction which is
+going to be exectuted as an OpenMP thread. Here is the code to create call to "GOMP\_parallel\_end":
+{\footnotesize
+\begin{lstlisting}
+Function *FN = M->getFunction("GOMP_parallel_end");
+Builder.CreateCall(FN);
+\end{lstlisting}
+}
+
+The next step which is more intersting is to create the body of the subfunction which involves the difficult process of
+linking the basic blocks in proper manner. Here is the code to generate an empty body for the subfunction:
+{\footnotesize
+\begin{lstlisting}
+LLVMContext &Context = FN->getContext();
+// Create a new basic block to start insertion into.
+BasicBlock *BB = BasicBlock::Create(Context, "entry", FN);
+// Store the previous basic block.
+BasicBlock *PrevBB = Builder->GetInsertBlock();
+// Add the return instruction.
+Builder->SetInsertPoint(BB);
+Builder->CreateRetVoid();
+// Restore the builder back to previous basic block.
+Builder->SetInsertPoint(PrevBB);
+\end{lstlisting}
+}
+This is just a basic code to create basic block 'BB' with label 'entry' The 'SetInsertPoint' function
+can be used to insert code in a particular basic block. The complete control flow graph for the
+subfunction body of a typical for loop will look like ~\ref{fig:subfunction_cfg}. In the basic
+block laballed 'omp.checkNext' we call "GOMP\_loop\_runtime\_next" which finds the upper and 
+lower bound of each OpenMP thread. In the basic block with label 'polly.loop\_body' we
+generate the sequential code for the loop.
+
+\begin{figure}
+\begin{center}
+  \label{fig:subfunction_cfg}
+  \includegraphics[width=0.55\textwidth]{images/cfg2.ps}
+%\includegraphics[width=14cm]{images/cfg2.ps}
+  \caption{CFG showing basic blocks in the subfunction body}
+\end{center}
+\end{figure}
+
 \section{Support for inner loops}
 
 So far OpenMP code created apply only for outermost loops, which is detected as SCoP. Next step is to do it for
 inner loops. Due to dependency issues the outer loop is not detected as SCoP, but innerloop can be safely
 parallelized as in the following example.
-
+{\footnotesize
 \begin{lstlisting}
-  for (int i = 0; i < M; i++)
-    for (int j = 0; j < N; j++)
-      A[j] += M;
+for (int i = 0; i < M; i++)
+  for (int j = 0; j < N; j++)
+    A[j] += M;
 \end{lstlisting}
-
+}
 Those loops need the values of the surrounding induction variables and parameters in the OpenMP subfunction. We need
 to pass the values of the outer induction variables in a structure to the subfunction. All the required variables
 were already available in a data structure used by Polly. We just needed to copy those into the body of the subfunction
 so that it can refer those whenever needed.
-
 \section{Adding OpenMP testcases}
 
 <give more explanation>
 
 \section{Dealing with memory references}
-
+{\footnotesize
 \begin{lstlisting}
 #define N 10
-  void foo() {
-    float A[N];
-    for (int i=0; i < N; i++)
-      A[i] = 10;
-    return;
+void foo() {
+  float A[N];
+  for (int i=0; i < N; i++)
+    A[i] = 10;
+  return;
 }
 \end{lstlisting}
-
+}
 Consider the above code segment. The 'for' loop will be detected as parallel by Polly and will be embedded in the
 body of the OpenMP subfunction. But it accesses a non-global array 'A' and so accessing the same will not be possible inside
 the subfunction. The approach for solving this issue is explained below.
