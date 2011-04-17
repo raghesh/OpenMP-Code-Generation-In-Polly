@@ -100,9 +100,45 @@ pass for each of the detected SCoP. The runOnScop function initiates this. This 
 the required information by running all passes(ScalarEvolution, LoopInfo, CloogInfo, SCopDetection, etc.).
 The current pass can refer to all of those passes as and when required. 
 
-While generating the code for a loop we check whether this loop is parallel or not. If it is
-parallel instead of generating the normal sequential code  loop is embedded in
-libgomp library calls explained in the next section.
+While generating the code for a loop we check whether this loop is parallel or not.  If it is
+parallel instead of generating the normal sequential code,  loop is embedded in
+libgomp library calls. The approach for detecting parallelism is explained in the next section.
+
+\section{Detecting parallelism in Polly}
+
+TODO: Properly present this section
+
+A common approach to detect
+parallelism is to check before code generation, if a certain dimension of the
+iteration space is carrying dependences. In case it does not, the dimension is
+parallel.  This approach can only detect fully parallel dimensions. However,
+during the generation of the generic AST, CLooG may split loops such that a
+single dimension is enumerated by several loops.  This may happen
+automatically, when CLooG optimizes the control flow, or an optimizers may on
+purpose generate a schedule that enforces the splitting.  With the classical
+approach either all split loops are detected as parallel or no parallelism is
+detected at all.
+
+The approach taken in Polly detects parallelism after generating the generic
+AST and calculates for each generated for-loop individually if it can be
+executed in parallel. This is achieved by limiting the normal parallelism check
+to the subset of the iteration space enumerated by the loop. To obtain this subset
+we implemented an interface to directly retrieve it from CLooG. As a result,
+we do not need to parse the AST to obtain it. With this enhanced parallelism
+check parallel loops in a partial parallel dimension can be executed in
+parallel, even though there remain some sequential loops. This increases the
+amount of parallel loops that can be detected in unoptimized code and removes
+the need for optimizers to place parallel and sequential loops in different
+dimensions.
+
+Polly automatically checks all generated loops and introduces OpenMP
+parallelism for the outermost parallel loops. By default it assumes parallel
+execution is beneficial. Optimizers that can derive that for some loops
+sequential execution is faster may provide hints to prevent generation of
+OpenMP code. Polly could incorporate such hints during code generation easily,
+as they do not infect the correctness of the generated code.
+
+
 \section{Generating OpenMP library calls}
 
 Typically when a user want to run a particular section of the code in parallel he/she annotate the code with

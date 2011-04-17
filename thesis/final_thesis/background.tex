@@ -1,10 +1,9 @@
 \label{chap:background}
 
 \section{Parallelism in Programs}
-These days it is hard to find somebody using a computer with single-core processor.
+These days it is hard to find somebody using a single-core processor machine.
 With the help of multi-core and multi-processor machines it is possible to speed up 
-the program by mapping the sections of the program to available processors(Remark - 
-through out this document the term processor is used interchangeably with core). This 
+the program by mapping the sections of the program to available processors. This 
 is generally termed as parallelism in programs. It is very difficult to parallelize
 the entire program though. The degree of parallelism is limited by certain factors which is
 explained later in this section. In addition this section discusses various types of parallelism and
@@ -125,11 +124,11 @@ restrictions applied on the input.
 \section{The Polyhedral Model}
 
 In this model the program is transformed into an algebraic representation which can be used to
-detect data dependencies. This representation is then converted in such a way that the degree
+detect data dependences. This representation is then converted in such a way that the degree
 of parallelism is improved. Polyhedral optimizations are used for many kind of memory access optimization by
 looking into the memory access pattern of any piece of code. Any kind of classical
  loop optimization techniques like tiling can be used for this purpose. The model is
-explained in detail in Chapter 2.
+explained in detail in Chapter ~\ref{chap:background}.
 
 \section{LLVM}
 LLVM defines a common, low-level code representation in Static Single Assignment
@@ -140,20 +139,19 @@ One of the important features of LLVM is that the output of all the
 transformation passes have same intermediate representation(LLVM IR), which
 makes the programmer to analyze it with ease.
 
-\section{Polly}
-The framework for automatic OpenMP code generation which is the main topic 
-discussed in this document is implemented using Polly[polly],
-an open source[licence] compiler  optimization framework that uses a mathematical
+\section{Polly and OpenMP code generation}
+The framework for automatic OpenMP code generation is implemented using,
+an open source\cite{lice} compiler  optimization framework that uses a mathematical
  representation, the polyhedral model, to represent and transform loops and other
  control flow structures. It is an effort towards achieving autoparallelism in programs.
  The transformations are being implemented in LLVM(Low level virtual machine). 
-Polly can detect parallel loops, issue vector instructions and generate OpenMP code(focus of 
-this document) corresponding to those loops. Polly try to expose more parallelism
+Polly can detect parallel loops, issue vector instructions and generate OpenMP code 
+corresponding to those loops. Polly try to expose more parallelism
 with the help of polyhedral model. A loop which does not look parallel can be transformed
 to a parallel loop and these can be vectorized or parallelize using OpenMP.
 
-More details on LLVM and Polly can be found at chapters 3 and 4 respectively.
+More details on LLVM and Polly can be found in Chapter  ~\ref{chap:polly}.
 
-\section{OpenMP Code Generation}
 
 \section{Polybench Benchmarks}
+The framework is tested with polybench benchmarks available at

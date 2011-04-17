@@ -1,7 +1,7 @@
 \label{chap:polly}
 
-This chapter explain the internals of  Polly - Polyhedral optimization
-in llvm. The work is published in the First International workshop on PolyhedrAl Compilation
+This chapter explains the internals of  Polly - Polyhedral Optimization
+in LLVM. The work is published in the First International workshop on PolyhedrAl Compilation
 Techniques - IMPACT 2011\cite{pollypaper}.
 
 \section{Introduction}
@@ -9,8 +9,7 @@ Techniques - IMPACT 2011\cite{pollypaper}.
 Today, effective polyhedral techniques exist to optimize computation intensive
 programs.  Advanced data-locality optimizations are available to accelerate
 sequential programs \cite{uday08pldi}. Effective methods to expose SIMD and
-thread-level parallelism were developed and are used to offload calculations to
-accelerators \cite{Baskaran10, Baghdadi_puttingautomatic}.  Polyhedral
+thread-level parallelism were developed.  Polyhedral
 techniques are even used to synthesize high-performance hardware
 \cite{RISSET:2008}.
 
@@ -27,26 +26,16 @@ of code that is regarded safe to optimize is often required.  This prevents
 automatic transformations and consequently reduces the impact of existing
 tools.
 
-In addition, significant optimization opportunities are missed by targeting a
-programming language like C and subsequently passing it to a compiler. 
-Effective interaction between polyhedral tools and
-compiler internal optimizations are prevented. The only possible
-way to pass information are source code annotations like C pragmas. As influencing
-performance related decisions of the compiler is difficult, the resulting
-program often suffers from poor register allocation, missed SIMDization or
-similar problems.
-
 With Polly we are developing a state-of-the-art polyhedral infrastructure for
 LLVM, that supports fully automatic transformation of existing programs. Polly
 detects and extracts relevant code regions without any human interaction. Since
 Polly accepts LLVM-IR as input, it is programming language independent and
 transparently supports constructs like C++ iterators, pointer arithmetic or
-goto based loops. It is built around an advanced polyhedral library with full
-support for existentially quantified variables and includes a state-of-the-art
+goto based loops. It is built around an advanced polyhedral library and includes a state-of-the-art
 dependency analysis. Due to a simple file interface it is easily possible to
 apply transformations manually or to use an external optimizer. We use this
 interface to integrate Pluto \cite{uday08pldi}, a modern data locality
-optimizer and parallelizer. Thanks to integrated SIMD and OpenMP code
+optimizer and parallelizer. With integrated SIMD and OpenMP code
 generation, Polly automatically takes advantage of existing and newly exposed
 parallelism.
 
@@ -73,9 +62,7 @@ To optimize a program manually three steps are performed. First of all the
 program is translated to LLVM-IR. Afterwards Polly is called to optimize LLVM-IR and
 target code is generated. The LLVM-IR representation of a program can
 be obtained from language-specific LLVM based compilers. clang is a
-good choice for C/C++/Objective-C, DragonEgg for FORTRAN and ADA, OpenJDP or
-VMKit for Java VM based languages, unladen-swallow for Python and GHC for
-Haskell. Polly also provides a drop in replacement for \texttt{gcc} that is
+good choice. Polly also provides a \texttt{gcc} like user interface that is
 called \texttt{pollycc}.
 
 \subsection{LLVM-IR to Polyhedral Model}
@@ -84,8 +71,6 @@ To apply polyhedral optimizations on a program, the first step that needs to be
 taken is to find relevant code sections and create a polyhedral description for
 them. The code sections that will be optimized by Polly are static
 control parts (SCoPs), the classical domain of polyhedral optimizations.
-Extending the polyhedral model and therefore Polly to more general programs is
-possible as shown by Benabderrahmane \cite{benabderrahmane.10.cc}.
 
 \subsubsection{Region-based SCoP detection}
 Polly implements a structured, region-based approach to detect
@@ -107,12 +92,12 @@ SCoPs. Starting from the outermost region, we look for canonical regions in the
 region tree that are valid SCoPs. In case the outermost region is a valid SCoP,
 we store it. Otherwise, we check each child. After analyzing the tree, we have a
 set of maximal canonical regions that form valid SCoPs. These regions are now
-combined to larger non-canonical regions such that, finally, the maximal 
+combined to larger non-canonical regions such that the maximal 
 non-canonical regions that form valid SCoPs are found.
 
 \subsubsection{Semantic SCoPs}
 
-In contrast to prevalent approaches based on the abstract syntax
+In contrast to approaches based on the abstract syntax
 tree (AST), Polly does not require a SCoP to match any specific syntactic
 structure. Instead, it analyzes the semantics of a SCoP. We call SCoPs
 that are detected based on semantic criteria \emph{semantic SCoPs}.
@@ -120,16 +105,8 @@ that are detected based on semantic criteria \emph{semantic SCoPs}.
 A common approach to detect a SCoP is to analyze an AST representation of
 the program, that is close to the programming language it is implemented in. In
 this AST control flow structures like for loops and conditions are
-detected. Then it is checked if they form a SCoP. Common restrictions that need
-to be met are the following. There exists a single induction variable for a
-loop that is incremented from a lower bound to an upper bound by a stride of
-one. Upper and lower bounds need to be expressions that are affine in parameters
-and surrounding loop induction variables, where a parameter is any integer
-variable that is not modified inside the SCoP.  The only valid statements are
-assignments that store the result of an expression to an array element. The
-expression itself uses side effect free operators with induction variables,
-parameters or array elements as operands.  Array subscripts are affine
-expressions in induction variables and parameters. There are various ways to
+detected. Then it is checked if they form a SCoP. Refer to Chapter ~\ref{chap:background} for the common restrictions that need
+to be met for a SCoP. There are various ways to
 extend this definition of a SCoP, which we did not include in this basic
 definition.
 
@@ -154,13 +131,12 @@ analyses are required to check if a program section is a SCoP. Further
 difficulties arise through the large amount of implicit knowledge that is
 needed to understand a programming language.  A simple, often overlooked problem is integer
 wrapping.  Assuming \texttt{n} and \texttt{m} are unsigned integers of 32 bit
-width, it is possible that $n+m$~<~$n$ holds, because of the wrapping semantics
-of C integer arithmetic \cite{c99}. The upper bound in the source code must
+width, it is possible that $n+m$~<~$n$ holds. The upper bound in the source code must
 therefore be represented as $n+m\bmod 2^{32}$, but no polyhedral tool we know
 of models the loop bound in this way. Further problems can be caused by
 preprocessor macros, aliasing or C++ (operator) overloading. We believe even
 standard C99 is too complex to effectively detect SCoPs in it. Tools like PoCC,
-evade this problem by requiring valid SCoPs to be explicitly annotated in the
+avoids this problem by requiring valid SCoPs to be explicitly annotated in the
 source code. However, this prevents any automatic optimization and
 significantly limits the impact of polyhedral techniques.
 
@@ -178,25 +154,6 @@ verify a SCoP contains only structured control flow. More sophisticated ones
 check for aliasing or provide information about side effects of
 function calls. 
 
-An especially important aspect is how expressions for the loop bounds,
-conditions or array subscripts are recovered. On LLVM-IR these expressions are
-split into individual operations. Optimizations that transform multiplications into
-shifts or a sequence of additions are very common. As a result, understanding
-the effects of calculations on LLVM-IR is difficult.  Fortunately, LLVM
-provides an analysis called scalar evolution \cite{Engelen01}, which calculates
-closed form expressions for all scalar integer variables in a program.  It
-abstracts away all intermediate calculations including calculations that
-accumulate values over several loop iterations and describes the value of each
-scalar as a chain of recurrence. The chain of recurrence
-depends only on variables with values unknown at compile time and variables
-describing the loop iteration at which it should be evaluated. As chains of
-recurrence are more expressive than affine expressions, the work left for Polly
-is to check if a chain of recurrence describes an affine expression and, if
-this is the case, translate it into the corresponding affine expression. This
-recovered affine expression can then be used to represent loop bounds, for
-example.  The same concept is used to recover array accesses from plain memory
-loads and stores, because address arithmetic is integer arithmetic.
-
 As Polly successfully recovers all necessary information from a low-level
 representation, there are no restrictions on the syntactic structure of the
 program source code. A code section is accepted as soon as the LLVM analyses
@@ -208,26 +165,12 @@ bounds and in the operands of the comparisons. Furthermore, any set of
 memory accesses is allowed as long as they behave like array accesses with affine subscripts.
 A loop written
 with \texttt{do..while} instead of \texttt{for} or fancy pointer arithmetic can easily be part of a valid SCoP.
-To illustrate this we show two examples of valid SCoPs in Figure~\ref{semscop}.
+To illustrate this an example is shown in Figure~\ref{semscop}.
 
 \begin{figure}
 \begin{verbatim}
-
-// scop_one
-  i = 0;
-  
-  do {
-      int b = 2 * i;
-      int c = b * 3 + 5 * i;
-      A[c] = i;
-      i += 2;
-  } while (i < N);
-\end{verbatim}
-
-\begin{verbatim}
 // scop_two
   int A[1024];
-  
   void pointer_loop () {
       int *B = A;
       while (B < &A[1024]) {
@@ -258,16 +201,7 @@ wrapping and type casts.
 Polly uses the classical polyhedral description \cite{girbal}
 that describes a SCoP as a
 set of statements each defined by a domain, a schedule and a set of memory
-accesses. The domain of a statement is the set of values the induction
-variables surrounding the statement enumerate. For example, the statement in
-Figure~\ref{fig:syntacticScop} has domain $\{[i]: 0\leq i\leq n+m\bmod 2^{32}\}$.
-As the statement only has one memory access A[i], the set of memory
-references for array $A$ is the same. A schedule is a relation which, when
-applied to the domain, yields the execution times of the statement's
-operations. In the example the iterations of the loop on $i$ are independent and
-can be executed in parallel. Therefore, assigning execution time 0 to all
-iterations by $\{[i] \rightarrow [0]\}$ is a valid schedule. By using isl, domains,
-schedules and memory access sets can be $\mathbb{Z}$-polyhedra in Polly.
+accesses. For more details refer to ~\ref{chap:background}.
 
 In contrast to most existing tools the domain of a statement cannot be changed
 in Polly. All transformations need to be applied on the schedule. There
@@ -280,15 +214,6 @@ obtain compositionality of transformations. As transformations on SCoPs are
 described by schedules only, the composition of transformations is simply the
 composition of the relations representing the schedules.
 
-Applying transformations only on the schedule is simple for transformations
-like loop fusion, loop fission or loop interchange. Traditionally, strip mining
-or loop blocking have been transformations that required modifications of
-the domain, because in the traditional model schedules are affine functions, not
-relations. But with the relational representation for schedules, these
-transformations and, we believe, all other desirable transformations can be
-described by schedules only. For example, strip mining one dimension by four
-can be expressed by
-$\{[i] \rightarrow [o, i] : \exists e : 4e = o \land o \le i \le 3 + o\}$.
 
 \subsubsection{Export/Import}
 
@@ -297,7 +222,7 @@ importing an updated description with changed schedules a program can be
 transformed easily. To prevent invalid optimizations Polly automatically verifies
 newly imported schedules. 
 Currently Polly supports the Scoplib exchange format, which is used by
-PoCC\footnote{\url{http://pocc.sf.net}} and Pluto~\cite{uday08pldi}.
+PoCC and Pluto~\cite{uday08pldi}.
 Unfortunately, the Scoplib exchange format is not expressive enough to store
 information on existentially quantified variables, schedules that include
 inequalities or memory accesses that touch more than one element. Therefore, we
@@ -316,37 +241,7 @@ is targeted to automatically take advantage of parallelism present in the
 original code or exposed by previously run optimizers. To ensure correctness of
 generated code Polly does not rely on any information provided by external
 optimizers, but independently detects parallel loops. We present a novel
-approach how to detect them.
-
-A common approach\footnote{Used for example in PoCC or Pluto} to detect
-parallelism is to check before code generation, if a certain dimension of the
-iteration space is carrying dependences. In case it does not, the dimension is
-parallel.  This approach can only detect fully parallel dimensions. However,
-during the generation of the generic AST, CLooG may split loops such that a
-single dimension is enumerated by several loops.  This may happen
-automatically, when CLooG optimizes the control flow, or an optimizers may on
-purpose generate a schedule that enforces the splitting.  With the classical
-approach either all split loops are detected as parallel or no parallelism is
-detected at all.
-
-The approach taken in Polly detects parallelism after generating the generic
-AST and calculates for each generated for-loop individually if it can be
-executed in parallel. This is achieved by limiting the normal parallelism check
-to the subset of the iteration space enumerated by the loop. To obtain this subset
-we implemented an interface to directly retrieve it from CLooG. As a result,
-we do not need to parse the AST to obtain it. With this enhanced parallelism
-check parallel loops in a partial parallel dimension can be executed in
-parallel, even though there remain some sequential loops. This increases the
-amount of parallel loops that can be detected in unoptimized code and removes
-the need for optimizers to place parallel and sequential loops in different
-dimensions.
-
-Polly automatically checks all generated loops and introduces OpenMP
-parallelism for the outermost parallel loops. By default it assumes parallel
-execution is beneficial. Optimizers that can derive that for some loops
-sequential execution is faster may provide hints to prevent generation of
-OpenMP code. Polly could incorporate such hints during code generation easily,
-as they do not infect the correctness of the generated code.
+approach how to detect them. For details refer to Chapter ~\ref{chap:openmp}
 
 
 \subsubsection{Trivially SIMDizable loops}
