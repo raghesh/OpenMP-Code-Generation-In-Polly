@@ -1,10 +1,23 @@
 \label{chap:polly}
 
 This chapter explains the internals of  Polly - Polyhedral Optimization
-in LLVM. The work is published in the First International workshop on PolyhedrAl Compilation
+in LLVM\cite{llvm}. The work is published in the First International workshop on PolyhedrAl Compilation
 Techniques - IMPACT 2011\cite{pollypaper}.
 
-\section{Introduction}
+\section{Introduction to LLVM}
+
+LLVM(Low level virtual machine) is a collection of reusable compiler toolchain technologies that 
+allows sophisticated program tranformations to be performed with much ease. The
+major feature of LLVM is its low level intermediate representation
+(LLVM-IR) 
+which captures very minute details(like size and type of a variable) of the program code.
+Such details would be handy to implement effective optimizations. Tools
+are already available to convert programs written in popular programming
+languages like C, Python, Java, etc. to LLVM-IR and back. Polly operates
+on LLVM-IR, which increases the range of programming languages that gets
+benefited. A complete list of documents for LLVM is available here\cite{llvmdocs}
+
+\section{Introduction to Polly}
 
 Today, effective polyhedral techniques exist to optimize computation intensive
 programs.  Advanced data-locality optimizations are available to accelerate

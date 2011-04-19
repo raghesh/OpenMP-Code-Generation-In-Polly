@@ -25,6 +25,6 @@ ax.set_xticks(ind+width/2.0)
 ax.set_xticklabels( ('2mm', 'adi', 'correlation', 'covariance', 'doitgen', 
 		     'gemm', 'jacobi-2d-imper',  'seidel'), rotation='+30')
 
-ax.legend( (rects1[0], rects2[0], rects3[0]), ('gcc', 'graphite', 'polly') )
+ax.legend( (rects1[0], rects2[0], rects3[0]), ('gcc', 'graphite', 'polly with openmp') )
 
 plt.show()

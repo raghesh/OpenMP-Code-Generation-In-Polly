@@ -11,7 +11,8 @@ In this chapter a extremely powerful mathematical model which puts together anal
 \section{Program Transformations with polyhedral model}
 
 In this section some of the common program transformations which can be realized with the
-assistance of polyhedral model are explained. The polyhedral model is not a normal representation of programs when compared to the
+assistance of polyhedral model are explained. The polyhedral model is not a normal
+representation of programs when compared to the
 classical structure of programs(like AST) that every programmer is familiar with. But
 it is easier to do transformations smoothly in this model.
 
@@ -34,23 +35,46 @@ array accesses starting from index 6 to 10 and the code can be transformed as fo
 
 {\footnotesize
 \begin{lstlisting}
-
 for(i = 1; i <= 5; i++)
   A[i] = 10;
-
 for(j = 6; j <= 15; j++)
   A[j] = 15;
 \end{lstlisting}
 }
 
 \subsection{Scalar Expansion}
-
-----Give example gsoc----
-
-\subsection{Constant propagation through arrays}
-\subsection{Eliminate dead loop iterations}
-\subsection{Automatic parallelization}
-\subsection{Vectorization}
+{\footnotesize
+\begin{lstlisting}
+for (i = 0; i < 8; i++)
+  sum += A[i];
+\end{lstlisting}
+}
+With the support of memory access transformation in polyhedral model this loop
+can be executed in parallel. It can be transformed to the code below where the scalar 'sum'
+is changed to array 'tmp'.  
+{\footnotesize
+\begin{lstlisting}
+<create and initialize an array 'tmp' with size 4>
+for (i = 0; i < 8; i++)
+   tmp[i % 4] += A[i];
+sum = tmp[0] + tmp[1] + tmp[2] + tmp[3];
+\end{lstlisting}
+}
+With the help of some optimizer (like PluTo\cite{pluto}) the following code
+can be generated, where the outer loop is parallel.
+{\footnotesize
+\begin{lstlisting}
+parfor (ii = 0; ii < 4; i++)
+  tmp[ii] = 0;
+  for (i = ii * 2; i < (ii+1) * 2; i++)
+    tmp[ii] += A[i];
+sum = tmp[0] + tmp[1] + tmp[2] + tmp[3];
+\end{lstlisting}
+}
+%\subsection{Constant propagation through arrays}
+%\subsection{Eliminate dead loop iterations}
+%\subsection{Automatic parallelization}
+%\subsection{Vectorization}
 
 \section{Polyhedral representation of Programs}
 
@@ -92,14 +116,37 @@ Hence the above loop is \textbf{parametric}. For the above loop we can write the
 \begin{center}
 $D_{S1}\ =\ \{(i,j)\ \epsilon\ Z^2\ |\ 2\ \leq\ i\ \leq\ N\ \wedge\ 2\ \leq\ j\ \leq\ N\}$
 \end{center}
-This is a subspace of $Z^2$. To get a better view This can be represented graphically as in figure 
+This is a subspace of $Z^2$. To get a better view This can be represented graphically as in Figure ~\ref{fig:iter}
 \begin{figure}
 \begin{center}
   \label{fig:iter}
   \includegraphics[height=8cm,width=8cm]{images/iter.eps}
-  \caption{Graphical represenation of iteration domain}
+  \caption{Graphical represenation of iteration domain(S1)}
 \end{center}  
 \end{figure}
+
+Consider another example by just adding a conditional statement
+{\footnotesize
+\begin{lstlisting}
+for (int i = 2; i <= 6; i++)
+  for (int j = 2; j <= 6; j++)
+    if(i <= j)
+      A[i] = 10; // S2
+\end{lstlisting}
+}
+And the iteration domain here is as below and the corresponding graphical representation is shown in Figure ~\ref{fig:iter}
+
+\begin{center}
+$D_{S2}\ =\ \{(i,j)\ \epsilon\ Z^2\ |\ 2\ \leq\ i\ \leq\ 6\ \wedge\ 2\ \leq\ j\ \leq\ 6\ \wedge\ i\ \leq\ j\}$
+\end{center}
+\begin{figure}
+\begin{center}
+  \label{fig:iter1}
+  \includegraphics[height=8cm,width=8cm]{images/iter1.eps}
+  \caption{Graphical represenation of iteration domain(S2)}
+\end{center}  
+\end{figure}
+
 It can be seen that the iteration domain is specified by set of constraints. When those constraints are
 affine and depend only on the outer loop induction variables and parameters, the set of constraints
 defines a polyhedron (Z-polyhedron, polyhedron for short). Hence it has got the name Polyhedral Model.
@@ -118,17 +165,17 @@ Consider the following loop.
 \begin{lstlisting}
 for (int i = 2; i <= 4; i++)
   for (int j = 2; j <= 4; j++)
-    P[i][j] = A[i] * B[j] ; // S2
+    P[i][j] = A[i] * B[j] ; // S3
 \end{lstlisting}
 }
 We can define a scheduling(scattering) funciton:
 \begin{center}
-$\phi_S2(i,j) = (i,j)$
+$\phi_S3(i,j) = (i,j)$
 \end{center}, which means that each iteration vector (i,j) in the iteration domain is associated with
 a logical date. That is the statement instances need to be executed in the lexicographical order of the
 logical date. Another possible scattering function would be:
 \begin{center}
-$\phi_S2(i,j) = (j,i)$
+$\phi_S3(i,j) = (j,i)$
 \end{center}. It is possible to generate code for the changed schedule with ClooG\cite{cloog}. The
 transformed code is:
 {\footnotesize
@@ -137,7 +184,7 @@ for (t1 = 2; t1 <= 4; t1++) {
   for (t2 = 2; t2 <= 4; t2++) {
     i = t2;
     j = t1;
-    P[i+j] += A[i] + B[j]; // S4
+    P[i+j] += A[i] + B[j];
   }
 }
 \end{lstlisting}
@@ -151,7 +198,13 @@ as:
 $F_A(i,j) = (i+j,i+N)$
 \end{center}
 We can manipulate the access function for achieving better data locality and parallelism.
-\section{Representation of polyhedral model in Polly}
+
+In general any optimization framework which makes use of polyhedral model will
+transform the code through the blocks shown in Figure ~\ref{fig:polly_steps}.
+As the first stage dependence analysis is carried out followed by representing
+it by polyhedral model in terms of iteration domain, schedule and access function.
+This is further transformed for better optimization and code is generated
+for this.
 \begin{figure}
   \label{fig:poly_steps}
   \includegraphics[width=1\textwidth]{images/poly_steps.eps}

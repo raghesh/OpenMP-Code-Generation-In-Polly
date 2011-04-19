@@ -1,19 +1,20 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Graphical represenation of iteration domain\relax }}{11}{figure.caption.8}
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Transformation in polyhedral model\relax }}{13}{figure.caption.9}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Graphical represenation of iteration domain(S1)\relax }}{11}{figure.caption.8}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Graphical represenation of iteration domain(S2)\relax }}{12}{figure.caption.9}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Transformation in polyhedral model\relax }}{14}{figure.caption.10}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Architecture of Polly\relax }}{16}{figure.caption.10}
-\contentsline {figure}{\numberline {3.2}{\ignorespaces A valid syntactic SCoP. Not always a valid semantic SCoP\relax }}{18}{figure.caption.13}
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Valid semantic SCoPs\relax }}{20}{figure.caption.14}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Architecture of Polly\relax }}{17}{figure.caption.11}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces A valid syntactic SCoP. Not always a valid semantic SCoP\relax }}{19}{figure.caption.14}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Valid semantic SCoPs\relax }}{21}{figure.caption.15}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Detailed control flow in Polly\relax }}{28}{figure.caption.20}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces CFG showing sequence of OpenMP library calls\relax }}{30}{figure.caption.21}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces CFG showing basic blocks in the subfunction body\relax }}{33}{figure.caption.22}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Detailed control flow in Polly\relax }}{29}{figure.caption.21}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces CFG showing sequence of OpenMP library calls\relax }}{31}{figure.caption.22}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces CFG showing basic blocks in the subfunction body\relax }}{34}{figure.caption.23}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Performance comparison\relax }}{37}{figure.caption.23}
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Performance comparison\relax }}{38}{figure.caption.24}
-\contentsline {figure}{\numberline {5.3}{\ignorespaces Performance comparison\relax }}{39}{figure.caption.25}
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Performance comparison(2 core 32 bit)\relax }}{38}{figure.caption.24}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Performance comparison(2 core 64bit)\relax }}{39}{figure.caption.25}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Performance comparison(10 core 64 bit)\relax }}{40}{figure.caption.26}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
