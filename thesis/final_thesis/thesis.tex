@@ -13,13 +13,10 @@
 \usepackage[dvips]{graphicx}
 \usepackage[square,numbers,sort]{natbib}
 \usepackage[square]{natbib}
-\usepackage[hypertex]{hyperref} % hyperlinks for references.
-%\usepackage{algorithmic}
-%\usepackage{algorithm}
+\usepackage{hyperref} % hyperlinks for references.
 \usepackage{listings}
-%\include{commands}
+\usepackage{clrscode3e}
 
-%\usepackage[pdftex]{graphicx}
 % Strut macros for skipping spaces above and below text in tables. 
 \def\abovestrut#1{\rule[0in]{0in}{#1}\ignorespaces}
 \def\belowstrut#1{\rule[-#1]{0in}{#1}\ignorespaces}
@@ -85,8 +82,32 @@ Date:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Acknowledgements
 \acknowledgements
+The successful completion of this project would not have been possible
+without the guidance, support and encouragement of many people. I take
+this opportunity to express my sincere gratitude and appreciation to all
+those who were instrumental in the culmination of the project.
 
-I would like to thank everyone who helped me.
+I am deeply indebted to my supervising guide Dr.~Shankar Balachandran
+for his persistent encouragement and motivation, for his continual and
+creative feedback, for his stimulating suggestions in all time of work,
+and for his constructive criticism. His ingenious suggestions and thought
+provoking propositions have helped me widen my perspective on the subject
+matter of this thesis.
+ 
+I offer my earnest gratitude to Tobias Grosser who has supported me throughout
+my project with his patience and knowledge. I gratefully acknowledge him for his advice,
+supervision, and crucial contribution, which made him a backbone of this project
+and so to this thesis. His involvement with his originality has triggered and
+nourished my intellectual maturity that I will benefit from, for a long time to come. 
+I am grateful in every possible way and hope to keep up our collaboration in the future.
+
+A special thanks is also due to the faculty advisors, Dr N.S Narayanaswamy, Dr.~C.~Pandurangan
+and Dr.~D.~Jankiraman who patiently listened, evaluated, criticized and guided us periodically.
+I extend my heartfelt thanks to Dr~B.~Ravindran, Pramod C E and C K Raju for
+their valuable suggestions and care throughout the project.
+
+Heartfelt love to my parents, brother and wife, the main pillars of my life, for being with me through thick and thin.
+Special thanks to Sunil,Jyothi Krishna, Balagopal,Ajeesh Ramanujan, Sunitha and Jignesh for their support and motivation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Abstract
@@ -98,7 +119,7 @@ OpenMP, Polyhedral Model, Vectorization, Autoparallelism}
 
 \vspace*{24pt}
 
-It is always a tedious task to manual analyze and detect parallelism in programs. When
+It is always a tedious task to manually analyze and detect parallelism in programs. When
 we deal with autoparallelism the task becomes more complex. Frameworks such as OpenMP
 is available through which we can manually annotate the code to realize parallelism and take the
 advantage of underlying multi-core architecture. But the programmer's life becomes simple
@@ -137,8 +158,8 @@ C source code and even hardware descriptions can be targeted.
 \tableofcontents
 \thispagestyle{empty}
 
-\listoftables
-\addcontentsline{toc}{chapter}{LIST OF TABLES}
+%\listoftables
+%\addcontentsline{toc}{chapter}{LIST OF TABLES}
 \listoffigures
 \addcontentsline{toc}{chapter}{LIST OF FIGURES}
 \end{singlespace}
@@ -151,8 +172,17 @@ C source code and even hardware descriptions can be targeted.
 \noindent 
 \begin{tabbing}
 xxxxxxxxxxx \= xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \kill
-\textbf{IITM}   \> Indian Institute of Technology, Madras \\
-\textbf{RTFM} \> Read the Fine Manual \\
+\textbf{LLVM}   \> Low Level Virtual Machine \\
+\textbf{Polly} \> Polyhedral Optimization in LLVM \\
+\textbf{ClooG} \>  Chunky Loop Generator \\
+\textbf{Isl} \>  Integer Set Library \\
+\textbf{AST} \>  Abstract Synatx Tree \\
+\textbf{SIMD} \> Single Instruction Multiple Data  \\
+\textbf{CFG} \>  Control Flow Graph  \\
+\textbf{SCoP} \> Static Control Part  \\
+\textbf{POCC} \> The Polyhedral Compiler Collection  \\
+\textbf{GRAPHITE} \> GIMPLE Represented as Polyhedra Interchangeable Envelopes   \\
+\textbf{} \>   \\
 \end{tabbing}
 
 \pagebreak
@@ -160,17 +190,17 @@ xxxxxxxxxxx \= xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \kill
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Notation
 
- \chapter*{\centerline{NOTATION}}
- \addcontentsline{toc}{chapter}{NOTATION}
+% \chapter*{\centerline{NOTATION}}
+% \addcontentsline{toc}{chapter}{NOTATION}
  
- \begin{singlespace}
- \begin{tabbing}
- xxxxxxxxxxx \= xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \kill
- \textbf{$r$}  \> Radius, $m$ \\
- \textbf{$\alpha$}  \> Angle of thesis in degrees \\
- \textbf{$\beta$}   \> Flight path in degrees \\
- \end{tabbing}
- \end{singlespace}
+% \begin{singlespace}
+% \begin{tabbing}
+% xxxxxxxxxxx \= xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \kill
+% \textbf{$r$}  \> Radius, $m$ \\
+% \textbf{$\alpha$}  \> Angle of thesis in degrees \\
+% \textbf{$\beta$}   \> Flight path in degrees \\
+% \end{tabbing}
+% \end{singlespace}
  
  \pagebreak
  \clearpage
@@ -178,7 +208,6 @@ xxxxxxxxxxx \= xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \kill
 %The main text will follow from this point so set the page numbering
 %to arabic from here on.
 \pagenumbering{arabic}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Background.
@@ -228,17 +257,130 @@ xxxxxxxxxxx \= xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \kill
 \appendix
  
 \chapter{Various Tools Used in Polyhedral Community}
-\section{Isl}
-\section{Polylib}
-\section{Cloog}
-\section{PluTo}
-\section{Piplib}
+Some of the tools used in polyhedral community is described here with one example.
+\section{ClooG}
+CLooG is a free software and library generating loops for scanning Z-polyhedra.
+It finds a code that reaches each integral point of one or more parameterized polyhedra.
+CLooG has been written to solve the code generation problem for optimizing compilers based on the polytope model.
+
+This is explained here with a simple example. Suppose we need to generate code for
+a polyhedra with the following iteration domain.
+
+\begin{center}
+$D_{S}\ =\ \{(i,j)\ \epsilon\ Z^2\ |\ 2\ \leq\ i\ \leq\ 6\ \wedge\ 2\ \leq\ j\ \leq\ 6\ \wedge\ i\ \leq\ j\}$
+\end{center}
+We can give input to cloog as file which has the following format.
+{\footnotesize
+\begin{lstlisting}
+# ---------------------- CONTEXT ------------------
+c # language is C
+# Context (constraints on two parameters)
+2 4                   # 2 lines and 4 columns
+# eq/in m  n  1   eq/in: 1 for >=0, 0 for =0
+0   1  0 -6       # 1*m + 0*n -6*1 >= 0, i.e. m=6
+0   0  1 -6       # 0*m + 1*n -6*1 >= 0, i.e. n=6
+1 # We want to set manually the parameter names
+m n                   # parameter names
+# --------------------- STATEMENTS ----------------
+1 # Number of statements
+1 # First statement: one domain
+# First domain
+5 6                   # 5 lines and 6 columns
+# eq/in i  j  m  n  1
+1   1  0  0  0 -2 # i >= 2
+1  -1  0  0  1  0 # i <= n
+1   0  1  0  0 -2 # j >= 2
+1   0 -1  1  0  0 # j <= m
+1  -1  1  0  0  0 # n+2-i>=j
+0  0  0               # for future options
+1 # We want to set manually the iterator names
+i j                   # iterator names
+# --------------------- SCATTERING ---------------
+0 # No scattering functions
+\end{lstlisting}
+}
+Giving this file to 'cloog' command  as input it will generate the following code.
+{\footnotesize
+\begin{lstlisting}
+/* Generated from ex1.cloog by CLooG 0.16.2 gmp bits in 0.00s. */
+for (i=2;i<=6;i++) {
+  for (j=i;j<=6;j++) {
+    S1(i,j);
+  }
+}
+\end{lstlisting}
+}
+
+\section{PLUTO}
+PLUTO is an automatic parallelization tool based on the polyhedral model. The polyhedral model
+for compiler optimization is a representation for programs that makes it convenient to perform
+high-level transformations such as loop nest optimizations and loop parallelization. Pluto transforms
+C programs from source to source for coarse-grained parallelism and data locality simultaneously.
+The core transformation framework mainly works by finding affine transformations for efficient
+tiling and fusion, but not limited to those.
+Suppose we want to generate the tiled version of lu.c just issue the command
+./polycc --tile lu.c
+which will generate the output in a separate file called lu.tiled.c and displays
+the following information
+{\footnotesize
+\begin{lstlisting}
+[Pluto] Number of statements: 2
+[Pluto] Total number of loops: 5
+[Pluto] Number of deps: 10
+[Pluto] Maximum domain dimensionality: 3
+[Pluto] Number of parameters: 1
+[Pluto] Affine transformations [<iter coeff's> <const>]
+T(S1): (k, j, k)
+3 3
+ 1  0  0 
+ 0  1  0 
+ 1  0  0 
+T(S2): (k, j, i)
+3 4
+ 1  0  0  0 
+ 0  0  1  0 
+ 0  1  0  0 
+t1 --> fwd_dep  loop   (band 0)
+t2 --> fwd_dep  loop   (band 0)
+t3 --> fwd_dep  loop   (band 0)
+[Pluto] Outermost tilable band: t0--t2
+[Pluto] After tiling:
+t1 --> fwd_dep  tLoop  (band 0)
+t2 --> fwd_dep  tLoop  (band 0)
+t3 --> fwd_dep  tLoop  (band 0)
+t4 --> fwd_dep  loop   (band 0)
+t5 --> fwd_dep  loop   (band 0)
+t6 --> fwd_dep  loop   (band 0)
+[Pluto] using Cloog -f/-l options: 4 6
+[Polycc] Output written to ./lu.tiled.c
+\end{lstlisting}
+}
+\section{VisualPolylib}
+This is a tool using which we can visualize various operations on polyhedra. The polyhedral
+description is given in a file and given as input to the 'visualpolylib' command.
+For instance consider the following input
+\begin{figure}
+\begin{center}
+  \includegraphics[width=1\textwidth]{images/3d.eps}
+  \caption{Visualizing polyhedra with VisualPolylib}
+  \label{fig:3d}
+\end{center}  
+\end{figure}
+
+{\footnotesize
+\begin{lstlisting}
+P :=   { i, j, k | k <= 1, k >= 0, i <= j, i+j >= k, i+4k <= 4j,j<=10};
+C:={|};
+CS := { i,j,k | i-2j+2k<=0};
+P2 := CS . P;
+initvisu(3,C)
+\end{lstlisting}
+}
+The polyhedra for P2 which is the intersection of CS and P can be viewed graphically as in 
+Figure ~\ref{fig:3d}
 
 \chapter{Doing Projects - The Open Source Way}
  
- Just put in text as you would into any chapter with sections and
- whatnot.  Thats the end of it.
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % List of papers
 

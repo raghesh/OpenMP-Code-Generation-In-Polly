@@ -1,50 +1,60 @@
 \BOOKMARK [0][-]{chapter*.1}{ACKNOWLEDGEMENTS}{}
 \BOOKMARK [0][-]{chapter*.2}{ABSTRACT}{}
-\BOOKMARK [0][-]{chapter*.4}{LIST OF TABLES}{}
-\BOOKMARK [0][-]{chapter*.5}{LIST OF FIGURES}{}
-\BOOKMARK [0][-]{chapter*.6}{ABBREVIATIONS}{}
-\BOOKMARK [0][-]{chapter*.7}{NOTATION}{}
-\BOOKMARK [0][-]{chapter.1}{Background}{}
-\BOOKMARK [1][-]{section.1.1}{Parallelism in Programs}{chapter.1}
+\BOOKMARK [0][-]{chapter*.4}{LIST OF FIGURES}{}
+\BOOKMARK [0][-]{chapter*.5}{ABBREVIATIONS}{}
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}
+\BOOKMARK [1][-]{section.1.1}{Parallelism in programs}{chapter.1}
 \BOOKMARK [2][-]{subsection.1.1.1}{Parallelism and locality}{section.1.1}
-\BOOKMARK [2][-]{subsection.1.1.2}{Types of parallelism}{section.1.1}
-\BOOKMARK [2][-]{subsection.1.1.3}{Realizing Parallelism}{section.1.1}
-\BOOKMARK [1][-]{section.1.2}{Auto Parallelization}{chapter.1}
-\BOOKMARK [1][-]{section.1.3}{The Polyhedral Model}{chapter.1}
+\BOOKMARK [2][-]{subsection.1.1.2}{Realizing parallelism}{section.1.1}
+\BOOKMARK [1][-]{section.1.2}{Auto parallelization}{chapter.1}
+\BOOKMARK [1][-]{section.1.3}{The polyhedral model}{chapter.1}
 \BOOKMARK [1][-]{section.1.4}{LLVM}{chapter.1}
-\BOOKMARK [1][-]{section.1.5}{Polly}{chapter.1}
-\BOOKMARK [1][-]{section.1.6}{Manual OpenMP Code Generation}{chapter.1}
-\BOOKMARK [1][-]{section.1.7}{SPEC2006 Benchmarks}{chapter.1}
-\BOOKMARK [0][-]{chapter.2}{The polyhedral model}{}
-\BOOKMARK [1][-]{section.2.1}{Program Transformations with polyhedral model}{chapter.2}
-\BOOKMARK [2][-]{subsection.2.1.1}{Transformation for improving data docality}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.2}{Constant propagation through arrays}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.3}{Eliminate dead loop iterations}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.4}{Automatic parallelization}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.5}{Vectorization}{section.2.1}
+\BOOKMARK [1][-]{section.1.5}{Polly and OpenMP code generation}{chapter.1}
+\BOOKMARK [1][-]{section.1.6}{Outline of report}{chapter.1}
+\BOOKMARK [0][-]{chapter.2}{The Polyhedral Model}{}
+\BOOKMARK [1][-]{section.2.1}{Program transformations with polyhedral model}{chapter.2}
+\BOOKMARK [2][-]{subsection.2.1.1}{Transformation for improving data locality}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.2}{Scalar expansion}{section.2.1}
 \BOOKMARK [1][-]{section.2.2}{Polyhedral representation of Programs}{chapter.2}
-\BOOKMARK [2][-]{subsection.2.2.1}{Iteration Domain}{section.2.2}
-\BOOKMARK [2][-]{subsection.2.2.2}{The Schedule}{section.2.2}
+\BOOKMARK [2][-]{subsection.2.2.1}{Iteration domain}{section.2.2}
+\BOOKMARK [2][-]{subsection.2.2.2}{Schedule}{section.2.2}
 \BOOKMARK [2][-]{subsection.2.2.3}{Access function}{section.2.2}
-\BOOKMARK [0][-]{chapter.3}{Introduction to LLVM}{}
-\BOOKMARK [1][-]{section.3.1}{What Is LLVM?}{chapter.3}
-\BOOKMARK [1][-]{section.3.2}{The Intermediate Representation}{chapter.3}
-\BOOKMARK [0][-]{chapter.4}{Polly - Pollyhedral optmizations in LLVM}{}
+\BOOKMARK [0][-]{chapter.3}{Polly - Pollyhedral Optmizations in LLVM}{}
+\BOOKMARK [1][-]{section.3.1}{Introduction to LLVM}{chapter.3}
+\BOOKMARK [1][-]{section.3.2}{Introduction to Polly}{chapter.3}
+\BOOKMARK [1][-]{section.3.3}{Implementation}{chapter.3}
+\BOOKMARK [2][-]{subsection.3.3.1}{LLVM-IR to polyhedral model}{section.3.3}
+\BOOKMARK [2][-]{subsection.3.3.2}{Polyhedral model}{section.3.3}
+\BOOKMARK [2][-]{subsection.3.3.3}{Polyhedral model to LLVM-IR}{section.3.3}
+\BOOKMARK [1][-]{section.3.4}{Related work}{chapter.3}
+\BOOKMARK [0][-]{chapter.4}{OpenMP Code Generation in Polly}{}
 \BOOKMARK [1][-]{section.4.1}{Introduction}{chapter.4}
-\BOOKMARK [1][-]{section.4.2}{Implementation}{chapter.4}
-\BOOKMARK [0][-]{chapter.5}{OpenMP Code generation in Polly}{}
-\BOOKMARK [1][-]{section.5.1}{Generating OpenMP Library Calls}{chapter.5}
-\BOOKMARK [1][-]{section.5.2}{Support for inner loops}{chapter.5}
-\BOOKMARK [1][-]{section.5.3}{Adding OpenMP testcases}{chapter.5}
-\BOOKMARK [1][-]{section.5.4}{Dealing with memory references}{chapter.5}
-\BOOKMARK [2][-]{subsection.5.4.1}{Adding memory references}{section.5.4}
-\BOOKMARK [2][-]{subsection.5.4.2}{Extracting memory references}{section.5.4}
-\BOOKMARK [0][-]{chapter.6}{Testng with pollybench}{}
-\BOOKMARK [1][-]{section.6.1}{Polybench}{chapter.6}
-\BOOKMARK [0][-]{appendix.A}{Various Tools used in Polyhedral community}{}
-\BOOKMARK [1][-]{section.A.1}{Isl}{appendix.A}
-\BOOKMARK [1][-]{section.A.2}{Polylib}{appendix.A}
-\BOOKMARK [1][-]{section.A.3}{Cloog}{appendix.A}
-\BOOKMARK [1][-]{section.A.4}{PluTo}{appendix.A}
-\BOOKMARK [1][-]{section.A.5}{Piplib}{appendix.A}
+\BOOKMARK [1][-]{section.4.2}{Setting up the environment}{chapter.4}
+\BOOKMARK [2][-]{subsection.4.2.1}{CLooG}{section.4.2}
+\BOOKMARK [2][-]{subsection.4.2.2}{PoCC}{section.4.2}
+\BOOKMARK [2][-]{subsection.4.2.3}{Scoplib}{section.4.2}
+\BOOKMARK [2][-]{subsection.4.2.4}{Building LLVM with Polly}{section.4.2}
+\BOOKMARK [1][-]{section.4.3}{Enabling OpenMP code generation in Polly}{chapter.4}
+\BOOKMARK [1][-]{section.4.4}{Codegeneration pass in Polly}{chapter.4}
+\BOOKMARK [1][-]{section.4.5}{Detecting parallelism in Polly}{chapter.4}
+\BOOKMARK [1][-]{section.4.6}{Generating OpenMP library calls}{chapter.4}
+\BOOKMARK [1][-]{section.4.7}{Support for inner loops}{chapter.4}
+\BOOKMARK [1][-]{section.4.8}{Dealing with memory references}{chapter.4}
+\BOOKMARK [2][-]{subsection.4.8.1}{Adding memory references}{section.4.8}
+\BOOKMARK [2][-]{subsection.4.8.2}{Extracting memory references}{section.4.8}
+\BOOKMARK [1][-]{section.4.9}{OpenMP testcases}{chapter.4}
+\BOOKMARK [0][-]{chapter.5}{Testing With Polybench}{}
+\BOOKMARK [1][-]{section.5.1}{PolyBench}{chapter.5}
+\BOOKMARK [1][-]{section.5.2}{Experimental results}{chapter.5}
+\BOOKMARK [0][-]{chapter.6}{Future Work and Conclusion}{}
+\BOOKMARK [1][-]{section.6.1}{Support for memory access transformations in Polly}{chapter.6}
+\BOOKMARK [1][-]{section.6.2}{Increasing coverage of Polly}{chapter.6}
+\BOOKMARK [2][-]{subsection.6.2.1}{Increasing SCoP coverage}{section.6.2}
+\BOOKMARK [2][-]{subsection.6.2.2}{Increasing the system coverage}{section.6.2}
+\BOOKMARK [1][-]{section.6.3}{Integrating profile guided optimization into Polly}{chapter.6}
+\BOOKMARK [1][-]{section.6.4}{Conclusion}{chapter.6}
+\BOOKMARK [0][-]{appendix.A}{Various Tools Used in Polyhedral Community}{}
+\BOOKMARK [1][-]{section.A.1}{ClooG}{appendix.A}
+\BOOKMARK [1][-]{section.A.2}{PLUTO}{appendix.A}
+\BOOKMARK [1][-]{section.A.3}{VisualPolylib}{appendix.A}
 \BOOKMARK [0][-]{appendix.B}{Doing Projects - The Open Source Way}{}

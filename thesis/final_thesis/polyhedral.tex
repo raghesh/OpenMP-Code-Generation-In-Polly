@@ -6,9 +6,9 @@ parallelism. Starting from the early history of programming languages the intern
 of program is done with Abstract Syntax Tree(AST). Though some elementary transformation can
 be performed on AST it is tough to carry out complex transformations like dependency analysis among
 statements inside a loop. Trees are very rigid data structures to do such transformations.
-In this chapter a extremely powerful mathematical model which puts together analysis power,expressiveness and flexibility is explained in detail.
+In this chapter an extremely powerful mathematical model which puts together analysis power,expressiveness and flexibility is explained in detail.
 
-\section{Program Transformations with polyhedral model}
+\section{Program transformations with polyhedral model}
 
 In this section some of the common program transformations which can be realized with the
 assistance of polyhedral model are explained. The polyhedral model is not a normal
@@ -42,7 +42,7 @@ for(j = 6; j <= 15; j++)
 \end{lstlisting}
 }
 
-\subsection{Scalar Expansion}
+\subsection{Scalar expansion}
 {\footnotesize
 \begin{lstlisting}
 for (i = 0; i < 8; i++)
@@ -60,11 +60,11 @@ for (i = 0; i < 8; i++)
 sum = tmp[0] + tmp[1] + tmp[2] + tmp[3];
 \end{lstlisting}
 }
-With the help of some optimizer (like PluTo\cite{pluto}) the following code
+With the help of some optimizer (like PLUTO\cite{pluto}) the following code
 can be generated, where the outer loop is parallel.
 {\footnotesize
 \begin{lstlisting}
-parfor (ii = 0; ii < 4; i++)
+parfor (ii = 0; ii < 4; ii++)
   tmp[ii] = 0;
   for (i = ii * 2; i < (ii+1) * 2; i++)
     tmp[ii] += A[i];
@@ -97,7 +97,7 @@ which shows most of the restrictions are artificial.
 The representation of polyhedral model has three parts. Each of them is explained in detail with simple
 examples in the following sections.
 
-\subsection{Iteration Domain}
+\subsection{Iteration domain}
 Consider the following loop.
 {\footnotesize
 \begin{lstlisting}
@@ -116,15 +116,16 @@ Hence the above loop is \textbf{parametric}. For the above loop we can write the
 \begin{center}
 $D_{S1}\ =\ \{(i,j)\ \epsilon\ Z^2\ |\ 2\ \leq\ i\ \leq\ N\ \wedge\ 2\ \leq\ j\ \leq\ N\}$
 \end{center}
-This is a subspace of $Z^2$. To get a better view This can be represented graphically as in Figure ~\ref{fig:iter}
+This is a subspace of $Z^2$. To get a better view this can be represented graphically as in Figure ~\ref{fig:iter}
 \begin{figure}
 \begin{center}
-  \label{fig:iter}
   \includegraphics[height=8cm,width=8cm]{images/iter.eps}
-  \caption{Graphical represenation of iteration domain(S1)}
+  \caption{Graphical representation of iteration domain(S1)}
+  \label{fig:iter}
 \end{center}  
 \end{figure}
 
+\noindent
 Consider another example by just adding a conditional statement
 {\footnotesize
 \begin{lstlisting}
@@ -134,16 +135,17 @@ for (int i = 2; i <= 6; i++)
       A[i] = 10; // S2
 \end{lstlisting}
 }
-And the iteration domain here is as below and the corresponding graphical representation is shown in Figure ~\ref{fig:iter}
+\noindent
+And the iteration domain here is as below and the corresponding graphical representation is shown in Figure ~\ref{fig:iter1}
 
 \begin{center}
 $D_{S2}\ =\ \{(i,j)\ \epsilon\ Z^2\ |\ 2\ \leq\ i\ \leq\ 6\ \wedge\ 2\ \leq\ j\ \leq\ 6\ \wedge\ i\ \leq\ j\}$
 \end{center}
 \begin{figure}
 \begin{center}
-  \label{fig:iter1}
   \includegraphics[height=8cm,width=8cm]{images/iter1.eps}
-  \caption{Graphical represenation of iteration domain(S2)}
+  \caption{Graphical representation of iteration domain(S2)}
+  \label{fig:iter1}
 \end{center}  
 \end{figure}
 
@@ -151,11 +153,11 @@ It can be seen that the iteration domain is specified by set of constraints. Whe
 affine and depend only on the outer loop induction variables and parameters, the set of constraints
 defines a polyhedron (Z-polyhedron, polyhedron for short). Hence it has got the name Polyhedral Model.
 
-\subsection{The Schedule}
+\subsection{Schedule}
 
 The iteration domain does not give any information on the order of statements to be executed. If there
 is no order specified among the execution of statements it means that all the statements can be executed
-in parallel. But due to data dependences this assumption may not be always true. So a method is deviced
+in parallel. But due to data dependences this assumption may not be always true. So a method is devised
 to represent this order of execution which is called \textbf{scattering} function. There are many
 kinds of scattering in polyhedral model, as allocation, scheduling, chunking. For simplicity
 we are dealing only with \textbf{scheduling}. We are free to select any scheduling for better
@@ -168,7 +170,8 @@ for (int i = 2; i <= 4; i++)
     P[i][j] = A[i] * B[j] ; // S3
 \end{lstlisting}
 }
-We can define a scheduling(scattering) funciton:
+\noindent
+We can define a scheduling(scattering) function:
 \begin{center}
 $\phi_S3(i,j) = (i,j)$
 \end{center}, which means that each iteration vector (i,j) in the iteration domain is associated with
@@ -176,7 +179,9 @@ a logical date. That is the statement instances need to be executed in the lexic
 logical date. Another possible scattering function would be:
 \begin{center}
 $\phi_S3(i,j) = (j,i)$
-\end{center}. It is possible to generate code for the changed schedule with ClooG\cite{cloog}. The
+\end{center}
+\noindent
+It is possible to generate code for the changed schedule with ClooG\cite{cloog}. The
 transformed code is:
 {\footnotesize
 \begin{lstlisting}
@@ -189,8 +194,8 @@ for (t1 = 2; t1 <= 4; t1++) {
 }
 \end{lstlisting}
 }
+\noindent
 It can be observed that we just performed loop interchange.
-
 \subsection{Access function}
 Consider a statement with array access A[i+j][i+N]. The \textbf{access function} corresponding to this can be written
 as:
@@ -200,13 +205,13 @@ $F_A(i,j) = (i+j,i+N)$
 We can manipulate the access function for achieving better data locality and parallelism.
 
 In general any optimization framework which makes use of polyhedral model will
-transform the code through the blocks shown in Figure ~\ref{fig:polly_steps}.
+transform the code through the blocks shown in Figure ~\ref{fig:poly_steps}.
 As the first stage dependence analysis is carried out followed by representing
 it by polyhedral model in terms of iteration domain, schedule and access function.
 This is further transformed for better optimization and code is generated
 for this.
 \begin{figure}
-  \label{fig:poly_steps}
   \includegraphics[width=1\textwidth]{images/poly_steps.eps}
   \caption{Transformation in polyhedral model}
+  \label{fig:poly_steps}
 \end{figure}

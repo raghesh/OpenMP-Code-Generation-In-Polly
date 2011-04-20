@@ -1,13 +1,12 @@
 \label{chap:polly}
 
-This chapter explains the internals of  Polly - Polyhedral Optimization
-in LLVM\cite{llvm}. The work is published in the First International workshop on PolyhedrAl Compilation
-Techniques - IMPACT 2011\cite{pollypaper}.
+This chapter deals with the internals of  Polly - Polyhedral Optimization
+in LLVM\footnote{\url{http://llvm.org}}.
 
 \section{Introduction to LLVM}
 
-LLVM(Low level virtual machine) is a collection of reusable compiler toolchain technologies that 
-allows sophisticated program tranformations to be performed with much ease. The
+LLVM(Low level virtual machine)\cite{Lattner} is a collection of reusable compiler toolchain technologies that 
+allows sophisticated program transformations to be performed with much ease. The
 major feature of LLVM is its low level intermediate representation
 (LLVM-IR) 
 which captures very minute details(like size and type of a variable) of the program code.
@@ -15,16 +14,15 @@ Such details would be handy to implement effective optimizations. Tools
 are already available to convert programs written in popular programming
 languages like C, Python, Java, etc. to LLVM-IR and back. Polly operates
 on LLVM-IR, which increases the range of programming languages that gets
-benefited. A complete list of documents for LLVM is available here\cite{llvmdocs}
+benefited. A complete list of documents for LLVM is available here\footnote{\url{http://llvm.org/docs/}}
+
 
 \section{Introduction to Polly}
 
 Today, effective polyhedral techniques exist to optimize computation intensive
 programs.  Advanced data-locality optimizations are available to accelerate
-sequential programs \cite{uday08pldi}. Effective methods to expose SIMD and
-thread-level parallelism were developed.  Polyhedral
-techniques are even used to synthesize high-performance hardware
-\cite{RISSET:2008}.
+sequential programs \cite{pluto}. Effective methods to expose SIMD and
+thread-level parallelism were developed.
 
 Yet, the use of programming-language-specific techniques significantly limits
 their impact.  Most polyhedral tools use a basic, language specific front end
@@ -47,7 +45,7 @@ transparently supports constructs like C++ iterators, pointer arithmetic or
 goto based loops. It is built around an advanced polyhedral library and includes a state-of-the-art
 dependency analysis. Due to a simple file interface it is easily possible to
 apply transformations manually or to use an external optimizer. We use this
-interface to integrate Pluto \cite{uday08pldi}, a modern data locality
+interface to integrate Pluto \cite{pluto}, a modern data locality
 optimizer and parallelizer. With integrated SIMD and OpenMP code
 generation, Polly automatically takes advantage of existing and newly exposed
 parallelism.
@@ -55,9 +53,9 @@ parallelism.
 This chapter focuses on concepts of Polly which are new or little discussed in the polyhedral community.
 
 \begin{figure}
-  \label{fig:arch}
   \includegraphics[width=1\textwidth]{images/architecture.eps}
   \caption{Architecture of Polly}
+  \label{fig:arch}
 \end{figure}
 
 \section{Implementation}
@@ -78,7 +76,7 @@ be obtained from language-specific LLVM based compilers. clang is a
 good choice. Polly also provides a \texttt{gcc} like user interface that is
 called \texttt{pollycc}.
 
-\subsection{LLVM-IR to Polyhedral Model}
+\subsection{LLVM-IR to polyhedral model}
 
 To apply polyhedral optimizations on a program, the first step that needs to be
 taken is to find relevant code sections and create a polyhedral description for
@@ -92,7 +90,7 @@ structure tree described by Johnson \cite{Johnson}.
 
 A \emph{region} is a subgraph of the control flow graph (CFG) that is connected to the
 remaining graph by only two edges, an entry edge and an exit edge.  Viewed as a
-unit it does not change control flow. Hence, it can be modeled as a
+unit it does not change control flow. Hence, it can be modelled as a
 simple function call, which can easily be replaced with a call to an optimized
 version of the function.  A \emph{canonical region} is a region that cannot be
 constructed by merging two adjacent smaller regions. A region \emph{contains}
@@ -124,7 +122,6 @@ extend this definition of a SCoP, which we did not include in this basic
 definition.
 
 \begin{figure}
-
 \begin{lstlisting}
                  for (i = 0; i < n + m; i++)
                        A[i] = i;
@@ -144,7 +141,7 @@ analyses are required to check if a program section is a SCoP. Further
 difficulties arise through the large amount of implicit knowledge that is
 needed to understand a programming language.  A simple, often overlooked problem is integer
 wrapping.  Assuming \texttt{n} and \texttt{m} are unsigned integers of 32 bit
-width, it is possible that $n+m$~<~$n$ holds. The upper bound in the source code must
+width, it is possible that $n+m < n$ holds. The upper bound in the source code must
 therefore be represented as $n+m\bmod 2^{32}$, but no polyhedral tool we know
 of models the loop bound in this way. Further problems can be caused by
 preprocessor macros, aliasing or C++ (operator) overloading. We believe even
@@ -196,7 +193,7 @@ To illustrate this an example is shown in Figure~\ref{semscop}.
 \label{semscop}
 \end{figure}
 
-\subsection{Polyhedral Model}
+\subsection{Polyhedral model}
 
 \subsubsection{The integer set library} Polly uses isl, an integer set library
 developed by Verdoolaege \cite{Verdoolaege10}. Isl natively supports
@@ -214,7 +211,7 @@ wrapping and type casts.
 Polly uses the classical polyhedral description \cite{girbal}
 that describes a SCoP as a
 set of statements each defined by a domain, a schedule and a set of memory
-accesses. For more details refer to ~\ref{chap:background}.
+accesses. For more details refer to Chapter ~\ref{chap:background}.
 
 In contrast to most existing tools the domain of a statement cannot be changed
 in Polly. All transformations need to be applied on the schedule. There
@@ -235,15 +232,15 @@ importing an updated description with changed schedules a program can be
 transformed easily. To prevent invalid optimizations Polly automatically verifies
 newly imported schedules. 
 Currently Polly supports the Scoplib exchange format, which is used by
-PoCC and Pluto~\cite{uday08pldi}.
+PoCC and Pluto~\cite{pluto}.
 Unfortunately, the Scoplib exchange format is not expressive enough to store
 information on existentially quantified variables, schedules that include
 inequalities or memory accesses that touch more than one element. Therefore, we
 have introduced a simple JSON\cite{rfc4627} and isl based exchange format to
 experiment with those possibilities.
 
-\subsection{Polyhedral Model to LLVM-IR}
-Polly uses CLooG \cite{Bas04b} to translate the polyhedral representation back
+\subsection{Polyhedral model to LLVM-IR}
+Polly uses CLooG \cite{cloog} to translate the polyhedral representation back
 into a generic AST. This AST is then
 translated into LLVM-IR based loops, conditions and expressions.
 
@@ -257,16 +254,23 @@ optimizers, but independently detects parallel loops. We present a novel
 approach how to detect them. For details refer to Chapter ~\ref{chap:openmp}
 
 
-\subsubsection{Trivially SIMDizable loops}
-In Polly we also introduced the concept of trivially SIMDizable loops. A
-trivially SIMDizable loop is a loop that is parallel, does not have any control
-flow statements in its body and has a number of iterations that is in the order of
-magnitude of the SIMD vector width. If Polly can find such a loop on the generic AST
-the loop is not translated into a loop structure, but into a set of vector
-instructions with a width corresponding to the number of loop iterations.
+\section{Related work}
 
-Polyhedral transformations can now easily introduce SIMD vector code by applying
-transformations that expose such trivially SIMDizable loops. There is no need
-to explicitly issue SIMD intrinsics an more, as Polly automatically issues the
-correct SIMD instructions.
+The work in Polly was inspired by ideas developed in the Graphite project \cite{TRIFUNOVIC:2010},
+yet Polly uses novel approaches in many areas. For instance, Graphite did not
+include a structured SCoP detection, even though currently a SCoP detection
+similar to the one in Polly is developed.  Furthermore, Graphite works on the
+GCC intermediate representation, which is in several areas higher level than
+LLVM-IR, such that several constructs like multi-dimensional arrays are easily
+available.  Internally Graphite still uses a rational polyhedral library and
+only in some cases relies on an integer linear programming solver.
+Graphite uses the classical parallelization detection before code generation and is
+not yet closely integrated with the OpenMP code generation. In contrast
+to Polly, it has been tested for several years and is reaching production quality.
+
+The only other compiler with an internal polyhedral optimizer we know of is 
+IBM XL/C. Unfortunately, we could not find any information on how SCoP detection
+and code generation is done.
+There exists a variety of source to source transformation tools
+such as Pluto \cite{pluto}, PoCC or LooPo.
 

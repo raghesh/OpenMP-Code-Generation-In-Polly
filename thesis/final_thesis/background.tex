@@ -1,6 +1,6 @@
 \label{chap:background}
 
-\section{Parallelism in Programs}
+\section{Parallelism in programs}
 These days it is hard to find somebody using a single-core processor machine.
 With the help of multi-core and multi-processor machines it is possible to speed up 
 the program by mapping the sections of the program to available processors. This 
@@ -10,14 +10,38 @@ explained later in this section. In addition this section discusses various type
 make a comparison of various approaches towards parallelism which can be applied to programs.
 
 \subsection{Parallelism and locality}
+When there is a need for parallelism there is a need for interprocessor communication.
+So while optimizing programs for parallelism extreme attention should be given to
+minimize the communication overhead. We can minimize communication if the
+processor accesses recently used data. That is we need to improve data
+locality. Considering the performance of a single processor it is
+essential to extract more data locality which in turn increase
+the cache hits. While dealing with parallelism we need to be aware
+about the restrictions on the degree of parallelism that can
+be extracted from a given program, which is well stated by {\textbf Amdahl}'s law.
 
-\subsection{Types of parallelism}
+Amdahl's law  states that, if \emph{f} is the fraction of the code parallelized, and if
+the parallelized version runs on a \emph{p}-processor machine with no communication
+or parallelization overhead, the speedup is given by,
+\begin{center}
+$\frac{1}{(1\ -\ f)\ +\ (f/p)}$
+\end{center}
 
-\subsection{Realizing Parallelism}
+For instance, if half the computation is sequential, the computation can only
+double in speed, regardless of the number of processors used. The speedup
+is a factor of 1.6 if we have 4 processors. So researchers keep on working
+for extracting more parallelism and thereby reducing the fraction of sequential
+computation.
 
-The various approaches to realize parallelism are explained in this section.
+\subsection{Realizing parallelism}
 
-\textbf{POSIX Threads/Pthreads:} Pthreads provides a standard interface for performing mulithreaded computation. 
+Some of the approaches to realize parallelism are explained in this section.
+
+\noindent
+\textbf{POSIX Threads/Pthreads}
+
+\noindent
+Pthreads provides a standard interface for performing mulithreaded computation. 
 Threads are subprocesses running with in a process. 
 We can find many applications such as a web browser which can take advantage of multithreading.
 The efficiency of an application improves when it is designed with threads because they have their
@@ -30,7 +54,11 @@ need to be hard corded which makes it less scalable.
 
 %\textbf{MPI:}
 
-\textbf{OpenMP:} In view of the shortcomings of POSIX threads there was an urge to formulate a new threading
+\noindent
+\textbf{OpenMP}
+
+\noindent
+In view of the shortcomings of POSIX threads there was an urge to formulate a new threading
 interface. The major objective was to overcome the burden of learning different ways for programming threads in different
 operating systems with in different programming languages. OpenMP is able to deal with this
 by a great extend. As the framework is evolved rather than its APIs, support for pragmas became the distinguished
@@ -75,7 +103,9 @@ be \emph{shared} to get the intended result.
 
 %\textbf{Intel TBB:}
 
-\section{Auto Parallelization}
+\section{Auto parallelization}
+The techniques described in the previous section relies heavily on manually
+identifying parallelism, which is not always a good approach.
 We can take the advantage of hardware support for parallelism only if the compiler has
 support for generating the parallel code. There are interfaces like OpenMP for
 developing parallel applications. But the user has to manually provide the annotations
@@ -96,6 +126,7 @@ example illustrates this.
 \end{lstlisting}
 }
 
+\noindent
 The analysis detects that there is no dependency between two consecutive iterations and
 can be safely parallelized. Consider another example
 
@@ -106,6 +137,7 @@ can be safely parallelized. Consider another example
 \end{lstlisting}
 }
 
+\noindent
 Here a particular iteration is dependent on previous one and so its not safe to parallelize.
 An intelligent compiler can convert this into parallel as follows.
 
@@ -121,7 +153,7 @@ is a tedious task for existing compilers. A powerful mathematical model explaine
 section act as a helping hand for the compilers to do such transformations with some
 restrictions applied on the input.
 
-\section{The Polyhedral Model}
+\section{The polyhedral model}
 
 In this model the program is transformed into an algebraic representation which can be used to
 detect data dependences. This representation is then converted in such a way that the degree
@@ -141,14 +173,21 @@ makes the programmer to analyze it with ease.
 
 \section{Polly and OpenMP code generation}
 The framework for automatic OpenMP code generation is implemented using,
-an open source\cite{lice} compiler  optimization framework that uses a mathematical
+an open source\footnote{\url{http://llvm.org/releases/2.8/LICENSE.TXT}} compiler  optimization framework that uses a mathematical
  representation, the polyhedral model, to represent and transform loops and other
  control flow structures. It is an effort towards achieving autoparallelism in programs.
  The transformations are being implemented in LLVM(Low level virtual machine). 
 Polly can detect parallel loops, issue vector instructions and generate OpenMP code 
 corresponding to those loops. Polly try to expose more parallelism
 with the help of polyhedral model. A loop which does not look parallel can be transformed
-to a parallel loop and these can be vectorized or parallelize using OpenMP.
+to a parallel loop and these can be vectorized or parallelize using OpenMP. More details on
+LLVM and Polly can be found in Chapter  ~\ref{chap:polly}.
 
-More details on LLVM and Polly can be found in Chapter  ~\ref{chap:polly}.
+\section{Outline of report}
+The organization of this report is as described here. In Chapter ~\ref{chap:background} we
+describe the background required for understanding the polyhedral model. Chapter ~\ref{chap:polly}
+deals with the internals of Polly - Polyhedral optimization in LLVM. Next chapter consists of
+the details of the workdone for OpenMP code generation in Polly. Then in Chapter ~\ref{chap:testing}
+explains the testing framework and shows the experimental results. And the last chapter
+has the list of future projects that can be done on Polly and we conclude with that.
 

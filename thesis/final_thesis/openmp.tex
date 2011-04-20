@@ -6,47 +6,49 @@ added some OpenMP pragmas. To achieve this, code generation needs to emit code t
 library functions to be executed in parallel. The GNU OpenMP Library(libgomp) is used for this purpose. The
 dependency analysis module of Polly automatically detects parallel loops(SCoPs) and are given to OpenMP
 code generation module. Here we generate the required libgomp library calls. The generated code is similar
-to the one generated if the user have added OpenMP pragmas\cite{parfor}. The following sections explain the steps
-taken towards generating the OpenMP code. The generated code is in LLVM IR format.
+to the one generated if the user have added OpenMP pragmas\footnote{\url{http://gcc.gnu.org/onlinedocs/libgomp/Implementing-FOR-construct.html}}.
+The following sections explain the steps taken towards generating the OpenMP code. The generated code is in LLVM IR format.
 \section{Setting up the environment}
 The source code for Polly can be downloaded from http://repo.or.cz/w/polly.git. This section describes
-how to set up the environmen to work with Polly. We have to install libgmp, llvm-gcc/clang executables,
+how to set up the environment to work with Polly. We have to install libgmp, llvm-gcc/clang executables,
 cmake, llvm, ClooG, Pocc and scoplib. libgmp, llvm-gcc/clang and cmake can be installed using the package
 management system of the operating system. Installing others are explained below
 
 \subsection{CLooG}
-\begin{verbatim}
+\begin{lstlisting}
 git clone git://repo.or.cz/cloog.git
 cd cloog
 ./get_submodules.sh
 ./autogen.sh
-./configure --with-gmp-prefix=/path/to/gmp/installation --prefix=/path/to/cloog/installation
+./configure --with-gmp-prefix=/path/to/gmp/installation \ 
+                   --prefix=/path/to/cloog/installation
 make
 make install
-\end{verbatim}
+\end{lstlisting}
 
-\subsection{Pocc}
-\begin{verbatim}
-wget http://www.cse.ohio-state.edu/~pouchet/software/pocc/download/
-                                         pocc-1.0-rc3.1-full.tar.gz
+\subsection{PoCC}
+\begin{lstlisting}
+wget http://www.cse.ohio-state.edu/~pouchet/software/ \
+	     pocc/download/pocc-1.0-rc3.1-full.tar.gz
 tar xzf pocc-1.0-rc3.1-full.tar.gz
 cd pocc-1.0-rc3.1
 ./install.sh
 export PATH=`pwd`/bin
-\end{verbatim}
+\end{lstlisting}
 
 \subsection{Scoplib}
-\begin{verbatim}
-wget http://www.cse.ohio-state.edu/~pouchet/software/pocc/download/
-                                       modules/scoplib-0.2.0.tar.gz
+\begin{lstlisting}
+wget http://www.cse.ohio-state.edu/~pouchet/software/ \
+          pocc/download/modules/scoplib-0.2.0.tar.gz
 tar xzf  scoplib-0.2.0.tar.gz
 cd scoplib-0.2.0
-./configure --enable-mp-version --prefix=/path/to/scoplib/installation
+./configure --enable-mp-version \
+            --prefix=/path/to/scoplib/installation 
 make && make install
-\end{verbatim}
+\end{lstlisting}
 
 \subsection{Building LLVM with Polly}
-\begin{verbatim}
+\begin{lstlisting}
 git clone http://llvm.org/git/llvm.git
 cd llvm/tools
 git clone git://repo.or.cz/polly.git
@@ -58,20 +60,21 @@ cmake -DCMAKE_PREFIX_PATH=/path/to/cloog/installation .
 # To point CMAKE to the scoplib source
 cmake -DCMAKE_PREFIX_PATH=/path/to/scoplib/installation . 
 make
-\end{verbatim}
+\end{lstlisting}
 
 \section{Enabling OpenMP code generation in Polly}
 The easiest way to create the executable for a program with OpenMP support is by using the 'polycc' utility
 which is available in 'utils' directory under Polly source tree. Suppose you want to build a C file
 named 'a.c' issue the commands
-\begin{verbatim}
-export LIBPOLLY=<path to the cmake build directory>/lib/LLVMPolly.so
+\begin{lstlisting}
+export LIBPOLLY=<path to cmake>/lib/LLVMPolly.so
 pollycc -fpolly -fparallel a.c
-\end{verbatim}Polly is built as a shared library as LLVMPolly.so.
+\end{lstlisting}
+Polly is built as a shared library as LLVMPolly.so.
 
 If we need more debugging options we can use the 'opt' command, which is the optimizer command for LLVM.
 
-\begin{verbatim}
+\begin{lstlisting}
 # Generate the LLVM-IR files from source code.
 clang -S -emit-llvm a.c
 alias opt="opt -load $LIBPOLLY
@@ -82,23 +85,23 @@ opt -S -polly-codegen -enable-polly-openmp a.preopt.ll -o a.ll
 # Link with libgomp
 llc a.ll -o a.s
 llvm-gcc a.s -lgomp
-\end{verbatim}
+\end{lstlisting}
 
 
 \section{Codegeneration pass in Polly}
 \begin{figure}
 \begin{center}
-  \label{detailed}
   \includegraphics[width=1\textwidth]{images/detailedarch.eps}
   \caption{Detailed control flow in Polly}
+  \label{detailed}
 \end{center}
 \end{figure}
-Refer to the detailed control flow in Polly in ~\ref{detailed}. Each of the modules in Polly is
-implemented as a LLMV pass\cite{llvmpass}. We have to generate the OpenMP code in the code 
+Refer to the detailed control flow in Polly in Figure ~\ref{detailed}. Each of the module in Polly is
+implemented as a LLMV pass\footnote{\url{http://llvm.org/docs/WritingAnLLVMPass.html}}. We have to generate the OpenMP code in the code 
 generation pass of Polly(CodeGeneration.cpp). LLVM does the magic of running this code generation
 pass for each of the detected SCoP. The runOnScop function initiates this. This function gather
 the required information by running all passes(ScalarEvolution, LoopInfo, CloogInfo, SCopDetection, etc.).
-The current pass can refer to all of those passes as and when required. 
+The current pass can refer to the output of those passes as and when required. 
 
 While generating the code for a loop we check whether this loop is parallel or not.  If it is
 parallel instead of generating the normal sequential code,  loop is embedded in
@@ -106,16 +109,13 @@ libgomp library calls. The approach for detecting parallelism is explained in th
 
 \section{Detecting parallelism in Polly}
 
-TODO: Properly present this section
-
 A common approach to detect
 parallelism is to check before code generation, if a certain dimension of the
 iteration space is carrying dependences. In case it does not, the dimension is
 parallel.  This approach can only detect fully parallel dimensions. However,
-during the generation of the generic AST, CLooG may split loops such that a
+during the generation of the AST, CLooG may split loops such that a
 single dimension is enumerated by several loops.  This may happen
-automatically, when CLooG optimizes the control flow, or an optimizers may on
-purpose generate a schedule that enforces the splitting.  With the classical
+automatically, when CLooG optimizes the control flow.  With the classical
 approach either all split loops are detected as parallel or no parallelism is
 detected at all.
 
@@ -144,7 +144,6 @@ as they do not infect the correctness of the generated code.
 Typically when a user want to run a particular section of the code in parallel he/she annotate the code with
 OpenMP pragmas. The compiler will then convert this pragmas into the corresponding library calls. In Polly the
 approach taken is to generate these calls automatically when a loop is detected as parallel.
-
 Consider the for loop below to have a basic understanding about what is to be done.
 {\footnotesize
 \begin{lstlisting}
@@ -164,14 +163,14 @@ LLVM IR format. A general outline of the steps are given here and we enter into 
 
 \begin{figure}
 \begin{center}
-  \label{fig:openmp_cfg}
   %\includegraphics[width=1\textwidth]{images/ompcalls.eps}
   \includegraphics[width=14cm]{images/ompcalls.eps}
   \caption{CFG showing sequence of OpenMP library calls}
+  \label{fig:openmp_cfg}
 \end{center}
 \end{figure}
 
-The control flow graph corresponding to the simple code in ~\ref{fig:openmp1} is shown in ~\ref{fig:openmp_cfg}
+The control flow graph corresponding to the previous example is shown in Figure ~\ref{fig:openmp_cfg}
 The code for body of the for loop is generated inside the subfunction which has the following GOMP library
 calls to achieve the necessary parallelism.
 
@@ -180,9 +179,9 @@ calls to achieve the necessary parallelism.
 \item GOMP\_loop\_end\_nowait
 \end{itemize}
 
-The signature and descriptions of each of the above functions can be found in in libgomp manual\cite{libgomp}.
+The signature and descriptions of each of the above functions can be found in in libgomp manual\footnote{\url{http://gcc.gnu.org/onlinedocs/libgomp/}}.
 
-The very first step is to create the prototype for each of the functions in LLVM-IR format\cite{kaleid}.
+The very first step is to create the prototype for each of the functions in LLVM-IR format\footnote{\url{http://llvm.org/docs/tutorial/LangImpl3.html\#funcs}}.
 Code for generating prototype for "GOMP\_parallel\_end" is given below.
 {\footnotesize
 \begin{lstlisting}
@@ -227,17 +226,17 @@ Builder->SetInsertPoint(PrevBB);
 }
 This is just a basic code to create basic block 'BB' with label 'entry' The 'SetInsertPoint' function
 can be used to insert code in a particular basic block. The complete control flow graph for the
-subfunction body of a typical for loop will look like ~\ref{fig:subfunction_cfg}. In the basic
+subfunction body of a typical for loop will look like Figure ~\ref{fig:subfunction_cfg}. In the basic
 block laballed 'omp.checkNext' we call "GOMP\_loop\_runtime\_next" which finds the upper and 
 lower bound of each OpenMP thread. In the basic block with label 'polly.loop\_body' we
 generate the sequential code for the loop.
 
 \begin{figure}
 \begin{center}
-  \label{fig:subfunction_cfg}
   \includegraphics[width=0.55\textwidth]{images/cfg2.ps}
 %\includegraphics[width=14cm]{images/cfg2.ps}
   \caption{CFG showing basic blocks in the subfunction body}
+  \label{fig:subfunction_cfg}
 \end{center}
 \end{figure}
 
@@ -287,6 +286,6 @@ new base addresses mapped to the old addresses so that any future references are
 
 \section{OpenMP testcases}
 
-Polly follows the LLVM testing infrastrcutre\cite{llvmtest} to add regression testcases. Testecases for OpenMP are added into
+Polly follows the LLVM testing infrastrcutre\footnote{\url{http://llvm.org/docs/TestingGuide.html}} to add regression testcases. Testcases for OpenMP are added into
 'test/Codegen/OpenMP' directory under Polly source tree. The tests can be carried out by just issuing the command 'make polly-test'
 from the 'cmake' build directory.

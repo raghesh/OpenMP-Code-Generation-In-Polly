@@ -33,7 +33,7 @@ it is not safe to compile a large project with Polly.
 
 Polly can be tested with large benchmarks like SPEC and there is a very high possibility
 for finding areas which are not detected as SCoPs. It will be interesting to
-eplore the reasons for this fix it.
+explore the reasons for this fix it.
 \subsection{Increasing the system coverage}
 
 Some of the testcases are failing when Polly is tested in machines which does not
@@ -52,7 +52,7 @@ for(i = 0; i < N; i +=  b) {
 }
 \end{lstlisting}
 }
-Polly will not detect this as a SCoP because the variable b is read as an user
+Polly will not detect this as a SCoP because the variable b is read as a user
 input. So to detect this as a SCoP we instrument the IR with the information
 provided by profiling. Suppose using profiling we figure out that most of the 
 time the value of b is say 2. we can convert the above code as follows.
@@ -75,6 +75,7 @@ Now with the transformed code the for loop inside 'if' will be detected as a
 SCoP and can be parallelised. Since value of N is 100 most of the time, the 
 overall performance will be improved.
 
+\noindent
 Consider another scenario.
 {\footnotesize
 \begin{lstlisting}
@@ -92,12 +93,12 @@ for some often used cases.
 
 \section{Conclusion}
 Polly integrated with automatic OpenMP code generation helps users to
-realize parrelelism without much worries about the internals of the program.
+realize parallelism without much worries about the internals of the program.
 Lot of effort and programming time can be saved because
-the approach eliminates the need for manualy finding parallelism and providing annotation.
+the approach eliminates the need for manual finding parallelism and providing annotation.
 Since the optimizations are performed on LLVM-IR the framework is not restricted to only C/C++, but al-
 so supports a wide range of other programming languages.
-Powerful polyhedral techniques are available to optimize pro
-grams, but their impact is still limited. The main reasons
-are difficulties to optimize existing programs automatically. There is enough space for further improvements in Polly
+Powerful polyhedral techniques are available to optimize programs, but their impact is still limited. The main reasons
+are difficulties to optimize existing programs automatically and generate parallel code. Polly and its integrated OpenMP support
+is an attempt to strengthen the impact. There is enough space for further enhancements
 and anybody interested can make their contribution. 
