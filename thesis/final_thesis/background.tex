@@ -15,7 +15,7 @@ So while optimizing programs for parallelism extreme attention should be given t
 minimize the communication overhead. We can minimize communication if the
 processor accesses recently used data. That is we need to improve data
 locality. Considering the performance of a single processor it is
-essential to extract more data locality which in turn increase
+essential to extract more data locality which in turn increases
 the cache hits. While dealing with parallelism we need to be aware
 about the restrictions on the degree of parallelism that can
 be extracted from a given program, which is well stated by {\textbf Amdahl}'s law.
@@ -71,7 +71,7 @@ shows usage of pragma.
 \begin{lstlisting}
   #pragma omp parallel for
   for (i = 1; i <= N; i++)
-      A[i] = B[i] + c[i]
+      A[i] = B[i] + C[i]
 \end{lstlisting}
 }
 
@@ -82,7 +82,7 @@ If the developer needs more fine-grained control a small set of APIs are availab
 could be the right choice because it provides a greater number of primitive functions. So if in applications
 in which threads require individual attention the appropriate choice would be Pthreads.
 
-Ample care should be take to ensure the correctness of the program while using OpenMP pragmas. The following
+Ample care should be taken to ensure the correctness of the program while using OpenMP pragmas. The following
 example illustrates that.
 {\footnotesize
 \begin{lstlisting}
@@ -122,7 +122,7 @@ example illustrates this.
 {\footnotesize
 \begin{lstlisting}
   for (i = 1; i <= N; i++)
-      A[i] = B[i] + c[i]
+      A[i] = B[i] + C[i]
 \end{lstlisting}
 }
 
@@ -187,7 +187,7 @@ LLVM and Polly can be found in Chapter  ~\ref{chap:polly}.
 The organization of this report is as described here. In Chapter ~\ref{chap:background} we
 describe the background required for understanding the polyhedral model. Chapter ~\ref{chap:polly}
 deals with the internals of Polly - Polyhedral optimization in LLVM. Next chapter consists of
-the details of the workdone for OpenMP code generation in Polly. Then in Chapter ~\ref{chap:testing}
+the details of the workdone for OpenMP code generation in Polly. Then  Chapter ~\ref{chap:testing}
 explains the testing framework and shows the experimental results. And the last chapter
 has the list of future projects that can be done on Polly and we conclude with that.
 

@@ -57,12 +57,12 @@
 
 \vspace*{0.5in}
 
-\noindent This is to certify that the thesis entitled %{\bf {\thesistitle}}, 
+\noindent This is to certify that the project report entitled %{\bf {\thesistitle}}, 
 {\bf {A Framework for Automatic OpenMP Code Generation}},
 submitted by {\bf {\thesisauthor}}, to the Indian Institute of Technology, 
 Madras, for the award of the degree of {\bf Master of Technology}, 
 is a bona fide record of the research work carried out by him under my
-supervision. The contents of this thesis, in full or in parts, have not been
+supervision. The contents of this report, in full or in parts, have not been
 submitted to any other Institute or University for the award of any degree or
 diploma.
 
@@ -92,17 +92,17 @@ for his persistent encouragement and motivation, for his continual and
 creative feedback, for his stimulating suggestions in all time of work,
 and for his constructive criticism. His ingenious suggestions and thought
 provoking propositions have helped me widen my perspective on the subject
-matter of this thesis.
+matter of this report.
  
 I offer my earnest gratitude to Tobias Grosser who has supported me throughout
 my project with his patience and knowledge. I gratefully acknowledge him for his advice,
 supervision, and crucial contribution, which made him a backbone of this project
-and so to this thesis. His involvement with his originality has triggered and
+and so to this report. His involvement with his originality has triggered and
 nourished my intellectual maturity that I will benefit from, for a long time to come. 
 I am grateful in every possible way and hope to keep up our collaboration in the future.
 
 A special thanks is also due to the faculty advisors, Dr N.S Narayanaswamy, Dr.~C.~Pandurangan
-and Dr.~D.~Jankiraman who patiently listened, evaluated, criticized and guided us periodically.
+and Dr.~D.~Jankiram who patiently listened, evaluated, criticized and guided us periodically.
 I extend my heartfelt thanks to Dr~B.~Ravindran, Pramod C E and C K Raju for
 their valuable suggestions and care throughout the project.
 
@@ -176,7 +176,7 @@ xxxxxxxxxxx \= xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \kill
 \textbf{Polly} \> Polyhedral Optimization in LLVM \\
 \textbf{ClooG} \>  Chunky Loop Generator \\
 \textbf{Isl} \>  Integer Set Library \\
-\textbf{AST} \>  Abstract Synatx Tree \\
+\textbf{AST} \>  Abstract Syntax Tree \\
 \textbf{SIMD} \> Single Instruction Multiple Data  \\
 \textbf{CFG} \>  Control Flow Graph  \\
 \textbf{SCoP} \> Static Control Part  \\
@@ -236,11 +236,11 @@ xxxxxxxxxxx \= xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \kill
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % testing
-\chapter{Testing With Polybench}
+\chapter{Testing With PolyBench}
 \input{testing.tex}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % testing
-\chapter{Future Work and Conclusion}
+\chapter{Conclusion and Future Work}
 \input{future.tex}
 
 
@@ -255,7 +255,87 @@ xxxxxxxxxxx \= xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \kill
 % Appendices.
 
 \appendix
- 
+\chapter{Setting up the environment}
+The source code for Polly can be downloaded from http://repo.or.cz/w/polly.git. This section describes
+how to set up the environment to work with Polly. We have to install libgmp, llvm-gcc/clang executables,
+cmake, llvm, ClooG, Pocc and scoplib. libgmp, llvm-gcc/clang and cmake can be installed using the package
+management system of the operating system. Installing others are explained below
+
+\subsection{CLooG}
+\noindent
+Get the source code of ClooG using the command
+\begin{lstlisting}
+git clone git://repo.or.cz/cloog.git
+\end{lstlisting}
+\noindent
+Get the required submodules and build it
+\begin{lstlisting}
+cd cloog
+./get_submodules.sh
+./autogen.sh
+./configure --with-gmp-prefix=/path/to/gmp/installation \ 
+                   --prefix=/path/to/cloog/installation
+make
+make install
+\end{lstlisting}
+
+\subsection{PoCC}
+\noindent
+Get a released source code of PoCC with
+\begin{lstlisting}
+wget http://www.cse.ohio-state.edu/~pouchet/software/ \
+	     pocc/download/pocc-1.0-rc3.1-full.tar.gz
+
+\end{lstlisting}
+\noindent
+Extract the tarball and build
+\begin{lstlisting}
+tar xzf pocc-1.0-rc3.1-full.tar.gz
+cd pocc-1.0-rc3.1
+./install.sh
+export PATH=`pwd`/bin
+\end{lstlisting}
+
+\subsection{Scoplib}
+\subsection{PoCC}
+\noindent
+Get a released source code of Scoplib with
+\begin{lstlisting}
+wget http://www.cse.ohio-state.edu/~pouchet/software/ \
+          pocc/download/modules/scoplib-0.2.0.tar.gz
+\end{lstlisting}
+\noindent
+Extract the tarball and build
+\begin{lstlisting}
+tar xzf  scoplib-0.2.0.tar.gz
+cd scoplib-0.2.0
+./configure --enable-mp-version \
+            --prefix=/path/to/scoplib/installation 
+make && make install
+\end{lstlisting}
+
+\subsection{Building LLVM with Polly}
+\noindent
+Download the source code of LLVM
+\begin{lstlisting}
+git clone http://llvm.org/git/llvm.git
+\end{lstlisting}
+\noindent
+Download the Polly source into the 'tools' directory of LLVM and
+build it using 'cmake'
+\begin{lstlisting}
+cd llvm/tools
+git clone git://repo.or.cz/polly.git
+mkdir build
+cd build
+cmake <llvm_source_dir>
+# If CMAKE cannot find CLooG and ISL
+cmake -DCMAKE_PREFIX_PATH=/path/to/cloog/installation . 
+# To point CMAKE to the scoplib source
+cmake -DCMAKE_PREFIX_PATH=/path/to/scoplib/installation . 
+make
+\end{lstlisting}
+
 \chapter{Various Tools Used in Polyhedral Community}
 Some of the tools used in polyhedral community is described here with one example.
 \section{ClooG}
@@ -376,7 +456,7 @@ P2 := CS . P;
 initvisu(3,C)
 \end{lstlisting}
 }
-The polyhedra for P2 which is the intersection of CS and P can be viewed graphically as in 
+The polyhedron for P2 which is the intersection of CS and P can be viewed graphically as in 
 Figure ~\ref{fig:3d}
 
 %\chapter{Doing Projects - The Free Software Way}
@@ -389,9 +469,9 @@ Figure ~\ref{fig:3d}
 \vspace{-0.3cm}
 
 \begin{enumerate}
-\item Tobias Grosser, Hongbin Zheng, Raghesh Aloor, Andreas Simb{\"u}rger, Armin {G}r{\"o}{\ss}linger and Louis-No{\"e}l Pouchet \newblock
+\item Tobias Grosser, Hongbin Zheng, \textbf{Raghesh Aloor}, Andreas Simb{\"u}rger, Armin {G}r{\"o}{\ss}linger and Louis-No{\"e}l Pouchet \newblock
   Polly - Polyhedral optimization in LLVM \newblock {\em
-  IMPACT 2011(First International workshop on PolyhedrAl Compilation Techniques)}, Chamonix, France.
+  IMPACT 2011(First International workshop on PolyhedrAl Compilation Techniques as part of CGO 2011)}, Chamonix, France.
 \end{enumerate}
 
 %\nocite{bellman, Amarel:1968, manning, knoblock90learning,

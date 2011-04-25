@@ -24,7 +24,7 @@ illustrated with a simple example.
 \begin{lstlisting}
   for(i = 1; i <= 10; i++)
     A[i] = 10;
-  
+
   for(j = 6; j <= 15; j++)
     A[j] = 15;
 \end{lstlisting}
@@ -76,10 +76,10 @@ sum = tmp[0] + tmp[1] + tmp[2] + tmp[3];
 %\subsection{Automatic parallelization}
 %\subsection{Vectorization}
 
-\section{Polyhedral representation of Programs}
+\section{Polyhedral representation of programs}
 
 The polyhedral model does its transformations based on linear algebra and linear programming.
-Certain parts of programs known as SCoPs(Static control Part) are represented in this model.
+Certain parts of programs known as SCoPs(Static Control Part) are represented in this model.
 A program part that can be represented using polyhedral model is called SCoPs. Generally
 loops are the candidates for SCoPs. There are some restrictions to the set of statements 
 in the section of code to be qualified as SCoP. Those are listed below.
@@ -173,12 +173,12 @@ for (int i = 2; i <= 4; i++)
 \noindent
 We can define a scheduling(scattering) function:
 \begin{center}
-$\phi_S3(i,j) = (i,j)$
+$\phi_{S3}(i,j) = (i,j)$
 \end{center}, which means that each iteration vector (i,j) in the iteration domain is associated with
 a logical date. That is the statement instances need to be executed in the lexicographical order of the
 logical date. Another possible scattering function would be:
 \begin{center}
-$\phi_S3(i,j) = (j,i)$
+$\phi_{S3}(i,j) = (j,i)$
 \end{center}
 \noindent
 It is possible to generate code for the changed schedule with ClooG\cite{cloog}. The
@@ -187,8 +187,7 @@ transformed code is:
 \begin{lstlisting}
 for (t1 = 2; t1 <= 4; t1++) {
   for (t2 = 2; t2 <= 4; t2++) {
-    i = t2;
-    j = t1;
+    i = t2; j = t1;
     P[i+j] += A[i] + B[j];
   }
 }

@@ -239,7 +239,7 @@ footskip=30pt,bottom=1in]{geometry}
    \def\certificate{%% A preliminary chapter
      \clearpage
      \vspace*{36pt}
-     \centerline{\Large \bf THESIS CERTIFICATE}
+     \centerline{\Large \bf CERTIFICATE}
      \vskip 25pt
      \thispagestyle{empty}
      \typeout{Certificate}

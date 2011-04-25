@@ -1,0 +1,211 @@
+\documentclass{beamer}
+
+\usetheme{default}
+\usepackage{fancyvrb,relsize}
+\usetheme{Warsaw}
+\usepackage{amsmath}
+\usepackage{bbding}
+\usepackage{courier}
+\usepackage{enumerate}
+\setbeamertemplate{itemize items}[circle]
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{fancybox}
+% \usepackage{graphics}
+%\usepackage{epstopdf}
+
+\mode<presentation>
+{
+\setbeamertemplate{footline}
+{\rightline{\insertframenumber/\inserttotalframenumber}}
+}
+
+\title{A Framework for Automatic OpenMP Code Generation
+ }
+\author{Raghesh A (CS09M032)}
+\date
+
+\begin{document}
+
+% slide
+\begin{frame}
+\titlepage
+\end{frame}
+
+% slide
+\begin{frame}{Outline}
+\begin{itemize}
+\item Introduction
+\item The Polyhedral Model
+\item LLVM
+\item Polly
+\item OpenMP Code Generation in Polly
+\item Testing with PolyBench
+\item Conclusion and Future Work
+\item Setting up the environment
+\item Various Tools Used in Polyhedral Community
+\end{itemize}
+\end{frame}
+
+% slide
+\begin{frame}{Introduction}
+\begin{itemize}
+\item Parallelism in programs
+	\begin{itemize}
+	\item Parallelism and locality
+	\item Realizing parallelism
+	\end{itemize}
+\item Auto parallelization
+\item The polyhedral model
+\item LLVM
+\item Polly and OpenMP code generation
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{The Polyhedral Model}
+\begin{itemize}
+\item Program transformations with polyhedral model
+	\begin{itemize}
+	\item Transformation for improving data locality
+	\begin{columns}[t]
+		\column{.5\textwidth}
+		\begin{block}{ }
+	{\tiny\lstinputlisting{listing1.tex}}
+		\end{block}
+	\pause
+		\column{.5\textwidth}
+		\begin{block}{ }
+	{\tiny\lstinputlisting{listing2.tex}}
+		\end{block}
+	\end{columns}
+	\pause
+
+	\item Scalar expansion
+	\pause
+	\begin{columns}[t]
+		\column{.5\textwidth}
+		\begin{block}{ }
+		{\tiny\lstinputlisting{listing3.tex}}
+		\end{block}
+	\pause
+		\column{.5\textwidth}
+		\begin{block}{ }
+		{\tiny\lstinputlisting{listing4.tex}}
+		\end{block}
+	\end{columns}
+        \pause
+	\begin{columns}
+	%\column{.25\textwidth}
+	\column{0.5\textwidth}
+		\begin{block}{ }
+		{\tiny\lstinputlisting{listing5.tex}}
+		\end{block}
+		\end{columns}
+	\end{itemize}
+\item Polyhedral representation of programs
+	\begin{itemize}
+	\item Iteration domain
+	\item Schedule
+	\item Access function
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}{LLVM}
+\begin{itemize}
+\item LLVM (Low Level Virtual Machine)
+	\begin{itemize}
+	\item Framework for implementing compilers
+	\item Common low level code repersentation
+	\item Lifelong analysis and transformation of programs
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Polly}
+\begin{itemize}
+\item Polly (Polyhedral Optimization in LLVM)
+	\begin{itemize}
+	\item Implementing Polyhedral Optimization in LLVM
+	\item Effort towards Auto Parallelism in programs.
+	\end{itemize}
+\item Implementation
+	\begin{itemize}
+	\item LLVM-IR to polyhedral model
+			\begin{itemize}
+			\item Region-based SCoP detection
+			\item Semantic SCoPs
+			\end{itemize}
+	\item Polyhedral model
+		\begin{itemize}
+		\item The integer set library
+		\item Composable polyhedral transformations
+		\item Export/Import
+		\end{itemize}
+	\item Polyhedral model to LLVM-IR
+		\begin{itemize}
+		\item Detecting parallel loops
+		\end{itemize}
+	\end{itemize}
+\item Related work
+\end{itemize}
+\end{frame}
+
+\begin{frame}{OpenMP Code Generation in Polly}
+\begin{itemize}
+\item Introduction
+\item Code generation pass in Polly
+\item Detecting parallelism in Polly
+\item Generating OpenMP library calls
+\item Support for inner loops
+\item Dealing with memory references
+	\begin{itemize}
+	\item Adding memory references
+	\item Extracting memory references
+	\end{itemize}
+\item Enabling OpenMP code generation in Polly
+\item OpenMP testcases
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Testing with PolyBench}
+\begin{itemize}
+\item PolyBench
+\item Experimental results
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Conclusion and Future Work}
+\begin{itemize}
+\item Conclusion
+\item Support for memory access transformations in Polly
+\item Increasing coverage of Polly
+	\begin{itemize}
+	\item Increasing SCoP coverage
+	\item Increasing the system coverage
+	\end{itemize}
+\item Integrating profile guided optimization into Polly
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Setting up the environment}
+\begin{itemize}
+\item CLooG
+\item PoCC
+\item Scoplib
+\item Building LLVM with Polly
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Various Tools Used in Polyhedral Community}
+\begin{itemize}
+\item ClooG
+\item PLUTO
+\item VisualPolylib
+\end{itemize}
+\end{frame}
+
+\end{document}

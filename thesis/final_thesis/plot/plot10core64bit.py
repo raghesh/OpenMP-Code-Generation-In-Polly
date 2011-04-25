@@ -19,11 +19,11 @@ polly = (0.331969, 1.809630, 0.038285, 0.039890, 0.097274, 0.081309, 0.134631, 0
 rects3 = ax.bar(ind+2*width, polly, width, color='blue')
 
 # add some
-ax.set_ylabel('Runtime')
-ax.set_title('Polybench results(10 Core 64bit)')
+ax.set_ylabel('Runtime(s)')
+ax.set_title('Polybench results(10-Core 64bit)')
 ax.set_xticks(ind+width/2.0)
 ax.set_xticklabels( ('2mm', 'adi', 'correlation', 'covariance', 'doitgen', 
-		     'gemm', 'jacobi-2d-imper',  'seidel'), rotation='+30')
+		     'gemm', 'jacobi-2d-imper',  '   seidel'), rotation='+13')
 
 ax.legend( (rects1[0], rects2[0], rects3[0]), ('gcc', 'graphite', 'polly with openmp') )
 

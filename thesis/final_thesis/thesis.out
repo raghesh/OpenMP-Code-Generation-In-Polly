@@ -15,7 +15,7 @@
 \BOOKMARK [1][-]{section.2.1}{Program transformations with polyhedral model}{chapter.2}
 \BOOKMARK [2][-]{subsection.2.1.1}{Transformation for improving data locality}{section.2.1}
 \BOOKMARK [2][-]{subsection.2.1.2}{Scalar expansion}{section.2.1}
-\BOOKMARK [1][-]{section.2.2}{Polyhedral representation of Programs}{chapter.2}
+\BOOKMARK [1][-]{section.2.2}{Polyhedral representation of programs}{chapter.2}
 \BOOKMARK [2][-]{subsection.2.2.1}{Iteration domain}{section.2.2}
 \BOOKMARK [2][-]{subsection.2.2.2}{Schedule}{section.2.2}
 \BOOKMARK [2][-]{subsection.2.2.3}{Access function}{section.2.2}
@@ -43,16 +43,16 @@
 \BOOKMARK [2][-]{subsection.4.8.1}{Adding memory references}{section.4.8}
 \BOOKMARK [2][-]{subsection.4.8.2}{Extracting memory references}{section.4.8}
 \BOOKMARK [1][-]{section.4.9}{OpenMP testcases}{chapter.4}
-\BOOKMARK [0][-]{chapter.5}{Testing With Polybench}{}
+\BOOKMARK [0][-]{chapter.5}{Testing With PolyBench}{}
 \BOOKMARK [1][-]{section.5.1}{PolyBench}{chapter.5}
 \BOOKMARK [1][-]{section.5.2}{Experimental results}{chapter.5}
-\BOOKMARK [0][-]{chapter.6}{Future Work and Conclusion}{}
-\BOOKMARK [1][-]{section.6.1}{Support for memory access transformations in Polly}{chapter.6}
-\BOOKMARK [1][-]{section.6.2}{Increasing coverage of Polly}{chapter.6}
-\BOOKMARK [2][-]{subsection.6.2.1}{Increasing SCoP coverage}{section.6.2}
-\BOOKMARK [2][-]{subsection.6.2.2}{Increasing the system coverage}{section.6.2}
-\BOOKMARK [1][-]{section.6.3}{Integrating profile guided optimization into Polly}{chapter.6}
-\BOOKMARK [1][-]{section.6.4}{Conclusion}{chapter.6}
+\BOOKMARK [0][-]{chapter.6}{Conclusion and Future Work}{}
+\BOOKMARK [1][-]{section.6.1}{Conclusion}{chapter.6}
+\BOOKMARK [1][-]{section.6.2}{Support for memory access transformations in Polly}{chapter.6}
+\BOOKMARK [1][-]{section.6.3}{Increasing coverage of Polly}{chapter.6}
+\BOOKMARK [2][-]{subsection.6.3.1}{Increasing SCoP coverage}{section.6.3}
+\BOOKMARK [2][-]{subsection.6.3.2}{Increasing the system coverage}{section.6.3}
+\BOOKMARK [1][-]{section.6.4}{Integrating profile guided optimization into Polly}{chapter.6}
 \BOOKMARK [0][-]{appendix.A}{Various Tools Used in Polyhedral Community}{}
 \BOOKMARK [1][-]{section.A.1}{ClooG}{appendix.A}
 \BOOKMARK [1][-]{section.A.2}{PLUTO}{appendix.A}

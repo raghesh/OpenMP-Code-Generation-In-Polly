@@ -1,0 +1,46 @@
+\frametitle {The Polyhedral Model}\begin {itemize}
+\item Program transformations with polyhedral model
+\begin{itemize}
+\item Transformation for improving data locality
+\begin{columns}[t]
+\column{.5\textwidth}
+\begin{block}{ }
+{\tiny\lstinputlisting{listing1.tex}}
+\end{block}
+\pause
+\column{.5\textwidth}
+\begin{block}{ }
+{\tiny\lstinputlisting{listing2.tex}}
+\end{block}
+\end{columns}
+\pause
+
+\item Scalar expansion
+\pause
+\begin{columns}[t]
+\column{.5\textwidth}
+\begin{block}{ }
+{\tiny\lstinputlisting{listing3.tex}}
+\end{block}
+\pause
+\column{.5\textwidth}
+\begin{block}{ }
+{\tiny\lstinputlisting{listing4.tex}}
+\end{block}
+\end{columns}
+        \pause
+\begin{columns}
+%\column{.25\textwidth}
+\column{0.5\textwidth}
+\begin{block}{ }
+{\tiny\lstinputlisting{listing5.tex}}
+\end{block}
+\end{columns}
+\end{itemize}
+\item Polyhedral representation of programs
+\begin{itemize}
+\item Iteration domain
+\item Schedule
+\item Access function
+\end{itemize}
+\end{itemize}

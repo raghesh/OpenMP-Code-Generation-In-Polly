@@ -1,0 +1,5 @@
+parfor (ii = 0; ii < 4; ii++)
+  tmp[ii] = 0;
+  for (i = ii * 2; i < (ii+1) * 2; i++)
+    tmp[ii] += A[i];
+sum = tmp[0] + tmp[1] + tmp[2] + tmp[3];

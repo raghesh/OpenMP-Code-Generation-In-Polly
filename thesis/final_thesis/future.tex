@@ -1,4 +1,19 @@
 \label{chap:future}
+
+\section{Conclusion}
+Polly integrated with automatic OpenMP code generation helps users to
+realize parallelism without much worries about the internals of the program.
+Lot of effort and programming time can be saved because
+the approach eliminates the need for manually finding parallelism and providing annotation.
+Since the optimizations are performed on LLVM-IR the framework is not restricted to only C/C++, but al-
+so supports a wide range of other programming languages.
+Powerful polyhedral techniques are available to optimize programs, but their impact is still limited. The main reasons
+are difficulties to optimize existing programs automatically and generate parallel code. Polly and its integrated OpenMP support
+is an attempt to strengthen the impact. There is enough space for further enhancements
+and anybody interested can make their contribution. 
+There are lot of possibilities for imporving Polly. Some of the subprojects
+that can be done are discussed here.
+
 \section{Support for memory access transformations in Polly}
 An improvement that can be made to polly is to add support for memory access transformations in Polly.
 In many cases it would be great to change the pattern of memory access to obtain better data locality.
@@ -72,7 +87,7 @@ if(b == 2) {
 \end{lstlisting}
 }
 Now with the transformed code the for loop inside 'if' will be detected as a 
-SCoP and can be parallelised. Since value of N is 100 most of the time, the 
+SCoP and can be parallelised. Since value of b is 2 most of the time, the 
 overall performance will be improved.
 
 \noindent
@@ -84,21 +99,10 @@ Consider another scenario.
   }
 \end{lstlisting}
 }
-Suppose using profiling we know that N is always very small. So there wont be
-much gain from parallelising it. So we have to tell polly that don't detect
+Suppose using profiling we know that N is always very small. So there will not be
+much gain from parallelising it. So we have to tell polly that do not detect
 this as a SCoP if N is less than a specific value.
-
 Integrating such versioning we can expect to get heavily optimized performance 
 for some often used cases.
 
-\section{Conclusion}
-Polly integrated with automatic OpenMP code generation helps users to
-realize parallelism without much worries about the internals of the program.
-Lot of effort and programming time can be saved because
-the approach eliminates the need for manual finding parallelism and providing annotation.
-Since the optimizations are performed on LLVM-IR the framework is not restricted to only C/C++, but al-
-so supports a wide range of other programming languages.
-Powerful polyhedral techniques are available to optimize programs, but their impact is still limited. The main reasons
-are difficulties to optimize existing programs automatically and generate parallel code. Polly and its integrated OpenMP support
-is an attempt to strengthen the impact. There is enough space for further enhancements
-and anybody interested can make their contribution. 
+
