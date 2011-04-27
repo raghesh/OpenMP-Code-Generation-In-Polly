@@ -1,0 +1,15 @@
+export LIBPOLLY=<path to cmake>/lib/LLVMPolly.so
+pollycc -fpolly -fparallel a.c
+
+OR
+
+# Generate the LLVM-IR files from source code.
+clang -S -emit-llvm a.c
+alias opt="opt -load $LIBPOLLY
+# Apply optimizations to prepare code for polly
+opt -S -mem2reg -loop-simplify -indvars a.c -o a.preopt.ll
+# Generate OpenMP code with Polly
+opt -S -polly-codegen -enable-polly-openmp a.preopt.ll -o a.ll
+# Link with libgomp
+llc a.ll -o a.s
+llvm-gcc a.s -lgomp

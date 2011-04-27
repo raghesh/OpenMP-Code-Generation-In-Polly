@@ -1,0 +1,5 @@
+P :=   { i, j, k | k <= 1, k >= 0, i <= j, i+j >= k, i+4k <= 4j,j<=10};
+C:={|};
+CS := { i,j,k | i-2j+2k<=0};
+P2 := CS . P;
+initvisu(3,C);
