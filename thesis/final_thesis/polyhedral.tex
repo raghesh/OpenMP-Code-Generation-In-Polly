@@ -6,7 +6,8 @@ parallelism. Starting from the early history of programming languages the intern
 of program is done with Abstract Syntax Tree(AST). Though some elementary transformation can
 be performed on AST it is tough to carry out complex transformations like dependency analysis among
 statements inside a loop. Trees are very rigid data structures to do such transformations.
-In this chapter an extremely powerful mathematical model which puts together analysis power,expressiveness and flexibility is explained in detail.
+In this chapter an extremely powerful mathematical model which puts together analysis power,
+expressiveness and flexibility is explained in detail.
 
 \section{Program transformations with polyhedral model}
 
@@ -149,6 +150,34 @@ $D_{S2}\ =\ \{(i,j)\ \epsilon\ Z^2\ |\ 2\ \leq\ i\ \leq\ 6\ \wedge\ 2\ \leq\ j\ 
 \end{center}  
 \end{figure}
 
+\noindent
+Now we will consider a more complicated example where the iteration domain is subspace of $Z^3$.
+{\footnotesize
+\begin{lstlisting}
+for (int i = -3; i <= 3; i++)
+  for (int j = -3; j <= 3; j++)
+    for (int k = -3; k <= 3; k++)
+      if (k <= j and (i + 4*k) <= 4*j)
+        A[i][j] = 10; // S3
+\end{lstlisting}
+}
+
+\noindent
+Iteration domain is as below and graphical representation is shown in Figure ~\ref{fig:3diter}
+
+\begin{center}
+$D_{S3}\ =\ \{(i,j,k)\ \epsilon\ Z^3\ |\ -3\ \leq\ i\ \leq\ 3\ \wedge\ -3\ \leq\ j\ \leq\ 3\ \wedge\ -3\ \leq\ k\ \leq\ 3\ \wedge\ k\ \leq\ j\ \wedge\ i\ +\ 4k\ \leq\ 4j\}$
+\end{center}
+
+\begin{figure}
+\begin{center}
+  \includegraphics[height=10cm,width=10cm]{images/3diter.eps}
+  \caption{Graphical representation of iteration domain(S3)}
+  \label{fig:3diter}
+\end{center}  
+\end{figure}
+
+
 It can be seen that the iteration domain is specified by set of constraints. When those constraints are
 affine and depend only on the outer loop induction variables and parameters, the set of constraints
 defines a polyhedron (Z-polyhedron, polyhedron for short). Hence it has got the name Polyhedral Model.
@@ -167,18 +196,18 @@ Consider the following loop.
 \begin{lstlisting}
 for (int i = 2; i <= 4; i++)
   for (int j = 2; j <= 4; j++)
-    P[i][j] = A[i] * B[j] ; // S3
+    P[i][j] = A[i] * B[j] ; // S4
 \end{lstlisting}
 }
 \noindent
 We can define a scheduling(scattering) function:
 \begin{center}
-$\phi_{S3}(i,j) = (i,j)$
+$\phi_{S4}(i,j) = (i,j)$
 \end{center}, which means that each iteration vector (i,j) in the iteration domain is associated with
 a logical date. That is the statement instances need to be executed in the lexicographical order of the
 logical date. Another possible scattering function would be:
 \begin{center}
-$\phi_{S3}(i,j) = (j,i)$
+$\phi_{S4}(i,j) = (j,i)$
 \end{center}
 \noindent
 It is possible to generate code for the changed schedule with ClooG\cite{cloog}. The
@@ -187,7 +216,8 @@ transformed code is:
 \begin{lstlisting}
 for (t1 = 2; t1 <= 4; t1++) {
   for (t2 = 2; t2 <= 4; t2++) {
-    i = t2; j = t1;
+    i = t2;
+    j = t1;
     P[i+j] += A[i] + B[j];
   }
 }

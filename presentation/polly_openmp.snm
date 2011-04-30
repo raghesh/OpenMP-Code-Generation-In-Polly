@@ -1,7 +1,7 @@
-\beamer@slide {fig:iter1}{6}
-\beamer@slide {fig:arch}{14}
-\beamer@slide {detailed}{16}
-\beamer@slide {fig:openmp_cfg}{18}
-\beamer@slide {fig:2core1}{23}
-\beamer@slide {fig:2core2}{25}
-\beamer@slide {fig:10core}{27}
+\beamer@slide {fig:iter1}{11}
+\beamer@slide {fig:arch}{19}
+\beamer@slide {detailed}{21}
+\beamer@slide {fig:openmp_cfg}{23}
+\beamer@slide {fig:2core1}{28}
+\beamer@slide {fig:2core2}{30}
+\beamer@slide {fig:10core}{32}

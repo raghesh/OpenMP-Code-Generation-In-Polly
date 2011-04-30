@@ -1,0 +1,20 @@
+define internal void 
+       @main.omp_subfn(
+       i8* %omp.userContext) {
+omp.setup:
+
+  <some initialization>
+
+omp.exit:
+  call void @GOMP_loop_end_nowait()
+  ret void
+omp.checkNext:
+  %2 = call i8 
+       @GOMP_loop_runtime_next(
+       i32* %omp.lowerBoundPtr,
+       i32* %omp.upperBoundPtr)
+omp.loadIVBounds:
+
+<body of the loop>
+
+}

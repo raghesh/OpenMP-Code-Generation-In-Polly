@@ -1,0 +1,23 @@
+define internal void @main.omp_fn.0(
+	i8* %.omp_data_i) nounwind {
+entry:
+
+  <some initializations here> 
+
+  store i8* %.omp_data_i, 
+        i8** %.omp_data_i_addr
+  br label %bb
+bb:
+  %1 = call zeroext i8 
+       @GOMP_loop_runtime_next(
+	i32* %.istart0.3,
+       	i32* %.iend0.4) nounwind
+  %toBool = icmp ne i8 %1, 0
+  br i1 %toBool, label %bb2, label %bb1
+bb1:
+  call void @GOMP_loop_end_nowait()
+  nounwind
+  br label %return
+bb2:
+  <body of the loop>
+}

@@ -47,8 +47,62 @@
 \end{itemize}
 \end{frame}
 
+
+\begin{frame}{An Example}
+\begin{columns}[t]
+\only<1>{
+	\column{.5\textwidth}
+	\begin{block}{Source code}
+	{\tiny\lstinputlisting{code/c.c}}
+	\end{block}
+}
+\only<2>{
+	\column{.5\textwidth}
+	\begin{block}{LLVM-IR Sequential}
+	{\tiny\lstinputlisting{code/c.ll}}
+	\end{block}
+}
+\only<2>{
+	\column{.5\textwidth}
+	\begin{block}{LLVM-IR Sequential}
+	{\tiny\lstinputlisting{code/c.ll.1}}
+	\end{block}
+}
+\only<3>{
+	\column{.5\textwidth}
+	\begin{block}{Source code with OpenMP pragmas}
+	{\tiny\lstinputlisting{code/c.gcc.c}}
+	\end{block}
+}
+\only<4>{
+	\column{.5\textwidth}
+	\begin{block}{LLVM-IR Manual}
+	{\tiny\lstinputlisting{code/c.gcc.ll}}
+	\end{block}
+}
+\only<4>{
+	\column{.5\textwidth}
+	\begin{block}{LLVM-IR Manual}
+	{\tiny\lstinputlisting{code/c.gcc.ll.1}}
+	\end{block}
+}
+\only<5>{
+	\column{.5\textwidth}
+	\begin{block}{LLVM-IR Automatic}
+	{\tiny\lstinputlisting{code/c.polly.ll}}
+	\end{block}
+}
+\only<5>{
+	\column{.5\textwidth}
+	\begin{block}{LLVM-IR Automatic}
+	{\tiny\lstinputlisting{code/c.polly.ll.1}}
+	\end{block}
+}
+\end{columns}
+\end{frame}
+
 % slide
-\begin{frame}{Introduction}
+\begin{frame}{Necessary Background}
 \begin{itemize}
 \item Parallelism in programs
 	\begin{itemize}
@@ -58,9 +112,13 @@
 \item Auto parallelization
 \item The polyhedral model
 \item LLVM
-\item Polly and OpenMP code generation
+\item Polly
+
+With this background started working on "OpenMP Code Generation in Polly"
+
 \end{itemize}
 \end{frame}
+
 
 \begin{frame}[allowframebreaks]{The Polyhedral Model}
 \begin{itemize}
