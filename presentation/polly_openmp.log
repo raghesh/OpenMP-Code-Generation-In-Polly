@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.4.19)  30 APR 2011 11:44
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.4.19)  30 APR 2011 15:37
 entering extended mode
  %&-line parsing enabled.
 **polly_openmp.tex
@@ -697,7 +697,20 @@ Style option: `fancybox' v1.3 <2000/09/19> (tvz)
 \EndVerbatimTokens=\toks45
 \Verbatim@Outfile=\write5
 \Verbatim@Infile=\read2
-) (./polly_openmp.aux)
+)
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\\' on input line 25.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\\' on input line 25.
+
+(./polly_openmp.aux
+
+LaTeX Warning: Label `fig:iter1' multiply defined.
+
+)
 \openout1 = `polly_openmp.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
@@ -848,6 +861,11 @@ LaTeX Font Warning: Font shape `OML/cmss/m/n' undefined
 (Font)              using `OML/cmm/m/it' instead
 (Font)              for symbol `textless' on input line 6.
 
+
+Overfull \hbox (1.7103pt too wide) in paragraph at lines 7--8
+[][][][][][][][][][][][][][][][][][][][] 
+ []
+
 ) [3
 
 ] (./code/c.ll) (./code/c.ll.1)
@@ -856,7 +874,12 @@ Overfull \vbox (8.1543pt too high) detected at line 102
 
 [4
 
-] (./code/c.gcc.c) [5
+] (./code/c.gcc.c
+Overfull \hbox (1.7103pt too wide) in paragraph at lines 9--10
+[][][][][][][][][][][][][][][][][][][][] 
+ []
+
+) [5
 
 ] (./code/c.gcc.ll
 Overfull \hbox (3.1837pt too wide) in paragraph at lines 8--9
@@ -884,129 +907,180 @@ Overfull \hbox (3.1837pt too wide) in paragraph at lines 20--21
 
 ] [8
 
+] [9
+
 ] (./listing1.tex) (./listing2.tex)
 (./listing3.tex) (./listing4.tex) (./listing5.tex)
-LaTeX Font Info:    Try loading font information for U+msa on input line 172.
+LaTeX Font Info:    Try loading font information for U+msa on input line 170.
 
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 172.
+LaTeX Font Info:    Try loading font information for U+msb on input line 170.
 
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-Overfull \vbox (2.32541pt too high) detected at line 172
+Overfull \vbox (4.82541pt too high) detected at line 170
  []
 
-[9
+[10
 
-] [10
-
-
-] (./listing6.tex) (./listing7.tex)
-File: images/iter1.eps Graphic file (type eps)
- <images/iter1.eps>
-
-Class beamer Warning: Frame text is shrunk by a factor of 28.68042 percent inst
-ead of 0 percent on input line 200.
+] (./listing1.tex) (./listing2.tex) (./listing3.tex) (./listing4.tex)
+(./listing5.tex)
+Overfull \vbox (4.82541pt too high) detected at line 170
+ []
 
 [11
 
-] (./listing6.tex) (./listing7.tex)
-File: images/iter1.eps Graphic file (type eps)
- <images/iter1.eps>
-
-Class beamer Warning: Frame text is shrunk by a factor of 28.68042 percent inst
-ead of 0 percent on input line 200.
+] (./listing1.tex) (./listing2.tex) (./listing3.tex) (./listing4.tex)
+(./listing5.tex)
+Overfull \vbox (4.82541pt too high) detected at line 170
+ []
 
 [12
 
+] (./listing1.tex) (./listing2.tex) (./listing3.tex) (./listing4.tex)
+(./listing5.tex)
+Overfull \vbox (4.82541pt too high) detected at line 170
+ []
+
+[13
+
+] (./listing1.tex) (./listing2.tex) (./listing3.tex) (./listing4.tex)
+(./listing5.tex)
+Overfull \vbox (4.82541pt too high) detected at line 170
+ []
+
+[14
+
+] (./listing1.tex) (./listing2.tex) (./listing3.tex) (./listing4.tex)
+(./listing5.tex)
+Overfull \vbox (4.82541pt too high) detected at line 170
+ []
+
+[15
+
+] (./listing1.tex) (./listing2.tex) (./listing3.tex) (./listing4.tex)
+(./listing5.tex)
+Overfull \vbox (4.82541pt too high) detected at line 170
+ []
+
+[16
+
+]
+File: images/poly_steps.eps Graphic file (type eps)
+ <images/poly_steps.eps> [17
+
+] (./listing6.tex) (./listing7.tex)
+File: images/iter1.eps Graphic file (type eps)
+
+<images/iter1.eps>
+
+Class beamer Warning: Frame text is shrunk by a factor of 28.68042 percent inst
+ead of 0 percent on input line 215.
+
+[18
+
 ] (./listing6.tex) (./listing7.tex)
 File: images/iter1.eps Graphic file (type eps)
  <images/iter1.eps>
 
 Class beamer Warning: Frame text is shrunk by a factor of 28.68042 percent inst
-ead of 0 percent on input line 200.
+ead of 0 percent on input line 215.
 
-[13
+[19
 
-] (./listing8.tex) (./listing9.tex) [14
+] (./listing6.tex) (./listing7.tex)
+File: images/iter1.eps Graphic file (type eps)
+ <images/iter1.eps>
+
+Class beamer Warning: Frame text is shrunk by a factor of 28.68042 percent inst
+ead of 0 percent on input line 215.
+
+[20
+
+] (./listing8.tex) (./listing9.tex) [21
 
 ] (./listing8.tex) (./listing9.tex)
-[15
+[22
 
-] (./listing8.tex) (./listing9.tex) [16
+] (./listing8.tex) (./listing9.tex) [23
 
-] [17
+] [24
 
-] [18
+] (./listing14.tex) [25
+
+]
+[26
 
 ]
 File: images/architecture.eps Graphic file (type eps)
+ <images/architecture.eps> [27
 
-<images/architecture.eps> [19
-
-] [20
+] [28
 
 
 ]
 File: images/detailedarch.eps Graphic file (type eps)
- <images/detailedarch.eps>
-Overfull \hbox (30.73085pt too wide) in paragraph at lines 290--290
- [] 
- []
+ <images/detailedarch.eps> [29
 
-[21
-
-] (./listing10.tex) [22
+]
+(./listing10.tex) [30
 
 ]
 File: images/ompcalls.eps Graphic file (type eps)
- <images/ompcalls.eps> [23
-
-]
-Overfull \vbox (4.46347pt too high) detected at line 312
+ <images/ompcalls.eps>
+Overfull \vbox (11.46347pt too high) detected at line 349
  []
 
-[24
+[31
 
+] (./listing11.tex) (./listing12.tex)
+Overfull \vbox (11.45377pt too high) detected at line 369
+ []
 
-] (./listing11.tex) (./listing12.tex) (./listing13.tex) [25
+[32
 
-] [26
+] (./listing11.tex) (./listing12.tex)
+Overfull \vbox (11.45377pt too high) detected at line 369
+ []
 
+[33
 
-] [27
-
-]
-File: images/2core32bit.eps Graphic file (type eps)
-
-<images/2core32bit.eps> [28
-
-] [29
-
-
-]
-File: images/2core64bit.eps Graphic file (type eps)
- <images/2core64bit.eps> [30
-
-] [31
-
-
-]
-File: images/10core64bit.eps Graphic file (type eps)
-
-<images/10core64bit.eps> [32
-
-] [33
-
-
-] [34
+] (./listing13.tex) [34
 
 ] [35
 
-] [36
+]
+File: images/2core32bit.eps Graphic file (type eps)
+ <images/2core32bit.eps>
+Overfull \vbox (4.06026pt too high) detected at line 406
+ []
+
+[36
+
+]
+File: images/2core64bit.eps Graphic file (type eps)
+ <images/2core64bit.eps>
+Overfull \vbox (4.06026pt too high) detected at line 416
+ []
+
+[37
+
+]
+File: images/10core64bit.eps Graphic file (type eps)
+ <images/10core64bit.eps>
+Overfull \vbox (4.06026pt too high) detected at line 426
+ []
+
+[38
+
+] [39
+
+] [40
+
+] [41
 
 ]
 \tf@nav=\write7
@@ -1026,14 +1100,17 @@ LaTeX Font Warning: Size substitutions with differences
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
+
+LaTeX Warning: There were multiply-defined labels.
+
  ) 
 Here is how much of TeX's memory you used:
- 14464 strings out of 495062
- 252312 string characters out of 1182644
- 402211 words of memory out of 3000000
- 17179 multiletter control sequences out of 15000+50000
- 14475 words of font info for 54 fonts, out of 3000000 for 9000
+ 14540 strings out of 495062
+ 253322 string characters out of 1182644
+ 418201 words of memory out of 3000000
+ 17184 multiletter control sequences out of 15000+50000
+ 15823 words of font info for 59 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 45i,14n,53p,342b,1655s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 45i,14n,53p,342b,1635s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on polly_openmp.dvi (36 pages, 504580 bytes).
+Output written on polly_openmp.dvi (41 pages, 730224 bytes).

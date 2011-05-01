@@ -22,8 +22,8 @@
 
 \title{A Framework for Automatic OpenMP Code Generation
  }
-\author{Raghesh A (CS09M032)}
-\date
+\author{\textbf{Raghesh A} (CS09M032)\\\ \\ Guide: \textbf{Dr.~Shankar~Balachandran}}
+\date{May 2nd, 2011}
 
 \begin{document}
 
@@ -51,9 +51,9 @@
 \begin{frame}{An Example}
 \begin{columns}[t]
 \only<1>{
-	\column{.5\textwidth}
+	\column{.7\textwidth}
 	\begin{block}{Source code}
-	{\tiny\lstinputlisting{code/c.c}}
+	{\lstinputlisting{code/c.c}}
 	\end{block}
 }
 \only<2>{
@@ -69,9 +69,9 @@
 	\end{block}
 }
 \only<3>{
-	\column{.5\textwidth}
+	\column{.7\textwidth}
 	\begin{block}{Source code with OpenMP pragmas}
-	{\tiny\lstinputlisting{code/c.gcc.c}}
+	{\lstinputlisting{code/c.gcc.c}}
 	\end{block}
 }
 \only<4>{
@@ -112,46 +112,52 @@
 \item Auto parallelization
 \item The polyhedral model
 \item LLVM
-\item Polly
-
-With this background started working on "OpenMP Code Generation in Polly"
-
+\item Polly \\
 \end{itemize}
+\pause
+\ \\
+\ \\
+\ \\	
+\begin{center}
+{\textbf {Workdone: \color{red}{"OpenMP Code Generation in Polly"}}}
+\end{center}
 \end{frame}
 
 
-\begin{frame}[allowframebreaks]{The Polyhedral Model}
+\begin{frame}{The Polyhedral Model}
 \begin{itemize}
-\item Program transformations with polyhedral model
+\item Examples for transformations with polyhedral model
 	\begin{itemize}
 	\item Transformation for improving data locality
 	\begin{columns}[t]
+	\pause
 		\column{.5\textwidth}
 		\begin{block}{ }
 	{\tiny\lstinputlisting{listing1.tex}}
 		\end{block}
-	%\pause
+
+
+	\pause
 		\column{.5\textwidth}
 		\begin{block}{ }
 	{\tiny\lstinputlisting{listing2.tex}}
 		\end{block}
 	\end{columns}
-	%\pause
-
+	\pause
 	\item Scalar expansion
-	%\pause
+	\pause
 	\begin{columns}[t]
 		\column{.5\textwidth}
 		\begin{block}{ }
 		{\tiny\lstinputlisting{listing3.tex}}
 		\end{block}
-	%\pause
+	\pause
 		\column{.5\textwidth}
 		\begin{block}{ }
 		{\tiny\lstinputlisting{listing4.tex}}
 		\end{block}
 	\end{columns}
-        %\pause
+        \pause
 	\begin{columns}
 	%\column{.25\textwidth}
 	\column{0.5\textwidth}
@@ -160,15 +166,24 @@ With this background started working on "OpenMP Code Generation in Polly"
 		\end{block}
 		\end{columns}
 	\end{itemize}
+\end{itemize}
+\end{frame}
 
-\item Polyhedral representation of programs
+
+\begin{frame}{Polyhedral representation of programs}
 	\begin{itemize}
 	\item Iteration domain
 	\item Schedule
 	\item Access function
 	\end{itemize}
-	
-\end{itemize}
+\begin{figure}
+\begin{center}
+  \includegraphics[width=1\textwidth]{images/poly_steps.eps}
+  \caption{Transformation in polyhedral model}
+  \label{fig:iter1}
+\end{center}  
+\end{figure}
+
 \end{frame}
 
 \begin{frame}[shrink]{Iteration domain}
@@ -221,7 +236,7 @@ $\phi_{S3}(i,j) = (j,i)$
 \end{block}
 
 
-Loops are interchanged here by applying this transformation.
+Loops are \textbf{\color{red}{interchanged}} here by applying this transformation
 \end{frame}
 
 \begin{frame}{Access function}
@@ -229,9 +244,31 @@ A[i+j][i+N]
 \linebreak\linebreak
 Array access function: $F_A(i,j) = (i+j,i+N)$ 
 \linebreak\linebreak
-{\textbf {Change array access function for better locality}} \\
+{\textbf {\color{red}{Change array access function for better locality}}} \\
 \end{frame}
 
+
+\begin{frame}{SCoP - Static Control Part}
+\begin{block}{Example for SCoP}
+{\lstinputlisting{listing14.tex}}
+\end{block}
+
+\begin{itemize}
+\item Structured control flow
+	\begin{itemize}
+	\item Regular for loops
+	\item Conditions
+	\end{itemize}
+\item Affine expressions in:
+	\begin{itemize}
+	\item Loop bounds
+	\item Conditions
+	\item Access functions
+	\end{itemize}
+\item Side effect free(Pure functions)
+\end{itemize}
+
+\end{frame}
 
 \begin{frame}{LLVM}
 \begin{itemize}
@@ -279,10 +316,10 @@ Array access function: $F_A(i,j) = (i+j,i+N)$
 \end{figure}
 \end{frame}
 
-\begin{frame}[allowframebreaks]{OpenMP Code Generation in Polly}
+\begin{frame}{OpenMP Code Generation in Polly}
 \begin{figure}
 \begin{center}
-  \includegraphics[width=1.1\textwidth]{images/detailedarch.eps}
+  \includegraphics[width=1\textwidth]{images/detailedarch.eps}
   \caption{Detailed control flow in Polly}
   \label{detailed}
 \end{center}
@@ -290,7 +327,7 @@ Array access function: $F_A(i,j) = (i+j,i+N)$
 \end{frame}
 
 
-\begin{frame}[allowframebreaks]{OpenMP Code Generation in Polly}
+\begin{frame}{OpenMP Code Generation in Polly}
 \begin{itemize}
 \item Code generation pass in Polly
 \item Detecting parallelism in Polly
@@ -302,7 +339,7 @@ Array access function: $F_A(i,j) = (i+j,i+N)$
 \end{block}
 \end{frame}
 
-\begin{frame}[allowframebreaks]{OpenMP Code Generation in Polly}
+\begin{frame}{OpenMP Code Generation in Polly}
 \begin{figure}
   %\includegraphics[width=1\textwidth]{images/ompcalls.eps}
   \includegraphics[width=1\textwidth]{images/ompcalls.eps}
@@ -312,22 +349,28 @@ Array access function: $F_A(i,j) = (i+j,i+N)$
 \end{frame}
 
 
-\begin{frame}[allowframebreaks]{OpenMP Code Generation in Polly}
+\begin{frame}{OpenMP Code Generation in Polly}
 \begin{itemize}
 \item Support for inner loops
 
 \begin{block}{ }
-{\tiny\lstinputlisting{listing11.tex}}
+{\footnotesize\lstinputlisting{listing11.tex}}
 \end{block}
 Surrounding induction variables and parameters need to be passed to the subfunction
-
+\pause
 \item Dealing with memory references
 \begin{block}{ }
-{\tiny\lstinputlisting{listing12.tex}}
+{\footnotesize\lstinputlisting{listing12.tex}}
 \end{block}
 	\begin{itemize}
 	\item Adding and extracting memory references
 	\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{OpenMP Code Generation in Polly}
+\begin{itemize}
 \item Enabling OpenMP code generation in Polly
 \begin{block}{ }
 {\tiny\lstinputlisting{listing13.tex}}
@@ -339,7 +382,7 @@ Surrounding induction variables and parameters need to be passed to the subfunct
 \end{itemize}
 \end{frame}
 
-\begin{frame}[allowframebreaks]{Testing with PolyBench}
+\begin{frame}{Testing with PolyBench}
 \begin{itemize}
 \item PolyBench \\
 	\ \ \ Benchmarks from
@@ -352,10 +395,9 @@ Surrounding induction variables and parameters need to be passed to the subfunct
 \end{itemize}
 \end{frame}
 
-\begin{frame}[allowframebreaks]{Experimental results}
+\begin{frame}{Experimental results}
 \begin{figure}
 \begin{center}
-  %\includegraphics[width=1\textwidth]{images/2core32bit.eps}
   \includegraphics[height=7cm]{images/2core32bit.eps}
   \caption{Performance comparison(2 core 32 bit)}
   \label{fig:2core1}
@@ -363,10 +405,9 @@ Surrounding induction variables and parameters need to be passed to the subfunct
 \end{figure}
 \end{frame}
 
-\begin{frame}[allowframebreaks]{Experimental results}
+\begin{frame}{Experimental results}
 \begin{figure}
 \begin{center}
-  %\includegraphics[width=1\textwidth]{images/2core64bit.eps}
   \includegraphics[height=7cm]{images/2core64bit.eps}
   \caption{Performance comparison(2 core 64bit)}
   \label{fig:2core2}
@@ -374,10 +415,9 @@ Surrounding induction variables and parameters need to be passed to the subfunct
 \end{figure}
 \end{frame}
 
-\begin{frame}[allowframebreaks]{Experimental results}
+\begin{frame}{Experimental results}
 \begin{figure}
 \begin{center}
-  %\includegraphics[width=1\textwidth]{images/10core64bit.eps}
   \includegraphics[height=7cm]{images/10core64bit.eps}
   \caption{Performance comparison(10-core 64 bit)}
   \label{fig:10core}
