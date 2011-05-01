@@ -11,6 +11,7 @@
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{fancybox}
+\usepackage[normalem]{ulem}
 % \usepackage{graphics}
 %\usepackage{epstopdf}
 
@@ -171,11 +172,22 @@
 
 
 \begin{frame}{Polyhedral representation of programs}
+\begin{itemize}
+\item Iteration domain
+\item Schedule
+\item Access function
+\end{itemize}
+
+\textbf{Dynamic instances of each statement is represented as an integer point in statement's polyhedron}
+\begin{itemize}
+\item Why not AST?
 	\begin{itemize}
-	\item Iteration domain
-	\item Schedule
-	\item Access function
+	\item Dynamic instances of statements not captured
+	\item Rigid data structure
+	\item Less expressive than polyhedral model
 	\end{itemize}
+\end{itemize}
+
 \begin{figure}
 \begin{center}
   \includegraphics[width=1\textwidth]{images/poly_steps.eps}
@@ -247,7 +259,6 @@ Array access function: $F_A(i,j) = (i+j,i+N)$
 {\textbf {\color{red}{Change array access function for better locality}}} \\
 \end{frame}
 
-
 \begin{frame}{SCoP - Static Control Part}
 \begin{block}{Example for SCoP}
 {\lstinputlisting{listing14.tex}}
@@ -278,6 +289,14 @@ Array access function: $F_A(i,j) = (i+j,i+N)$
 	\item Common low level code repersentation
 	\item Lifelong analysis and transformation of programs
 	\end{itemize}
+\item LLVM relaxes SCoP constraints -$>$ more SCoPs are detected
+	\begin{itemize}
+	\item \sout{Regular for loops} -$>$ Anything that acts like a regular for loop
+	\item \sout{Affine experssions} -$>$ Expressions that calculates an affine result
+	\item Side effect \sout{free} known
+	\item Memory access through \sout{arrays} arrays + pointers
+	\end{itemize}
+\item Independent of programming language
 \end{itemize}
 \end{frame}
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.4.19)  30 APR 2011 15:37
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.4.19)  1 MAY 2011 08:37
 entering extended mode
  %&-line parsing enabled.
 **polly_openmp.tex
@@ -697,14 +697,24 @@ Style option: `fancybox' v1.3 <2000/09/19> (tvz)
 \EndVerbatimTokens=\toks45
 \Verbatim@Outfile=\write5
 \Verbatim@Infile=\read2
+) (/usr/share/texmf-texlive/tex/latex/ltxmisc/ulem.sty
+\UL@box=\box58
+\UL@hyphenbox=\box59
+\UL@skip=\skip55
+\UL@hook=\toks46
+\UL@pe=\count161
+\UL@pixel=\dimen183
+\ULC@box=\box60
+Package: ulem 2000/05/26
+\ULdepth=\dimen184
 )
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\\' on input line 25.
+(hyperref)                removing `\\' on input line 26.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\\' on input line 25.
+(hyperref)                removing `\\' on input line 26.
 
 (./polly_openmp.aux
 
@@ -713,20 +723,20 @@ LaTeX Warning: Label `fig:iter1' multiply defined.
 )
 \openout1 = `polly_openmp.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
 
 *geometry auto-detecting driver*
 *geometry detected driver: dvips*
@@ -769,86 +779,86 @@ driver: dvips
 
 (1in=72.27pt, 1cm=28.45pt)
 -----------------------
-Package hyperref Info: Link coloring OFF on input line 28.
+Package hyperref Info: Link coloring OFF on input line 29.
 (/usr/share/texmf-texlive/tex/latex/hyperref/nameref.sty
 Package: nameref 2007/05/29 v2.31 Cross-referencing by name of section
 
 (/usr/share/texmf-texlive/tex/latex/oberdiek/refcount.sty
 Package: refcount 2008/08/11 v3.1 Data extraction from references (HO)
 )
-\c@section@level=\count161
+\c@section@level=\count162
 )
-LaTeX Info: Redefining \ref on input line 28.
-LaTeX Info: Redefining \pageref on input line 28.
+LaTeX Info: Redefining \ref on input line 29.
+LaTeX Info: Redefining \pageref on input line 29.
  (./polly_openmp.out) (./polly_openmp.out)
 \@outlinefile=\write6
 \openout6 = `polly_openmp.out'.
 
-\AtBeginShipoutBox=\box58
+\AtBeginShipoutBox=\box61
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 28.
+(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 29.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 28.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 29.
 \symnumbers=\mathgroup6
 \sympureletters=\mathgroup7
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 28.
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 28.
+(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 29.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 29.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 28.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 29.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 28.
-LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 28.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 29.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 29.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 28.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 29.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 28.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 28.
+(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 29.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 29.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 28.
+(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 29.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 28.
-LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 28.
+(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 29.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 29.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> OT1/pcr/m/n on input line 28.
+(Font)                  OT1/cmtt/m/n --> OT1/pcr/m/n on input line 29.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/pcr/m/n on input line 28.
+(Font)                  OT1/cmtt/m/n --> OT1/pcr/m/n on input line 29.
 LaTeX Font Info:    Overwriting symbol font `numbers' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 28.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 29.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 28.
+(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 29.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmr/bx/n on input line 28.
+(Font)                  OT1/cmss/bx/n --> OT1/cmr/bx/n on input line 29.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmss/bx/n on input line 28.
+(Font)                  OT1/cmss/bx/n --> OT1/cmss/bx/n on input line 29.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 28.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 29.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 28.
+(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 29.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/pcr/m/n --> OT1/pcr/bx/n on input line 28.
+(Font)                  OT1/pcr/m/n --> OT1/pcr/bx/n on input line 29.
 
 (/usr/share/texmf-texlive/tex/latex/translator/translator-theorem-dictionary-En
 glish.dict
 Dictionary: translator-theorem-dictionary, Language: English 
 )
-\c@lstlisting=\count162
+\c@lstlisting=\count163
  (./polly_openmp.nav)
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <4> not available
-(Font)              size <5> substituted on input line 33.
+(Font)              size <5> substituted on input line 34.
 
 [1
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+cmss on input line 48.
+LaTeX Font Info:    Try loading font information for OMS+cmss on input line 49.
 
-LaTeX Font Info:    No file OMScmss.fd. on input line 48.
+LaTeX Font Info:    No file OMScmss.fd. on input line 49.
 
 
 LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
 (Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textbullet' on input line 48.
+(Font)              for symbol `textbullet' on input line 49.
 
 [2
 
@@ -869,7 +879,7 @@ Overfull \hbox (1.7103pt too wide) in paragraph at lines 7--8
 ) [3
 
 ] (./code/c.ll) (./code/c.ll.1)
-Overfull \vbox (8.1543pt too high) detected at line 102
+Overfull \vbox (8.1543pt too high) detected at line 103
  []
 
 [4
@@ -911,59 +921,59 @@ Overfull \hbox (3.1837pt too wide) in paragraph at lines 20--21
 
 ] (./listing1.tex) (./listing2.tex)
 (./listing3.tex) (./listing4.tex) (./listing5.tex)
-LaTeX Font Info:    Try loading font information for U+msa on input line 170.
+LaTeX Font Info:    Try loading font information for U+msa on input line 171.
 
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 170.
+LaTeX Font Info:    Try loading font information for U+msb on input line 171.
 
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-Overfull \vbox (4.82541pt too high) detected at line 170
+Overfull \vbox (4.82541pt too high) detected at line 171
  []
 
 [10
 
 ] (./listing1.tex) (./listing2.tex) (./listing3.tex) (./listing4.tex)
 (./listing5.tex)
-Overfull \vbox (4.82541pt too high) detected at line 170
+Overfull \vbox (4.82541pt too high) detected at line 171
  []
 
 [11
 
 ] (./listing1.tex) (./listing2.tex) (./listing3.tex) (./listing4.tex)
 (./listing5.tex)
-Overfull \vbox (4.82541pt too high) detected at line 170
+Overfull \vbox (4.82541pt too high) detected at line 171
  []
 
 [12
 
 ] (./listing1.tex) (./listing2.tex) (./listing3.tex) (./listing4.tex)
 (./listing5.tex)
-Overfull \vbox (4.82541pt too high) detected at line 170
+Overfull \vbox (4.82541pt too high) detected at line 171
  []
 
 [13
 
 ] (./listing1.tex) (./listing2.tex) (./listing3.tex) (./listing4.tex)
 (./listing5.tex)
-Overfull \vbox (4.82541pt too high) detected at line 170
+Overfull \vbox (4.82541pt too high) detected at line 171
  []
 
 [14
 
 ] (./listing1.tex) (./listing2.tex) (./listing3.tex) (./listing4.tex)
 (./listing5.tex)
-Overfull \vbox (4.82541pt too high) detected at line 170
+Overfull \vbox (4.82541pt too high) detected at line 171
  []
 
 [15
 
 ] (./listing1.tex) (./listing2.tex) (./listing3.tex) (./listing4.tex)
 (./listing5.tex)
-Overfull \vbox (4.82541pt too high) detected at line 170
+Overfull \vbox (4.82541pt too high) detected at line 171
  []
 
 [16
@@ -978,7 +988,7 @@ File: images/iter1.eps Graphic file (type eps)
 <images/iter1.eps>
 
 Class beamer Warning: Frame text is shrunk by a factor of 28.68042 percent inst
-ead of 0 percent on input line 215.
+ead of 0 percent on input line 227.
 
 [18
 
@@ -987,7 +997,7 @@ File: images/iter1.eps Graphic file (type eps)
  <images/iter1.eps>
 
 Class beamer Warning: Frame text is shrunk by a factor of 28.68042 percent inst
-ead of 0 percent on input line 215.
+ead of 0 percent on input line 227.
 
 [19
 
@@ -996,7 +1006,7 @@ File: images/iter1.eps Graphic file (type eps)
  <images/iter1.eps>
 
 Class beamer Warning: Frame text is shrunk by a factor of 28.68042 percent inst
-ead of 0 percent on input line 215.
+ead of 0 percent on input line 227.
 
 [20
 
@@ -1031,19 +1041,19 @@ File: images/detailedarch.eps Graphic file (type eps)
 ]
 File: images/ompcalls.eps Graphic file (type eps)
  <images/ompcalls.eps>
-Overfull \vbox (11.46347pt too high) detected at line 349
+Overfull \vbox (11.46347pt too high) detected at line 368
  []
 
 [31
 
 ] (./listing11.tex) (./listing12.tex)
-Overfull \vbox (11.45377pt too high) detected at line 369
+Overfull \vbox (11.45377pt too high) detected at line 388
  []
 
 [32
 
 ] (./listing11.tex) (./listing12.tex)
-Overfull \vbox (11.45377pt too high) detected at line 369
+Overfull \vbox (11.45377pt too high) detected at line 388
  []
 
 [33
@@ -1055,7 +1065,7 @@ Overfull \vbox (11.45377pt too high) detected at line 369
 ]
 File: images/2core32bit.eps Graphic file (type eps)
  <images/2core32bit.eps>
-Overfull \vbox (4.06026pt too high) detected at line 406
+Overfull \vbox (4.06026pt too high) detected at line 425
  []
 
 [36
@@ -1063,7 +1073,7 @@ Overfull \vbox (4.06026pt too high) detected at line 406
 ]
 File: images/2core64bit.eps Graphic file (type eps)
  <images/2core64bit.eps>
-Overfull \vbox (4.06026pt too high) detected at line 416
+Overfull \vbox (4.06026pt too high) detected at line 435
  []
 
 [37
@@ -1071,7 +1081,7 @@ Overfull \vbox (4.06026pt too high) detected at line 416
 ]
 File: images/10core64bit.eps Graphic file (type eps)
  <images/10core64bit.eps>
-Overfull \vbox (4.06026pt too high) detected at line 426
+Overfull \vbox (4.06026pt too high) detected at line 445
  []
 
 [38
@@ -1105,12 +1115,12 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 14540 strings out of 495062
- 253322 string characters out of 1182644
- 418201 words of memory out of 3000000
- 17184 multiletter control sequences out of 15000+50000
- 15823 words of font info for 59 fonts, out of 3000000 for 9000
+ 14615 strings out of 495062
+ 254004 string characters out of 1182644
+ 419178 words of memory out of 3000000
+ 17255 multiletter control sequences out of 15000+50000
+ 15929 words of font info for 60 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  45i,14n,53p,342b,1635s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on polly_openmp.dvi (41 pages, 730224 bytes).
+Output written on polly_openmp.dvi (41 pages, 732272 bytes).
