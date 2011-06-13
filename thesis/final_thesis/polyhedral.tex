@@ -194,9 +194,9 @@ transformation and hence better parallelism.
 Consider the following loop.
 {\footnotesize
 \begin{lstlisting}
-for (int i = 2; i <= 4; i++)
-  for (int j = 2; j <= 4; j++)
-    P[i][j] = A[i] * B[j] ; // S4
+for (i = 0; i < 32; i++)
+  for (j 0; j < 1000; j++)
+    A[i][j] += 1 ; // S4
 \end{lstlisting}
 }
 \noindent
@@ -207,24 +207,40 @@ $\phi_{S4}(i,j) = (i,j)$
 a logical date. That is the statement instances need to be executed in the lexicographical order of the
 logical date. Another possible scattering function would be:
 \begin{center}
-$\phi_{S4}(i,j) = (j,i)$
+$\phi^{'}_{S4}(i,j) = (j,i)$
 \end{center}
 \noindent
-It is possible to generate code for the changed schedule with ClooG\cite{cloog}. The
-transformed code is:
+The code generated for this particular transformation is:
 {\footnotesize
 \begin{lstlisting}
-for (t1 = 2; t1 <= 4; t1++) {
-  for (t2 = 2; t2 <= 4; t2++) {
-    i = t2;
-    j = t1;
-    P[i+j] += A[i] + B[j];
-  }
-}
+for (j = 0; j < 1000; j++)
+  for (i = 0; i < 32; i++)
+    A[i][j] += 1;
 \end{lstlisting}
 }
 \noindent
-It can be observed that we just performed loop interchange.
+It can be observed that we just performed loop interchange. Consider another
+schedule as follows
+
+\begin{center}
+$\phi^{''}_{S4}(i,j) = \{(i,jj,j):jj\ mod\ 4\ =\ 0\ \wedge\ jj\ \leq\ j\ <\ jj\ +\ 4\}$
+\end{center}
+
+\noindent
+Such a transformation can produce code which does strip mining, where we group
+a set of operations into different blocks. These block by block execution can improve
+data locality in some cases. The transformed code will look like:
+
+
+{\footnotesize
+\begin{lstlisting}
+for (j = 0; j < 1000; j++)
+  for (ii = 0; ii < 32; ii += 4)
+    for (i = ii; i < ii + 4; i++)
+      A[i][j] += 1;
+\end{lstlisting}
+}
+
 \subsection{Access function}
 Consider a statement with array access A[i+j][i+N]. The \textbf{access function} corresponding to this can be written
 as:

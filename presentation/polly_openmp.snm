@@ -1,8 +1,10 @@
-\beamer@slide {fig:iter1}{17}
 \beamer@slide {fig:iter1}{18}
-\beamer@slide {fig:arch}{27}
-\beamer@slide {detailed}{29}
-\beamer@slide {fig:openmp_cfg}{31}
-\beamer@slide {fig:2core1}{36}
-\beamer@slide {fig:2core2}{37}
-\beamer@slide {fig:10core}{38}
+\beamer@slide {fig:iter1}{22}
+\beamer@slide {fig:arch}{33}
+\beamer@slide {detailed}{34}
+\beamer@slide {fig:openmp_cfg}{36}
+\beamer@slide {fig:2core1}{44}
+\beamer@slide {fig:2core2}{45}
+\beamer@slide {fig:10core}{46}
+\beamer@slide {table:seidel}{47}
+\beamer@slide {table:seidel:10core}{47}

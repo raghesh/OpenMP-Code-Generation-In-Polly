@@ -9,6 +9,24 @@ code generation module. Here we generate the required libgomp library calls. The
 to the one generated if the user have added OpenMP pragmas\footnote{\url{http://gcc.gnu.org/onlinedocs/libgomp/Implementing-FOR-construct.html}}.
 The following sections explain the steps taken towards generating the OpenMP code. The generated code is in LLVM IR format.
 
+\section{The framework}
+
+To get an understanding about OpenMP codegeneration in Polly consider the Figure ~\ref{framework}.
+
+\begin{figure}
+\begin{center}
+  \includegraphics[width=1\textwidth]{images/framework.eps}
+  \caption{The framework}
+  \label{framework}
+\end{center}  
+\end{figure}
+
+A code written in any programming language(supported by LLVM) can be coverted into LLVM IR. Polly
+performs its transformations on LLVM IR and can automatically generate IR (Parallel LLVM IR1) with OpenMP
+library calls. With manual annotation with OpenMP pragmas we can generate LLVM IR(Parallel LLVM IR2) using
+llvm-gcc. \emph{Parallel LLVM IR1} and \emph{Parallel LLVM IR2} will look similar and if we generated
+executable for both we are getting same performance. In short Polly with OpenMP support is
+as powerful as manual OpenMP annotated code with added advantage of automatic code generation.
 
 \section{Code generation pass in Polly}
 \begin{figure}
@@ -130,7 +148,7 @@ Builder.CreateCall(FN);
 \end{lstlisting}
 }
 
-The next step which is more intersting is to create the body of the subfunction which involves the difficult process of
+The next step which is more interesting is to create the body of the subfunction which involves the difficult process of
 linking the basic blocks in proper manner. Here is the code to generate an empty body for the subfunction:
 {\footnotesize
 \begin{lstlisting}
@@ -149,7 +167,7 @@ Builder->SetInsertPoint(PrevBB);
 This is just a basic code to create basic block 'BB' with label 'entry' The 'SetInsertPoint' function
 can be used to insert code in a particular basic block. The complete control flow graph for the
 subfunction body of a typical for loop will look like Figure ~\ref{fig:subfunction_cfg}. In the basic
-block laballed 'omp.checkNext' we call "GOMP\_loop\_runtime\_next" which finds the upper and 
+block labelled 'omp.checkNext' we call "GOMP\_loop\_runtime\_next" which finds the upper and 
 lower bound of each OpenMP thread. In the basic block with label 'polly.loop\_body' we
 generate the sequential code for the loop.
 
