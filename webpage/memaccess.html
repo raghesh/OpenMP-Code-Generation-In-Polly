@@ -6,239 +6,129 @@
   <title>memaccess.html</title>
 </head>
 <body>
-<strong>Short description:</strong> The proposed project aims at adding
-support for memory access transformations in Polly(Polyhedral
-optimization in LLVM). In many cases it would be great to change the
-pattern of memory access to obtain better data locality. This can
-remove dependences that would otherwise block transformations and it
+<div style="margin-left: 320px;"><small style="font-weight: bold;"><small><a><big><big><big>Support
+for memory access
+transformations in Polly</big></big></big></a></small></small><big><span
+ style="font-weight: bold;"></span></big><br>
+<big><span style="font-weight: bold;"><a></a></span></big><br>
+<strong></strong>The project aims at adding
+support for memory access transformations in Polly. <br>
+In many cases it would be great to change the
+pattern of memory access to<br>
+obtain better data locality. This can
+remove dependences that would otherwise<br>
+block transformations and it
 can allow LLVM to use registers to store such values.<br>
 <br>
-Polly[2, 7] performs its optimization on LLVM-IR based on the
-polyhedral model. Currently the transformations can be applied on
-Schedule (Order of computations) Transformations can also be applied on
-the Memory Access (Pattern of memory access)[1,4]. A proper memory
-access transformation can improve data locality. This will in turn
-improve parallelism. The feature which is going to be added will
-enable&nbsp; Polly to apply such transformations.
-<div>
-<p>Some examples which can make use of the feature are listed below</p>
-<ol>
-  <li>Considering matrix operations it may be beneficial to switch
-between row-major access and column major access.</li>
-  <li>Consider the following loop</li>
-</ol>
-<p style="padding-left: 30px;">for (i = 0; i &lt; 8; i++)<br>
-&nbsp;&nbsp;&nbsp;&nbsp; sum += A[i];</p>
-<p style="padding-left: 30px;">With the support of memory access
-transformation this loop can be executed in parallel. It can be
-transformed to</p>
-<p style="padding-left: 30px;">&lt;create and initialize an array 'tmp'
-with size 4&gt;<br>
-for (i = 0; i &lt; 8; i++) {<br>
-&nbsp;&nbsp;&nbsp; tmp[i % 4] += A[i];</p>
-<p style="padding-left: 30px;">}<br>
-sum = tmp[0] + tmp[1] + tmp[2] + tmp[3];</p>
-<p style="padding-left: 30px;">With the help of some optimizer (like
-PluTo) the following code can be generated, where the outer loop is
-parallel.</p>
-<p style="padding-left: 30px;">parfor (ii = 0; ii &lt; 4; ii++) {<br>
+An examples which can make use of the feature is given below<br>
+</div>
+<div style="margin-left: 320px;"><br>
+Consider the following loop
+<ul>
+  <ul>
+  </ul>
+</ul>
+<div style="margin-left: 40px;"><small style="font-style: italic;">for
+(i = 0; i &lt; 8; i++)</small><br>
+<small style="font-style: italic;">sum += A[i];</small><br
+ style="font-style: italic;">
+</div>
+<br>
+With the support of memory access
+transformation this loop can be executed<br>
+in parallel. It can be
+transformed to<small style="font-style: italic;"><br>
+<br>
+</small>
+<div style="margin-left: 40px;"><small style="font-style: italic;">&lt;create
+and initialize an array 'tmp'
+with size 4&gt;</small><br>
+<small style="font-style: italic;">for (i = 0; i &lt; 8; i++) {</small><br>
+<small style="font-style: italic;">tmp[i % 4] += A[i];</small><br>
+<small style="font-style: italic;">}</small><small><span
+ style="font-style: italic;"></span></small><br>
+<small><span style="font-style: italic;">sum = tmp[0] + tmp[1] + tmp[2]
++ tmp[3];</span></small><br>
+</div>
+<br>
+With the help of some optimizer (like
+PluTo) the following code can be <br>
+generated, where the outer loop is
+parallel.
+<p style="padding-left: 30px; font-style: italic;"><small>parfor (ii =
+0; ii &lt; 4; ii++) {<br>
 &nbsp; &nbsp; tmp[ii] = 0;<br>
 &nbsp;&nbsp;&nbsp; for (i = ii * 2; i &lt; (ii+1) * 2; i++)<br>
-&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; tmp[ii] += A[i];</p>
-<p style="padding-left: 30px;">}<br>
-sum = tmp[0] + tmp[1] + tmp[2] + tmp[3];<br>
-<strong></strong></p>
-<p><strong><span style="text-decoration: underline;">Implementation Plan<br>
+&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; tmp[ii] += A[i];</small></p>
+<p style="padding-left: 30px; font-style: italic; font-weight: bold;"><small><span
+ style="font-weight: normal;">}</span><br style="font-weight: normal;">
+<span style="font-weight: normal;">sum = tmp[0] + tmp[1] + tmp[2] +
+tmp[3];</span><br>
+<strong></strong></small></p>
+<p><strong><span style="text-decoration: underline;">TODO<br>
 </span></strong></p>
-<ol>
-  <li>Reading and understanding various approaches taken for various
-data layout transformations based on polyhedral model</li>
-  <li>Polyhedral model is expressed in Polly in JSCOP file. Define how
-memory layout transformations are going to be expressed in Polly and in
-the JSCOP file. A simple example is given below.<br>
-    <br>
-consider the following loop.<br>
-    <br>
-&nbsp;&nbsp; for (i = 0; i &lt; 12; i++)<br>
-&nbsp;&nbsp;&nbsp;&nbsp; B[i] = A[i];<br>
-    <br>
+<p><strong><span style="text-decoration: underline;"><small>Step 1</small><br>
+</span></strong></p>
+Polyhedral model is expressed in Polly in JSCOP file. Define how
+memory <small><br>
+</small>layout transformations are going to be expressed in Polly and
+in
+the JSCOP file. <br>
+A simple example is given below.<br>
+<br>
+Consider the following loop.<br>
+<br>
+<div style="margin-left: 40px;"><small><span style="font-style: italic;">for
+(i = 0; i &lt; 12; i++)</span><br style="font-style: italic;">
+<span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp; A[i] = 0;</span><br
+ style="font-style: italic;">
+</small></div>
+<br>
 In the JSCOP file the memory is represented as follows.<br>
-    <br>
-&nbsp;&nbsp; "accesses": [{<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "kind":
-"read",<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-"relation": "{ Stmt[i] -&gt; <strong>A</strong>[i] }"<br>
-&nbsp;&nbsp;&nbsp; },<br>
-&nbsp;&nbsp;&nbsp; {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "kind":
-"write",<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-"relation": "{ Stmt[i] -&gt; B[i] }"<br>
-&nbsp;&nbsp;&nbsp; }]<br>
-    <br>
+<br>
+<div style="margin-left: 40px;"><small><span style="font-style: italic;">&nbsp;&nbsp;
+"accesses": [{</span></small><br style="font-style: italic;">
+<small><span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+"kind":
+"write",</span></small><br style="font-style: italic;">
+<small><span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+"relation":
+"{ Stmt[i] -&gt; </span><strong
+ style="font-style: italic; font-weight: bold;">A</strong><span
+ style="font-style: italic;"><span style="font-weight: bold;">[i]</span>
+}"</span></small><br style="font-style: italic;">
+<small><span style="font-style: italic;">&nbsp;&nbsp;&nbsp; }]</span></small><br
+ style="font-style: italic;">
+</div>
+<br>
 Suppose
-we want to perform a transformation such that the statement needs to
-read from another array say 'tmp' instead of 'A'. The representation
-should be converted as follows.<br>
-    <br>
-&nbsp;&nbsp;&nbsp; "accesses": [{<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "kind":
-"read",<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-"relation": "{ Stmt[i] -&gt; <strong>tmp</strong>[i] }"<br>
-&nbsp;&nbsp;&nbsp; },<br>
-&nbsp;&nbsp;&nbsp; {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "kind":
-"write",<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-"relation": "{ Stmt[i] -&gt; B[i] }"<br>
-&nbsp;&nbsp;&nbsp; }]<br>
-    <br>
-The following sub tasks can be identified here.<br>
-    <ul>
-      <li>Examine the JSCOP file to find out the changed memory access
-entries</li>
-      <li>Update memory access information in the current
-PollySCOP(internal represnetation of a Static Control Part in Polly).</li>
-    </ul>
-  </li>
-  <li>Change code generation phase to incorporate memory access
-transformations. Here we have to make sure that correct code is
-generated to reflect the changed transformations.&nbsp; The following
-subtasks can be identified here.</li>
-</ol>
-<blockquote>
-  <ul>
-    <li>Phase 1: Support to access an existing array is added here</li>
-  </ul>
-</blockquote>
-<ol>
-  <ol>
-    <ol>
-      <li>The new access function is read from the updated PollySCOP
-representation and calculate the new index.</li>
-      <li>Get the old base address for the array.</li>
-      <li>To get the new address add the old base address with the
-newly calculated index in step 1.</li>
-      <li>Generate load instruction code for the array with the new
-address.</li>
-    </ol>
-  </ol>
-</ol>
-<blockquote>
-  <ul>
-    <li>Phase 2: Support to allocate new arrays.</li>
-  </ul>
-</blockquote>
-<ol>
-  <ol>
-    <ol>
-      <li>Get the name and access function from the updated PollySCOP
-representation.</li>
-      <li>Allocate memory for the new array.</li>
-      <li>Generate load instruction for the new array.</li>
-    </ol>
-  </ol>
-</ol>
-<p>Creating testcases for all the steps will be done in parallel with
-the implementation.<br>
+we want to perform a transformation such that the following<br>
+code is generated<br>
 <br>
-<span style="text-decoration: underline;"><strong>Success Criteria</strong></span></p>
-<ul>
-  <li>Expressing memory access transformations in JSCOP file.</li>
-  <li>Correct code is generated for those transformations.</li>
-</ul>
-<p><span style="text-decoration: underline;"><strong>Timeline</strong></span><br>
+<div style="margin-left: 40px;"><small><span style="font-style: italic;">for
+(i = 0; i &lt; 12; i++)</span><br style="font-style: italic;">
+<span style="font-style: italic;">
+&nbsp;&nbsp;&nbsp;&nbsp; A[0] = i;</span><br style="font-style: italic;">
+</small></div>
 <br>
-A tentative timeline for the implementation described above is given
-below</p>
-<ol>
-  <li>April 26 - May 22 : Read relevant documents and try to understand
-more about the work.</li>
-  <li>May 23 - June 15 : Implement JSCOP representation of memory
-access transformation.</li>
-  <li>June 16 - July 5 : Code generation Phase 1: Add support for
-changing existing array.</li>
-  <li>July 6 - July 10 : Reviewing the implementation and test current
-implementation with identified testcases. Fix the bugs if any. Ensure
-that proper documentation for the current implementation is done.</li>
-  <li>July 11 - July 15 : Midterm evaluation.</li>
-  <li>July 16 - July 31: Code generation Phase 2: Support to allocate
-new arrays.</li>
-  <li>August 1 - August 10: Extra time for unexpected delays.</li>
-  <li>August 11 - August 15: Reviewing the implementation and test
-current implementation with identified testcases. Fix the bugs if any.
-Ensure that proper documentation for the current implementation is done.</li>
-</ol>
-<p><strong><span style="text-decoration: underline;">If time permits</span></strong></p>
-<p>Adding automatic detection of suitable memory access
-transformation[1, 3] and improve performance of large testcases like
-SPEC2006.<br>
+The corresponding JSCOP file represenation would be<br>
 <br>
-<strong><span style="text-decoration: underline;">Benefits for LLVM</span></strong></p>
-<ol>
-  <li>Advanced optimizations can be implemented that require memory
-layout transformations.</li>
-  <li>Memory layout transformations to reduce dependences and allow
-PluTo to apply better transformations.</li>
-</ol>
-<p style="padding-left: 30px;">In general adding features to Polly will
-add the following benefits.</p>
-<ol>
-  <li>Polly will provide an advanced polyhedral optimizer, with already
-known benefits in respect of data-locality and parallelism.</li>
-  <li>LLVM will be the first Open Source compiler (and after IBM XL C
-the
-second compiler at all) that implements advanced transformations.</li>
-</ol>
-<p><strong><span style="text-decoration: underline;">About Me</span></strong><br>
+<div style="margin-left: 40px;"><small><span style="font-style: italic;">&nbsp;&nbsp;&nbsp;
+"accesses": [{</span><br style="font-style: italic;">
+<span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+"kind":
+"read",</span><br style="font-style: italic;">
+<span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+"relation":
+"{ Stmt[i] -&gt; </span><strong
+ style="font-style: italic; font-weight: bold;">A</strong><span
+ style="font-style: italic;"><span style="font-weight: bold;">[0]</span>
+}"</span><br style="font-style: italic;">
+<span style="font-style: italic;">&nbsp;&nbsp;&nbsp; }]</span><br
+ style="font-style: italic;">
+</small></div>
 <br>
-Currently
-I am a post graduate student in the Department of Computer Science at
-Indian Institute of technology, Madras,&nbsp; India[5]. I completed my
-under
-graduation from MES College of Engineering, Kerala, India. Before
-joining for graduation I worked in Industry (Aricent Communications)
-for 18 months.<br>
-<br>
-<strong><span style="text-decoration: underline;">Experience</span></strong><br>
-<br>
-I
-am a developer for Polly and I have gained experience in LLVM and Polly
-by working for implementing OpenMP Parallel backend for Polly. This is
-almost stable now and is being tested with the polybench benchmarks[6].
-I am&nbsp; a co-author of the paper [2] on Polly presented in the
-workshop
-IMPACT 2011 as part of CGO 2011.</p>
-<p><strong><span style="text-decoration: underline;">Mentor<br>
-</span></strong></p>
-<p>If this proposal is accepted <strong>Tobias Grosser</strong> (<a
- href="mailto:grosser@fim.uni-passau.de" target="_blank">grosser@fim.uni-passau.de</a>)
-has shown his interest to mentor me.</p>
-<p><strong><span style="text-decoration: underline;">References</span></strong></p>
-<ol>
-  <li>Automatic Memory Layout Transformations to Optimize Spatial
-Locality in Parameterized Loop Nests (2000)&nbsp; (Philippe Clauss
-,&nbsp; Beno&icirc;t
-Meister)</li>
-  <li>Polly &#8211; Polyhedral Optimization in LLVM (Tobias Grosser, Hongbin
-Zheng, Raghesh Aloor, Andreas Simb&uuml;rger, Armin
-Gr&ouml;&szlig;linger, Louis-No&euml;l
-Pouchet) IMPACT 2011 as part of CGO 2011.</li>
-  <li>Violated Dependence Analysis Nicolas Vasilache, Albert Cohen,
-Cedric Bastoul, Sylvain Girbal</li>
-  <li>P.Feautrier, Array Expansion. In ACM Intl.Conf. on
-Supercomputing, St. Malo, France, July 1988</li>
-</ol>
-<p><strong><span style="text-decoration: underline;">URLs</span></strong></p>
-<p style="padding-left: 30px;">5. <a href="http://www.cse.iitm.ac.in/"
- target="_blank">http://www.cse.iitm.ac.in/</a><br>
-6. <a href="http://www-roc.inria.fr/%7Epouchet/software/polybench/"
- target="_blank">http://www-roc.inria.fr/~<wbr>pouchet/software/polybench/</a></p>
-<p style="padding-left: 30px;">7. <a
- href="http://wiki.llvm.org/Polyhedral_optimization_framework"
- target="_blank">http://wiki.llvm.org/<wbr>Polyhedral_optimization_<wbr>framework</a></p>
+We need to detect this access function change.<br>
 </div>
 <span id="q_12f99e5de7fd0932_1" class="h4"></span>
 </body>
