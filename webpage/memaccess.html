@@ -7,20 +7,22 @@
 </head>
 <body>
 <div style="margin-left: 320px;"><small style="font-weight: bold;"><small><a><big><big><big>Support
-for memory access
+for
+memory access
 transformations in Polly</big></big></big></a></small></small><big><span
  style="font-weight: bold;"></span></big><br>
-<big><span style="font-weight: bold;"><a></a></span></big><br>
-<strong></strong>The project aims at adding
-support for memory access transformations in Polly. <br>
-In many cases it would be great to change the
-pattern of memory access to<br>
-obtain better data locality. This can
-remove dependences that would otherwise<br>
-block transformations and it
-can allow LLVM to use registers to store such values.<br>
+<big><span style="font-weight: bold;"></span></big><br>
+<div style="text-align: left;"><strong></strong>This project adds
+memory access transformations to Polly. In many cases<br>
+changing the memory access pattern yields to better data
+locality or removes<br>
+dependences that would otherwise block
+transformations. They may also<br>
+allow LLVM to use registers to store
+certain values.<br>
+</div>
 <br>
-An examples which can make use of the feature is given below<br>
+An examples which uses this feature is given below<br>
 </div>
 <div style="margin-left: 320px;"><br>
 Consider the following loop
@@ -34,14 +36,14 @@ Consider the following loop
  style="font-style: italic;">
 </div>
 <br>
-With the support of memory access
-transformation this loop can be executed<br>
+With support for memory access transformation this loop can be executed<br>
 in parallel. It can be
 transformed to<small style="font-style: italic;"><br>
 <br>
 </small>
 <div style="margin-left: 40px;"><small style="font-style: italic;">&lt;create
-and initialize an array 'tmp'
+and
+initialize an array 'tmp'
 with size 4&gt;</small><br>
 <small style="font-style: italic;">for (i = 0; i &lt; 8; i++) {</small><br>
 <small style="font-style: italic;">tmp[i % 4] += A[i];</small><br>
@@ -69,7 +71,7 @@ tmp[3];</span><br>
 </span></strong></p>
 <p><strong><span style="text-decoration: underline;"><small>Step 1</small><br>
 </span></strong></p>
-Polyhedral model is expressed in Polly in JSCOP file. Define how
+Polly exports its polyhedral description in a JSCoP file. Define how
 memory <small><br>
 </small>layout transformations are going to be expressed in Polly and
 in
@@ -79,7 +81,8 @@ A simple example is given below.<br>
 Consider the following loop.<br>
 <br>
 <div style="margin-left: 40px;"><small><span style="font-style: italic;">for
-(i = 0; i &lt; 12; i++)</span><br style="font-style: italic;">
+(i
+= 0; i &lt; 12; i++)</span><br style="font-style: italic;">
 <span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp; A[i] = 0;</span><br
  style="font-style: italic;">
 </small></div>
@@ -87,13 +90,15 @@ Consider the following loop.<br>
 In the JSCOP file the memory is represented as follows.<br>
 <br>
 <div style="margin-left: 40px;"><small><span style="font-style: italic;">&nbsp;&nbsp;
-"accesses": [{</span></small><br style="font-style: italic;">
+"accesses":
+[{</span></small><br style="font-style: italic;">
 <small><span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 "kind":
 "write",</span></small><br style="font-style: italic;">
 <small><span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 "relation":
-"{ Stmt[i] -&gt; </span><strong
+"{
+Stmt[i] -&gt; </span><strong
  style="font-style: italic; font-weight: bold;">A</strong><span
  style="font-style: italic;"><span style="font-weight: bold;">[i]</span>
 }"</span></small><br style="font-style: italic;">
@@ -106,7 +111,8 @@ we want to perform a transformation such that the following<br>
 code is generated<br>
 <br>
 <div style="margin-left: 40px;"><small><span style="font-style: italic;">for
-(i = 0; i &lt; 12; i++)</span><br style="font-style: italic;">
+(i
+= 0; i &lt; 12; i++)</span><br style="font-style: italic;">
 <span style="font-style: italic;">
 &nbsp;&nbsp;&nbsp;&nbsp; A[0] = i;</span><br style="font-style: italic;">
 </small></div>
@@ -114,13 +120,15 @@ code is generated<br>
 The corresponding JSCOP file represenation would be<br>
 <br>
 <div style="margin-left: 40px;"><small><span style="font-style: italic;">&nbsp;&nbsp;&nbsp;
-"accesses": [{</span><br style="font-style: italic;">
+"accesses":
+[{</span><br style="font-style: italic;">
 <span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 "kind":
 "read",</span><br style="font-style: italic;">
 <span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 "relation":
-"{ Stmt[i] -&gt; </span><strong
+"{
+Stmt[i] -&gt; </span><strong
  style="font-style: italic; font-weight: bold;">A</strong><span
  style="font-style: italic;"><span style="font-weight: bold;">[0]</span>
 }"</span><br style="font-style: italic;">
