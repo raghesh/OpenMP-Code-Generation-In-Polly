@@ -8,7 +8,8 @@
 <body>
 <div style="margin-left: 320px;"><small style="font-weight: bold;"><small><a><big><big><big>Support
 for
-memory access
+memory
+access
 transformations in Polly</big></big></big></a></small></small><big><span
  style="font-weight: bold;"></span></big><br>
 <big><span style="font-weight: bold;"></span></big><br>
@@ -43,7 +44,8 @@ transformed to<small style="font-style: italic;"><br>
 </small>
 <div style="margin-left: 40px;"><small style="font-style: italic;">&lt;create
 and
-initialize an array 'tmp'
+initialize
+an array 'tmp'
 with size 4&gt;</small><br>
 <small style="font-style: italic;">for (i = 0; i &lt; 8; i++) {</small><br>
 <small style="font-style: italic;">tmp[i % 4] += A[i];</small><br>
@@ -71,18 +73,22 @@ tmp[3];</span><br>
 </span></strong></p>
 <p><strong><span style="text-decoration: underline;"><small>Step 1</small><br>
 </span></strong></p>
-Polly exports its polyhedral description in a JSCoP file. Define how
-memory <small><br>
-</small>layout transformations are going to be expressed in Polly and
+Polly exports its polyhedral description in a JSCoP file. Currently we
+can<br>
+make changes in the schedule. An example can be found <a
+ href="jscop_schedule.html">here</a>. <br>
+Define how
+memory layout transformations are going to be expressed<br>
+in Polly and
 in
-the JSCOP file. <br>
-A simple example is given below.<br>
+the JSCOP file. A simple example is given below.<br>
 <br>
 Consider the following loop.<br>
 <br>
 <div style="margin-left: 40px;"><small><span style="font-style: italic;">for
 (i
-= 0; i &lt; 12; i++)</span><br style="font-style: italic;">
+=
+0; i &lt; 12; i++)</span><br style="font-style: italic;">
 <span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp; A[i] = 0;</span><br
  style="font-style: italic;">
 </small></div>
@@ -98,8 +104,8 @@ In the JSCOP file the memory is represented as follows.<br>
 <small><span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 "relation":
 "{
-Stmt[i] -&gt; </span><strong
- style="font-style: italic; font-weight: bold;">A</strong><span
+Stmt[i]
+-&gt; </span><strong style="font-style: italic; font-weight: bold;">A</strong><span
  style="font-style: italic;"><span style="font-weight: bold;">[i]</span>
 }"</span></small><br style="font-style: italic;">
 <small><span style="font-style: italic;">&nbsp;&nbsp;&nbsp; }]</span></small><br
@@ -112,7 +118,8 @@ code is generated<br>
 <br>
 <div style="margin-left: 40px;"><small><span style="font-style: italic;">for
 (i
-= 0; i &lt; 12; i++)</span><br style="font-style: italic;">
+=
+0; i &lt; 12; i++)</span><br style="font-style: italic;">
 <span style="font-style: italic;">
 &nbsp;&nbsp;&nbsp;&nbsp; A[0] = i;</span><br style="font-style: italic;">
 </small></div>
@@ -128,8 +135,8 @@ The corresponding JSCOP file represenation would be<br>
 <span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 "relation":
 "{
-Stmt[i] -&gt; </span><strong
- style="font-style: italic; font-weight: bold;">A</strong><span
+Stmt[i]
+-&gt; </span><strong style="font-style: italic; font-weight: bold;">A</strong><span
  style="font-style: italic;"><span style="font-weight: bold;">[0]</span>
 }"</span><br style="font-style: italic;">
 <span style="font-style: italic;">&nbsp;&nbsp;&nbsp; }]</span><br

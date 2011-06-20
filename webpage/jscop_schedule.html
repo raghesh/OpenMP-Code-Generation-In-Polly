@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="Content-Type">
+  <title>jscop_schedule</title>
+</head>
+<body>
+<div style="margin-left: 320px;"><big><span style="font-weight: bold;">Changing
+schedule in jscop file: An example</span></big><br>
+<br>
+Consider the following code.<br>
+<br>
+</div>
+<div style="margin-left: 360px;"><small><span
+ style="font-style: italic;">int A[100][100];</span></small><br
+ style="font-style: italic;">
+<br style="font-style: italic;">
+<small><span style="font-style: italic;">int main()</span></small><br
+ style="font-style: italic;">
+<small><span style="font-style: italic;">{</span></small><br
+ style="font-style: italic;">
+<small><span style="font-style: italic;">&nbsp; int i, j;</span></small><br
+ style="font-style: italic;">
+<small><span style="font-style: italic;">&nbsp; for (i = 0; i &lt; 100;
+i++)</span></small><br style="font-style: italic;">
+<small><span style="font-style: italic;">&nbsp;&nbsp;&nbsp; for (j = 0;
+j &lt; 100; j++)</span></small><br style="font-style: italic;">
+<small><span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+A[i][j] = i + j;</span></small><br style="font-style: italic;">
+<br style="font-style: italic;">
+<small><span style="font-style: italic;">&nbsp; return 0;</span></small><br
+ style="font-style: italic;">
+<small><span style="font-style: italic;">}</span></small><br
+ style="font-style: italic;">
+</div>
+<div style="margin-left: 320px;"><br>
+Issue the commands below to make it ready to import changes in jscop
+file.<br>
+<br>
+</div>
+<div style="margin-left: 360px;"><small><span
+ style="font-style: italic;">$ clang -S -emit-llvm example1.c -o
+example1.s</span></small><br style="font-style: italic;">
+<small><span style="font-style: italic;">$ opt -S -mem2reg
+-loop-simplify -indvars example1.s &gt; example1.preopt.ll</span></small><br>
+</div>
+<div style="margin-left: 320px;"><br>
+Perfrom the command to export current scop description to a jscop file.<br>
+<br>
+</div>
+<div style="margin-left: 360px;"><small><span
+ style="font-style: italic;">$ opt example1.preopt.ll -basicaa
+-polly-export-jscop</span></small><br>
+</div>
+<div style="margin-left: 320px;"><br>
+This will creata file named <small><span style="font-style: italic;">main___%for.cond---%for.end14.jscop</span></small>
+which has<br>
+the following content<br>
+<br>
+</div>
+<div style="margin-left: 360px;"><small><span
+ style="font-style: italic;">{</span></small><br
+ style="font-style: italic;">
+<small><span style="font-style: italic;">&nbsp;&nbsp; "context" : "{ []
+}",</span></small><br style="font-style: italic;">
+<small><span style="font-style: italic;">&nbsp;&nbsp; "name" :
+"for.cond =&gt; for.end14",</span></small><br
+ style="font-style: italic;">
+<small><span style="font-style: italic;">&nbsp;&nbsp; "statements" : [</span></small><br
+ style="font-style: italic;">
+<small><span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+{</span></small><br style="font-style: italic;">
+<small><span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+"accesses" : [</span></small><br style="font-style: italic;">
+<small><span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+{</span></small><br style="font-style: italic;">
+<small><span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+"kind" : "write",</span></small><br style="font-style: italic;">
+<small><span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+"relation" : "{ Stmt_for_body4[i0, i1] -&gt; MemRef_A[100i0 + i1] }"</span></small><br
+ style="font-style: italic;">
+<small><span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}</span></small><br style="font-style: italic;">
+<small><span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+],</span></small><br style="font-style: italic;">
+<small><span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+"domain" : "{ Stmt_for_body4[i0, i1] : i0 &gt;= 0 and i0 &lt;= 99 and
+i1 &gt;= 0 and i1 &lt;= 99 }",</span></small><br
+ style="font-style: italic;">
+<small><span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+"name" : "Stmt_for_body4",</span></small><br style="font-style: italic;">
+<small><span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+"schedule" : "{ Stmt_for_body4[i0, i1] -&gt; scattering[0, </span><span
+ style="font-weight: bold; font-style: italic;">i0</span><span
+ style="font-style: italic;">, 0, </span><span
+ style="font-weight: bold; font-style: italic;">i1</span><span
+ style="font-style: italic;">, 0] }"</span></small><br
+ style="font-style: italic;">
+<small><span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}</span></small><br style="font-style: italic;">
+<small><span style="font-style: italic;">&nbsp;&nbsp; ]</span></small><br
+ style="font-style: italic;">
+<small><span style="font-style: italic;">}</span></small><br
+ style="font-style: italic;">
+</div>
+<div style="margin-left: 320px;"><br>
+Suppose we want to perform a transformation from A[i][j] to A[j][i]
+just change the<br>
+scattering to <small><span style="font-style: italic;">scattering[0, <span
+ style="font-weight: bold;">i1</span>, 0, <span
+ style="font-weight: bold;">i0</span>, 0] </span><big>and issue the
+command below.</big></small><br>
+<br>
+<div style="margin-left: 40px;"><small><small
+ style="font-style: italic;"><big>$ opt example1.preopt.ll -basicaa
+-polly-import-jscop -polly-cloog -analyze</big></small></small><br>
+</div>
+<br>
+<small><big>Observe below that the indices are interchanged from
+(c2,c4) to (c4,c2)</big></small><br>
+<br>
+</div>
+<div style="margin-left: 360px;"><small><big><small><span
+ style="font-style: italic;">main():</span></small></big></small><br
+ style="font-style: italic;">
+<small><big><small><span style="font-style: italic;">for
+(c2=0;c2&lt;=99;c2++) {</span></small></big></small><br
+ style="font-style: italic;">
+<small><big><small><span style="font-style: italic;">&nbsp; for
+(c4=0;c4&lt;=99;c4++) {</span></small></big></small><br
+ style="font-style: italic;">
+<small><big><small><span style="font-style: italic;">&nbsp;&nbsp;&nbsp;
+Stmt_for_body4(c4,c2);</span></small></big></small><br
+ style="font-style: italic;">
+<small><big><small><span style="font-style: italic;">&nbsp; }</span></small></big></small><br
+ style="font-style: italic;">
+<small><big><small><span style="font-style: italic;">}</span></small></big></small><br
+ style="font-style: italic;">
+</div>
+<br>
+<small><span style="font-style: italic;"></span></small>
+</body>
+</html>
