@@ -10,7 +10,8 @@
 for
 memory
 access
-transformations in Polly</big></big></big></a></small></small><big><span
+transformations
+in Polly</big></big></big></a></small></small><big><span
  style="font-weight: bold;"></span></big><br>
 <big><span style="font-weight: bold;"></span></big><br>
 <div style="text-align: left;"><strong></strong>This project adds
@@ -45,7 +46,8 @@ transformed to<small style="font-style: italic;"><br>
 <div style="margin-left: 40px;"><small style="font-style: italic;">&lt;create
 and
 initialize
-an array 'tmp'
+an
+array 'tmp'
 with size 4&gt;</small><br>
 <small style="font-style: italic;">for (i = 0; i &lt; 8; i++) {</small><br>
 <small style="font-style: italic;">tmp[i % 4] += A[i];</small><br>
@@ -88,7 +90,8 @@ Consider the following loop.<br>
 <div style="margin-left: 40px;"><small><span style="font-style: italic;">for
 (i
 =
-0; i &lt; 12; i++)</span><br style="font-style: italic;">
+0;
+i &lt; 12; i++)</span><br style="font-style: italic;">
 <span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp; A[i] = 0;</span><br
  style="font-style: italic;">
 </small></div>
@@ -105,7 +108,8 @@ In the JSCOP file the memory is represented as follows.<br>
 "relation":
 "{
 Stmt[i]
--&gt; </span><strong style="font-style: italic; font-weight: bold;">A</strong><span
+-&gt;
+</span><strong style="font-style: italic; font-weight: bold;">A</strong><span
  style="font-style: italic;"><span style="font-weight: bold;">[i]</span>
 }"</span></small><br style="font-style: italic;">
 <small><span style="font-style: italic;">&nbsp;&nbsp;&nbsp; }]</span></small><br
@@ -119,7 +123,8 @@ code is generated<br>
 <div style="margin-left: 40px;"><small><span style="font-style: italic;">for
 (i
 =
-0; i &lt; 12; i++)</span><br style="font-style: italic;">
+0;
+i &lt; 12; i++)</span><br style="font-style: italic;">
 <span style="font-style: italic;">
 &nbsp;&nbsp;&nbsp;&nbsp; A[0] = i;</span><br style="font-style: italic;">
 </small></div>
@@ -136,7 +141,8 @@ The corresponding JSCOP file represenation would be<br>
 "relation":
 "{
 Stmt[i]
--&gt; </span><strong style="font-style: italic; font-weight: bold;">A</strong><span
+-&gt;
+</span><strong style="font-style: italic; font-weight: bold;">A</strong><span
  style="font-style: italic;"><span style="font-weight: bold;">[0]</span>
 }"</span><br style="font-style: italic;">
 <span style="font-style: italic;">&nbsp;&nbsp;&nbsp; }]</span><br
@@ -144,6 +150,20 @@ Stmt[i]
 </small></div>
 <br>
 We need to detect this access function change.<br>
+<br>
+<small><span style="text-decoration: underline; font-weight: bold;">Step
+1.1</span></small><br>
+<br>
+In this step we will add support to read memory access information<br>
+from jscop file.<br>
+<br>
+To get memory accessess from jscop file do the following<br>
+<small><span style="font-style: italic;"><br>
+</span></small>
+<div style="margin-left: 40px;"><small><span style="font-style: italic;">jscop["statements"][index]["accesses"][index]["relation"]</span></small><br>
+</div>
+<br>
+Here 'statements', 'accesses' and 'relation' are strings in jscop file.<br>
 </div>
 <span id="q_12f99e5de7fd0932_1" class="h4"></span>
 </body>
